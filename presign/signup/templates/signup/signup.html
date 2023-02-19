@@ -16,7 +16,7 @@
         </h1>
 
     </div>
-    <div class="mb-3">{{ request.event.description | markdownify }}</div>
+    <div class="mb-3">{{ request.event.description | to_string | markdownify }}</div>
  
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}

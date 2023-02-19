@@ -16,8 +16,8 @@
     {# The banner(s) above the participant information informing them about the current state of their application and the next steps#}
     {% include "signup/fragments/status_banner.html" %}
  
-    <div class="mb-3">{{ request.event.description | markdownify }}</div>
- 
+    <div class="mb-3">{{ request.event.description | to_string | markdownify }}</div>
+
     <div class="row row-cols-1 row-cols-md-2">
         {# The contact information, i.e. email #}
         {% include "signup/fragments/contact_information.html" %}
