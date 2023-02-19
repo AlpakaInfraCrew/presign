@@ -1,0 +1,3 @@
+{% for option in selected %}
+    {{ option.value }}{# djlint:off #}{% if not forloop.last %},{% endif %}{# djlint:on #}
+{% endfor %}

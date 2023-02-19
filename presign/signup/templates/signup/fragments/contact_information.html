@@ -1,0 +1,17 @@
+{% load i18n %}
+<div class="col mb-3 d-flex align-items-stretch">
+    <section class="card w-100">
+        <div class="card-header">{% trans "Contact Information" %}</div>
+        <div class="card-body">
+            <dl>
+                <dt >
+                    {% trans "Email" %}
+                </dt>
+                <dd>
+                    {{ participant.email }}
+                </dd>
+            </dl>
+
+        </div>
+    </section>
+</div>

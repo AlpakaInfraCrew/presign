@@ -1,0 +1,44 @@
+{% extends "control/base.html" %}
+{% load django_bootstrap5 %}
+{% load control_helpers %}
+{% load i18n %}
+
+{% block content %}
+    <h1>
+        {% trans "Participant Details" %}
+        <div class="badge rounded-pill text-bg-{{ state_settings|get_value:participant.state|get_value:"pill_color" }} float-end">
+            <span class="visually-hidden">{% trans "Participant status:" %}</span>{{ participant.get_state_display }}
+        </div>
+    </h1>
+    <div class="clearfix">
+        <div class="btn-group py-3 float-start"
+             role="group"
+             aria-label="Change participant status">
+            <a role="button"
+               class="btn btn-secondary"
+               href="{% url "signup:participant-details" event=participant.event.slug organizer=participant.event.organizer.slug code=participant.code secret=participant.secret %}">{% trans "View as User" %}</a>
+
+            {% for state_change in state_settings|get_value:participant.state|get_value:"transition_buttons" %}
+                {% with state_change_strings|get_value:state_change as btn_config %}
+                    <a role="button"
+                       class="btn btn-{{ btn_config.btn_type }}"
+                       href="{% url "control:participant-change" state_change=state_change event=participant.event.slug organizer=participant.event.organizer.slug code=participant.code %}">{{ btn_config.btn_text }}</a>
+                {% endwith %}
+            {% endfor %}
+
+        </div>
+    </div>
+
+    <section class="card mb-3">
+        <div class="card-header">{% trans "Internal Information" %}</div>
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+                {% bootstrap_form form %}
+                <button class="btn btn-primary float-end" type="submit">{% trans "Save" %}</button>
+            </form>
+        </div>
+    </section>
+ 
+    {% include "./_participant_answers.html" %}
+{% endblock content %}

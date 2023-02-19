@@ -1,0 +1,16 @@
+{% load i18n %}
+{% load markdownify %}
+
+{% if status_banner and status_banner.text %}
+    <div class="alert alert-{{ status_banner.type }}" role="alert">
+        <p class="mb-0">{{ status_banner.text | markdownify }}</p>
+        {% if participant.public_comment %}
+            <hr/>
+            <p class="mb-0">{{ participant.public_comment }}</p>
+        {% endif %}
+    </div>
+{% elif participant.public_comment %}
+    <div class="alert alert-warning" role="alert">
+        <p class="mb-0">{{ participant.public_comment }}</p>
+    </div>
+{% endif %}

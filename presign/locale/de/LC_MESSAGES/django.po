@@ -1,0 +1,673 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-02-19 19:17+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: presign/base/models.py:87
+msgid "Shown Signup End"
+msgstr ""
+
+#: presign/base/models.py:173
+msgid "Signup Start must be before Signup End"
+msgstr ""
+
+#: presign/base/models.py:179
+msgid "Shown Signup End must be before Signup End"
+msgstr ""
+
+#: presign/base/models.py:184
+msgid "During Signup"
+msgstr ""
+
+#: presign/base/models.py:186
+msgid "After Approval"
+msgstr ""
+
+#: presign/base/models.py:212
+msgid "New signup"
+msgstr ""
+
+#: presign/base/models.py:213
+msgid "Rejected"
+msgstr ""
+
+#: presign/base/models.py:214
+msgid "Changes requested in questionnaire 1"
+msgstr ""
+
+#: presign/base/models.py:216
+msgid "Approved"
+msgstr ""
+
+#: presign/base/models.py:217
+msgid "Needs review"
+msgstr ""
+
+#: presign/base/models.py:218
+msgid "Changes requested in questionnaire 2"
+msgstr ""
+
+#: presign/base/models.py:220
+msgid "Confirmed"
+msgstr ""
+
+#: presign/base/models.py:222
+msgid "Withdrawn"
+msgstr ""
+
+#: presign/base/models.py:223
+msgid "Cancelled"
+msgstr ""
+
+#: presign/base/models.py:266
+msgid ""
+"This text <strong>will be shown to the participant</strong> on their "
+"overview page. You can for example use it for requesting more information."
+msgstr ""
+
+#: presign/base/models.py:274
+msgid ""
+"The text entered in this field will <em>not</em> be shown to the participant."
+msgstr ""
+
+#: presign/base/models.py:358
+#, python-brace-format
+msgid "Cannot perform {action} in state {state_label}"
+msgstr ""
+
+#: presign/base/models.py:368
+msgid "Number"
+msgstr ""
+
+#: presign/base/models.py:369
+msgid "Text (one line)"
+msgstr ""
+
+#: presign/base/models.py:370
+msgid "Multiline text"
+msgstr ""
+
+#: presign/base/models.py:371
+msgid "Yes/No"
+msgstr ""
+
+#: presign/base/models.py:372
+msgid "Choose one from a list"
+msgstr ""
+
+#: presign/base/models.py:373
+msgid "Choose multiple from a list"
+msgstr ""
+
+#: presign/base/models.py:374
+msgid "File upload"
+msgstr ""
+
+#: presign/base/models.py:375
+msgid "Date"
+msgstr ""
+
+#: presign/base/models.py:376
+msgid "Time"
+msgstr ""
+
+#: presign/base/models.py:377
+msgid "Date and time"
+msgstr ""
+
+#: presign/base/models.py:378
+msgid "Phone number"
+msgstr ""
+
+#: presign/base/models.py:379
+msgid "Email address"
+msgstr ""
+
+#: presign/base/models.py:453
+msgid "Value"
+msgstr ""
+
+#: presign/base/models.py:542
+msgid "Answers to required questions may not be false-y."
+msgstr ""
+
+#: presign/base/templates/registration/login.html:6
+#: presign/base/templates/registration/login.html:11
+msgid "Log in"
+msgstr ""
+
+#: presign/control/context.py:9
+msgid "My Organizers"
+msgstr ""
+
+#: presign/control/context.py:19
+msgid "My Events"
+msgstr ""
+
+#: presign/control/context.py:29 presign/control/context.py:69
+#: presign/control/templates/control/organizer/detail.html:45
+msgid "Questionnaires"
+msgstr ""
+
+#: presign/control/context.py:59
+msgid "Settings"
+msgstr ""
+
+#: presign/control/context.py:79
+#: presign/control/templates/control/organizer/detail.html:18
+msgid "Events"
+msgstr ""
+
+#: presign/control/context.py:109
+#: presign/control/templates/control/event/detail.html:130
+msgid "Participants"
+msgstr ""
+
+#: presign/control/forms.py:45
+msgid "There is already an organizer with this slug."
+msgstr ""
+
+#: presign/control/forms.py:88
+msgid "There is already an event with this slug."
+msgstr ""
+
+#: presign/control/forms.py:163
+msgid "The two questionnaires must be different"
+msgstr ""
+
+#: presign/control/forms.py:304
+#, python-format
+msgid ""
+"Text shown to the user in the \"%(state)s\" state. You can use markdown and "
+"the following variables: %(variables)s"
+msgstr ""
+
+#: presign/control/middleware.py:39
+msgid "No organizer found or you don't have permissions for it"
+msgstr ""
+
+#: presign/control/middleware.py:52
+msgid "No event found or you don't have permissions for it "
+msgstr ""
+
+#: presign/control/templates/control/base.html:52
+#: presign/control/templates/control/participant/detail.html:38
+#: presign/signup/templates/signup/base.html:32
+msgid "Save"
+msgstr ""
+
+#: presign/control/templates/control/base.html:58
+msgid "Logout"
+msgstr ""
+
+#: presign/control/templates/control/confirm_action.html:6
+#: presign/control/templates/control/confirm_action.html:14
+#: presign/control/templates/control/event/confirm_action.html:6
+#: presign/control/templates/control/event/confirm_action.html:16
+#: presign/control/templates/control/participant/state_change_confirmation.html:6
+#: presign/control/templates/control/participant/state_change_confirmation.html:16
+msgid "Confirm"
+msgstr ""
+
+#: presign/control/templates/control/confirm_action.html:13
+#: presign/control/templates/control/event/confirm_action.html:14
+#: presign/control/templates/control/participant/state_change_confirmation.html:14
+msgid "Cancel"
+msgstr ""
+
+#: presign/control/templates/control/event/create.html:7
+msgid "Create new Event"
+msgstr ""
+
+#: presign/control/templates/control/event/create.html:11
+#: presign/control/templates/control/event/update.html:54
+#: presign/control/templates/control/organizer/create.html:11
+#: presign/control/templates/control/organizer/settings.html:12
+#: presign/control/templates/control/organizer/settings.html:61
+#: presign/control/templates/control/questionnaire/clone.html:11
+#: presign/control/templates/control/questionnaire/create.html:11
+#: presign/control/templates/control/questionnaire/create_block.html:11
+#: presign/control/templates/control/questionnaire/question_update.html:23
+#: presign/control/templates/control/questionnaire/update.html:11
+#: presign/control/templates/control/questionnaire/update_block.html:13
+#: presign/signup/templates/signup/signup.html:31
+#: presign/signup/templates/signup/update.html:23
+msgid "Submit"
+msgstr ""
+
+#: presign/control/templates/control/event/detail.html:9
+#, python-format
+msgid "Event \"%(event_name)s\""
+msgstr ""
+
+#: presign/control/templates/control/event/detail.html:18
+msgid "View on site"
+msgstr ""
+
+#: presign/control/templates/control/event/detail.html:23
+msgid "Disable"
+msgstr ""
+
+#: presign/control/templates/control/event/detail.html:27
+#: presign/control/templates/control/event/detail.html:29
+msgid "Enable"
+msgstr ""
+
+#: presign/control/templates/control/event/detail.html:33
+msgid "Change"
+msgstr ""
+
+#: presign/control/templates/control/event/detail.html:40
+#: presign/control/templates/control/participant/detail.html:33
+msgid "Internal Information"
+msgstr ""
+
+#: presign/control/templates/control/event/detail.html:44
+#: presign/control/templates/control/questionnaire/my_list.html:20
+msgid "Organizer"
+msgstr ""
+
+#: presign/control/templates/control/event/detail.html:50
+msgid "Enabled"
+msgstr ""
+
+#: presign/control/templates/control/event/detail.html:54
+msgid "Yes"
+msgstr ""
+
+#: presign/control/templates/control/event/detail.html:56
+msgid "No"
+msgstr ""
+
+#: presign/control/templates/control/event/detail.html:60
+msgid "Signup Questionnaire"
+msgstr ""
+
+#: presign/control/templates/control/event/detail.html:62
+#: presign/control/templates/control/event/detail.html:75
+#: presign/control/templates/control/questionnaire/update_block.html:7
+msgid "Change Questionnaire"
+msgstr ""
+
+#: presign/control/templates/control/event/detail.html:69
+#: presign/control/templates/control/event/detail.html:82
+msgid "None selected"
+msgstr ""
+
+#: presign/control/templates/control/event/detail.html:73
+msgid "Questionnaire After Approval"
+msgstr ""
+
+#: presign/control/templates/control/event/detail.html:91
+msgid "Dates"
+msgstr ""
+
+#: presign/control/templates/control/event/detail.html:95
+msgid "Event Date"
+msgstr ""
+
+#: presign/control/templates/control/event/detail.html:101
+msgid "Signup Start Date"
+msgstr ""
+
+#: presign/control/templates/control/event/detail.html:107
+msgid "Signup End (shown)"
+msgstr ""
+
+#: presign/control/templates/control/event/detail.html:113
+msgid "Signup End"
+msgstr ""
+
+#: presign/control/templates/control/event/detail.html:119
+msgid "Lock Date"
+msgstr ""
+
+#: presign/control/templates/control/event/list.html:8
+#, python-format
+msgid "Events of \"%(organizer_name)s\""
+msgstr ""
+
+#: presign/control/templates/control/event/list.html:17
+#: presign/control/templates/control/event/my_list.html:11
+#: presign/control/templates/control/organizer/detail.html:26
+msgid "Event Name"
+msgstr ""
+
+#: presign/control/templates/control/event/list.html:27
+#: presign/control/templates/control/event/my_list.html:21
+#: presign/control/templates/control/organizer/detail.html:36
+msgid "Show Event"
+msgstr ""
+
+#: presign/control/templates/control/event/my_list.html:6
+msgid "Your events"
+msgstr ""
+
+#: presign/control/templates/control/event/update.html:7
+msgid "Change Event"
+msgstr ""
+
+#: presign/control/templates/control/event/update.html:21
+msgid "General"
+msgstr ""
+
+#: presign/control/templates/control/event/update.html:33
+msgid "Status Texts"
+msgstr ""
+
+#: presign/control/templates/control/organizer/create.html:7
+msgid "Create New Organizer"
+msgstr ""
+
+#: presign/control/templates/control/organizer/detail.html:11
+#, python-format
+msgid "Organizer: \"%(organizer_name)s\" "
+msgstr ""
+
+#: presign/control/templates/control/organizer/detail.html:53
+#: presign/control/templates/control/questionnaire/list.html:17
+#: presign/control/templates/control/questionnaire/my_list.html:19
+msgid "Questionnaire Name"
+msgstr ""
+
+#: presign/control/templates/control/organizer/detail.html:63
+#: presign/control/templates/control/questionnaire/detail.html:11
+#: presign/control/templates/control/questionnaire/my_list.html:38
+#: presign/control/templates/control/questionnaire/update.html:7
+msgid "Edit Questionnaire"
+msgstr ""
+
+#: presign/control/templates/control/organizer/list.html:7
+msgid "Your organizers"
+msgstr ""
+
+#: presign/control/templates/control/organizer/list.html:15
+#: presign/control/templates/control/questionnaire/detail.html:52
+msgid "Name"
+msgstr ""
+
+#: presign/control/templates/control/organizer/list.html:25
+msgid "Show Organizer"
+msgstr ""
+
+#: presign/control/templates/control/organizer/settings.html:7
+msgid "Organizer Settings"
+msgstr ""
+
+#: presign/control/templates/control/organizer/settings.html:16
+msgid "Members"
+msgstr ""
+
+#: presign/control/templates/control/organizer/settings.html:26
+msgid "Username"
+msgstr ""
+
+#: presign/control/templates/control/organizer/settings.html:41
+msgid "Remove Member"
+msgstr ""
+
+#: presign/control/templates/control/participant/_participant_answers.html:4
+#: presign/signup/forms.py:125
+#: presign/signup/templates/signup/fragments/contact_information.html:4
+msgid "Contact Information"
+msgstr ""
+
+#: presign/control/templates/control/participant/_participant_answers.html:9
+#: presign/signup/templates/signup/fragments/contact_information.html:8
+msgid "Email"
+msgstr ""
+
+#: presign/control/templates/control/participant/_participant_table.html:7
+msgid "E-Mail-Address"
+msgstr ""
+
+#: presign/control/templates/control/participant/_participant_table.html:8
+msgid "State"
+msgstr ""
+
+#: presign/control/templates/control/participant/_participant_table.html:23
+msgid "Show participant details"
+msgstr ""
+
+#: presign/control/templates/control/participant/detail.html:8
+msgid "Participant Details"
+msgstr ""
+
+#: presign/control/templates/control/participant/detail.html:10
+msgid "Participant status:"
+msgstr ""
+
+#: presign/control/templates/control/participant/detail.html:19
+msgid "View as User"
+msgstr ""
+
+#: presign/control/templates/control/participant/list.html:6
+#, python-format
+msgid "Participants of \"%(event_name)s\""
+msgstr ""
+
+#: presign/control/templates/control/questionnaire/clone.html:7
+#: presign/control/templates/control/questionnaire/create.html:7
+msgid "Create New Questionnaire"
+msgstr ""
+
+#: presign/control/templates/control/questionnaire/create_block.html:7
+msgid "Create New Question Block"
+msgstr ""
+
+#: presign/control/templates/control/questionnaire/detail.html:8
+#, python-format
+msgid "Questionnaire \"%(name)s\""
+msgstr ""
+
+#: presign/control/templates/control/questionnaire/detail.html:14
+msgid "Add Block"
+msgstr ""
+
+#: presign/control/templates/control/questionnaire/detail.html:17
+#: presign/control/templates/control/questionnaire/my_list.html:42
+msgid "Clone Questionnaire"
+msgstr ""
+
+#: presign/control/templates/control/questionnaire/detail.html:33
+msgid "Edit"
+msgstr ""
+
+#: presign/control/templates/control/questionnaire/detail.html:35
+msgid "Delete"
+msgstr ""
+
+#: presign/control/templates/control/questionnaire/detail.html:68
+msgid "Edit Question"
+msgstr ""
+
+#: presign/control/templates/control/questionnaire/list.html:8
+#, python-format
+msgid "Questionnaires of \"%(organizer_name)s\""
+msgstr ""
+
+#: presign/control/templates/control/questionnaire/list.html:11
+msgid "New Questionnaire"
+msgstr ""
+
+#: presign/control/templates/control/questionnaire/list.html:27
+#: presign/control/templates/control/questionnaire/my_list.html:34
+msgid "Show Questionnaire"
+msgstr ""
+
+#: presign/control/templates/control/questionnaire/my_list.html:7
+msgid "Your Questionnaires"
+msgstr ""
+
+#: presign/control/templates/control/questionnaire/question_update.html:14
+msgid "Change Question"
+msgstr ""
+
+#: presign/control/templates/control/questionnaire/question_update.html:19
+msgid "Options"
+msgstr ""
+
+#: presign/control/templates/control/questionnaire/question_update.html:21
+msgid "Add Option"
+msgstr ""
+
+#: presign/control/views/event.py:208
+msgid "Event cannot be enabled"
+msgstr ""
+
+#: presign/control/views/event.py:212
+#: presign/control/views/questionnaire.py:251
+msgid "Are you sure that you want to enable this event?"
+msgstr ""
+
+#: presign/control/views/event.py:223
+msgid "Are you sure that you want to disable this event?"
+msgstr ""
+
+#: presign/control/views/organizer.py:96
+msgid "User not found"
+msgstr ""
+
+#: presign/control/views/organizer.py:108
+msgid "User was already a member"
+msgstr ""
+
+#: presign/control/views/organizer.py:119
+msgid "You cannot remove yourself from an organizer if you're the only member"
+msgstr ""
+
+#: presign/control/views/participant.py:23
+msgid "Approve"
+msgstr ""
+
+#: presign/control/views/participant.py:25
+msgid "Participant was approved"
+msgstr ""
+
+#: presign/control/views/participant.py:27
+msgid "Are you sure that you want to approve this participant?"
+msgstr ""
+
+#: presign/control/views/participant.py:31
+msgid "Reject"
+msgstr ""
+
+#: presign/control/views/participant.py:33
+msgid "Participant was rejected"
+msgstr ""
+
+#: presign/control/views/participant.py:35
+msgid "Are you sure that you want to reject this participant?"
+msgstr ""
+
+#: presign/control/views/participant.py:39
+msgid "Request Changes"
+msgstr ""
+
+#: presign/control/views/participant.py:41
+msgid "Participant was asked for changes"
+msgstr ""
+
+#: presign/control/views/participant.py:43
+msgid "Are you sure that you want to ask this participant for changes?"
+msgstr ""
+
+#: presign/control/views/participant.py:47
+msgid "Un-Reject"
+msgstr ""
+
+#: presign/control/views/participant.py:49
+msgid "Participant was un-rejected"
+msgstr ""
+
+#: presign/control/views/participant.py:51
+msgid "Are you sure that you want to un-reject this participant?"
+msgstr ""
+
+#: presign/control/views/participant.py:55
+msgid "Cancel application"
+msgstr ""
+
+#: presign/control/views/participant.py:57
+msgid "Participant was cancelled"
+msgstr ""
+
+#: presign/control/views/participant.py:59
+msgid "Are you sure that you want to cancel this participant?"
+msgstr ""
+
+#: presign/control/views/participant.py:63
+msgid "Confirm participant"
+msgstr ""
+
+#: presign/control/views/participant.py:65
+msgid "Participant was confirmed"
+msgstr ""
+
+#: presign/control/views/participant.py:67
+msgid "Are you sure that you want to confirm this participant?"
+msgstr ""
+
+#: presign/control/views/questionnaire.py:241
+msgid "Question block deleted."
+msgstr ""
+
+#: presign/settings.py:165
+msgid "German"
+msgstr ""
+
+#: presign/settings.py:166
+msgid "English"
+msgstr ""
+
+#: presign/signup/middleware.py:30 presign/signup/middleware.py:36
+msgid "No event found or event is not public"
+msgstr ""
+
+#: presign/signup/templates/signup/base.html:10
+msgid "This event is not public yet"
+msgstr ""
+
+#: presign/signup/templates/signup/fragments/participant_answers.html:11
+msgid "Edit answers"
+msgstr ""
+
+#: presign/signup/templates/signup/participant_details.html:8
+#, python-format
+msgid "Your sign up for \"%(event_name)s\""
+msgstr ""
+
+#: presign/signup/templates/signup/participant_details.html:12
+#: presign/signup/templates/signup/signup.html:14
+msgid "Show in Control"
+msgstr ""
+
+#: presign/signup/templates/signup/signup.html:10
+#, python-format
+msgid "Sign up for %(event_name)s"
+msgstr ""
+
+#: presign/signup/templates/signup/signup_not_possible.html:8
+#, python-format
+msgid "Signup for \"%(event_name)s\" no longer possible"
+msgstr ""
+
+#: presign/signup/templates/signup/update.html:8
+#, python-format
+msgid "Change your sign up for \"%(event_name)s\""
+msgstr ""

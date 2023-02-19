@@ -1,0 +1,11 @@
+{% extends "signup/base.html" %}
+{% load django_bootstrap5 %}
+{% load i18n %}
+{% load markdownify %}
+
+{% block content %}
+    <h1>
+        {% blocktrans with event_name=request.event.name %}Signup for "{{ event_name }}" no longer possible{% endblocktrans %}
+    </h1>
+
+{% endblock content %}

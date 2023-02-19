@@ -1,0 +1,59 @@
+{% extends "control/base.html" %}
+
+{% load i18n %}
+{% load django_bootstrap5 %}
+
+{% block content %}
+    <h1>{% trans "Change Event" %}</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active"
+                        id="general-tab"
+                        data-bs-toggle="tab"
+                        data-bs-target="#general-tab-pane"
+                        type="button"
+                        role="tab"
+                        aria-controls="general-tab-pane"
+                        aria-selected="true">
+                    {% trans "General" %}
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link"
+                        id="texts-tab"
+                        data-bs-toggle="tab"
+                        data-bs-target="#texts-tab-pane"
+                        type="button"
+                        role="tab"
+                        aria-controls="texts-tab-pane"
+                        aria-selected="false">
+                    {% trans "Status Texts" %}
+                </button>
+            </li>
+        </ul>
+        <div class="tab-content mb-4">
+            <div class="tab-pane show active"
+                 id="general-tab-pane"
+                 role="tabpanel"
+                 aria-labelledby="general-tab"
+                 tabindex="0">
+                <div class="row row-cols-1 row-cols-md-2">{% bootstrap_form general_form %}</div>
+            </div>
+            <div class="tab-pane"
+                 id="texts-tab-pane"
+                 role="tabpanel"
+                 aria-labelledby="texts-tab"
+                 tabindex="0">
+                <div class="row row-cols-1 row-cols-md-2">{% bootstrap_form texts_form %}</div>
+            </div>
+        </div>
+        <div>
+            <button class="btn btn-primary btn-lg float-end" type="submit">{% trans "Submit" %}</button>
+        </div>
+    </form>
+ 
+
+{% endblock content %}

@@ -1,0 +1,132 @@
+{% extends "control/base.html" %}
+{% load django_bootstrap5 %}
+{% load control_helpers %}
+{% load i18n %}
+
+{% block content %}
+    <div class="clearfix">
+        <h1 class="float-start">
+            {% blocktrans with event_name=event.name %}Event "{{event_name}}"{% endblocktrans %}
+            {% if event.is_public %}
+                <span class="badge rounded-pill text-bg-success">Public</span>
+            {% else %}
+                <span class="badge rounded-pill text-bg-warning">Not Public</span>
+            {% endif %}
+ 
+        </h1>
+        <div class="float-end align-middle">
+            <a class="btn btn-secondary" href="{{ event.get_absolute_url }}">{% trans "View on site" %}</a>
+            <div class="btn-group">
+                {% if event.enabled %}
+
+                    <a class="btn btn-danger"
+                       href="{% url "control:event-disable" organizer=request.organizer.slug event=request.event.slug %}">{% trans "Disable" %}</a>
+                {% else %}
+                    {% if event.can_be_enabled %}
+                        <a class="btn btn-warning"
+                           href="{% url "control:event-enable" organizer=request.organizer.slug event=request.event.slug %}">{% trans "Enable" %}</a>
+                    {% else %}
+                        <button class="btn btn-warning" disabled>{% trans "Enable" %}</button>
+                    {% endif %}
+                {% endif %}
+                <a class="btn btn-primary"
+                   href="{% url "control:event-change" organizer=request.organizer.slug event=request.event.slug %}">{% trans "Change" %}</a>
+            </div>
+        </div>
+    </div>
+    <div class="row row-cols-1 row-cols-md-2">
+        <div class="col mb-3 d-flex align-items-stretch">
+            <section class="card w-100">
+                <div class="card-header">{% trans "Internal Information" %}</div>
+                <div class="card-body">
+                    <dl>
+                        <dt>
+                            {% trans "Organizer" %}
+                        </dt>
+                        <dd>
+                            <a href="{% url "control:organizer" organizer=request.event.organizer.slug %}">{{ request.event.organizer.name }}</a>
+                        </dd>
+                        <dt>
+                            {% trans "Enabled" %}
+                        </dt>
+                        <dd>
+                            {% if event.enabled %}
+                                {% trans "Yes" %}
+                            {% else %}
+                                {% trans "No" %}
+                            {% endif %}
+                        </dd>
+                        <dt>
+                            {% trans "Signup Questionnaire" %}
+                            <a href="{% url "control:event-change" organizer=request.organizer.slug event=request.event.slug %}">
+                                <i class="bi bi-pencil-square"></i><span class="visually-hidden">{% trans "Change Questionnaire" %}</span>
+                            </a>
+                        </dt>
+                        <dd>
+                            {% if request.event.questionnaire_signup %}
+                                <a href="{% url "control:questionnaire" questionnaire=request.event.questionnaire_signup.pk %}">{{ request.event.questionnaire_signup.name }}</a>
+                            {% else %}
+                                {% trans "None selected" %}
+                            {% endif %}
+                        </dd>
+                        <dt>
+                            {% trans "Questionnaire After Approval" %}
+                            <a href="{% url "control:event-change" organizer=request.organizer.slug event=request.event.slug %}">
+                                <i class="bi bi-pencil-square"></i><span class="visually-hidden">{% trans "Change Questionnaire" %}</span>
+                            </a>
+                        </dt>
+                        <dd>
+                            {% if request.event.questionnaire_after_approval %}
+                                <a href="{% url "control:questionnaire" questionnaire=request.event.questionnaire_after_approval.pk %}">{{ request.event.questionnaire_after_approval.name }}</a>
+                            {% else %}
+                                {% trans "None selected" %}
+                            {% endif %}
+                        </dd>
+                    </dl>
+                </div>
+            </section>
+        </div>
+        <div class="col mb-3 d-flex align-items-stretch">
+            <section class="card w-100">
+                <div class="card-header">{% trans "Dates" %}</div>
+                <div class="card-body">
+                    <dl>
+                        <dt>
+                            {% trans "Event Date" %}
+                        </dt>
+                        <dd>
+                            {{ request.event.event_date }}
+                        </dd>
+                        <dt>
+                            {% trans "Signup Start Date" %}
+                        </dt>
+                        <dd>
+                            {{ request.event.signup_start }}
+                        </dd>
+                        <dt>
+                            {% trans "Signup End (shown)" %}
+                        </dt>
+                        <dd>
+                            {{ request.event.signup_end_shown }}
+                        </dd>
+                        <dt>
+                            {% trans "Signup End" %}
+                        </dt>
+                        <dd>
+                            {{ request.event.signup_end }}
+                        </dd>
+                        <dt>
+                            {% trans "Lock Date" %}
+                        </dt>
+                        <dd>
+                            {{ request.event.calculated_lock_date }}
+                        </dd>
+                    </dl>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <h2>{% trans "Participants" %}</h2>
+    {% include "control/participant/_participant_table.html" with participant_list=event.participant_set.all %}
+{% endblock content %}

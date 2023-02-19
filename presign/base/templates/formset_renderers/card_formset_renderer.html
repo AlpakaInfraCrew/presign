@@ -1,0 +1,9 @@
+<div class="row row-cols-2 formset-container">
+    {% for form in rendered_forms %}
+        <section class="col mb-3 d-flex align-items-stretch formset-form">
+            <div class="card w-100">
+                <div class="card-body">{{ form }}</div>
+            </div>
+        </section>
+    {% endfor %}
+</div>

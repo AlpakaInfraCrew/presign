@@ -1,0 +1,34 @@
+{% extends "control/base.html" %}
+
+{% load i18n %}
+
+{% block content %}
+    <div class="clearfix">
+        <h1 class="float-start">
+            {% blocktrans with organizer_name=request.organizer.name %}Questionnaires of "{{ organizer_name }}"{% endblocktrans %}
+        </h1>
+        <a href="{% url "control:questionnaire-create" organizer=request.organizer.slug %}"
+           class="btn btn-primary float-end">{% trans "New Questionnaire" %}</a>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">{% trans "Questionnaire Name" %}</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for questionnaire in questionnaire_list %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ questionnaire.name }}</td>
+                    <td>
+                        <a href="{% url "control:questionnaire" questionnaire=questionnaire.pk %}">{% trans "Show Questionnaire" %}</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+ 
+    </table>
+{% endblock content %}

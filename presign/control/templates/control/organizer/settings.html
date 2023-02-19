@@ -1,0 +1,67 @@
+{% extends "control/base.html" %}
+
+{% load i18n %}
+{% load django_bootstrap5 %}
+
+{% block content %}
+    <h1>{% trans "Organizer Settings" %}</h1>
+    <div class="clearfix">
+        <form method="post">
+            {% csrf_token %}
+            {% bootstrap_form form %}
+            <button class="btn btn-primary btn-lg float-end" type="submit">{% trans "Submit" %}</button>
+        </form>
+    </div>
+
+    <h2>{% trans "Members" %}</h2>
+    <table class="table">
+        <colgroup>
+            <col class="col-fit"/>
+            <col/>
+            <col class="col-fit"/>
+        </colgroup>
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">{% trans "Username" %}</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for member in object.members.all %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ member.username }}</td>
+                    <td class="text-end">
+                        <form method="post"
+                              action="{% url "control:organizer-remove_member" organizer=request.organizer.slug %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="username" value="{{ member.username }}" />
+                            <button class="btn btn-sm btn-danger">
+                                <i class="bi bi-trash"></i><span class="visually-hidden">{% trans "Remove Member" %}</span>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+            <form method="post"
+                  action="{% url "control:organizer-add_member" organizer=request.organizer.slug %}">
+                <tr>
+                    <td></td>
+                    <td>
+                        {% csrf_token %}
+                        <input type="text"
+                               name="username"
+                               class="form-control"
+                               placeholder="Username"
+                               required=""
+                               id="id_username"/>
+                    </td>
+                    <td>
+                        <button class="btn btn-primary float-end" type="submit">{% trans "Submit" %}</button>
+                    </td>
+                </tr>
+            </form>
+        </tbody>
+    </table>
+{% endblock content %}

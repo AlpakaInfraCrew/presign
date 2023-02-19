@@ -1,0 +1,21 @@
+@import "../../../static/vendored/bootstrap/scss/bootstrap.scss";
+
+.sidenav {
+	min-width: 240px;
+	max-width: 240px;
+	height: 100vh;
+}
+
+.col-fit {
+	width: 1px;
+}
+
+.tab-content {
+	border-color: $gray-300;
+	border-width: #{$nav-tabs-border-width};
+	border-style: solid;
+	border-radius: 0 0 $nav-tabs-border-radius $nav-tabs-border-radius;
+	border-top: none;
+
+	padding: $spacer;
+}

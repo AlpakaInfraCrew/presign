@@ -1,0 +1,14 @@
+{% extends "control/base.html" %}
+
+{% load i18n %}
+{% load django_bootstrap5 %}
+
+{% block content %}
+    <h1>{% trans "Create new Event" %}</h1>
+    <form method="post">
+        {% csrf_token %}
+        <div class="row row-cols-1 row-cols-md-2">{% bootstrap_form form %}</div>
+        <button class="btn btn-primary btn-lg float-end" type="submit">{% trans "Submit" %}</button>
+    </form>
+
+{% endblock content %}

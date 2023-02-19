@@ -1,0 +1,17 @@
+{% extends "control/base.html" %}
+{% load django_bootstrap5 %}
+{% load i18n %}
+
+{% block content %}
+    <h1>{% trans "Confirm" %}</h1>
+    <p>{{ confirmation_strings.question }}</p>
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="clearfix">
+            <a class="btn btn-secondary btn-lg float-start col-3"
+               href="{{ cancel_url }}">{% trans "Cancel" %}</a>
+            <button class="btn btn-primary btn-lg float-end col-3" type="submit">{% trans "Confirm" %}</button>
+        </div>
+    </form>
+{% endblock %}

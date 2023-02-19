@@ -1,0 +1,30 @@
+{% load i18n %}
+
+{% regroup answers by question.block as question_blocks %}
+{% for block in question_blocks %}
+    <div class="col mb-3 d-flex align-items-stretch">
+        <section class="card w-100">
+            <div class="card-header clearfix">
+                <div class="float-start">{{ block.grouper.name }}</div>
+                {% if can_update %}
+                    <div class="float-end">
+                        <a href="{% url "signup:participant-update" organizer=participant.event.organizer.slug event=participant.event.slug code=participant.code secret=participant.secret %}"><i class="me-2 bi-pencil-square"></i>{% trans "Edit answers" %}</a>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="card-body">
+                <dl>
+                    {% for answer in block.list %}
+                        <dt>
+                            {{ answer.question.name }}
+                        </dt>
+                        <dd>
+                            {{ answer.render_answer }}
+                        </dd>
+                    {% endfor %}
+                </dl>
+
+            </div>
+        </section>
+    </div>
+{% endfor %}

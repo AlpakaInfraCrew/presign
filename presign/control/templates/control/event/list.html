@@ -1,0 +1,34 @@
+{% extends "control/base.html" %}
+
+{% load i18n %}
+
+{% block content %}
+    <div class="clearfix">
+        <h1 class="float-start">
+            {% blocktrans with organizer_name=request.organizer.name %}Events of "{{ organizer_name }}"{% endblocktrans %}
+        </h1>
+        <a class="btn btn-primary float-end"
+           href="{% url "control:event-create" organizer=request.organizer.slug %}">New Event</a>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">{% trans "Event Name" %}</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for event in event_list %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ event.name }}</td>
+                    <td>
+                        <a href="{% url "control:event" organizer=event.organizer.slug event=event.slug %}">{% trans "Show Event" %}</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+ 
+    </table>
+{% endblock content %}

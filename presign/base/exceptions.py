@@ -1,0 +1,2 @@
+class ParticipantStateChangeException(Exception):
+    pass

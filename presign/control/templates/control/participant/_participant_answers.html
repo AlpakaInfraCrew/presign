@@ -1,0 +1,37 @@
+{% load i18n %}
+
+<section class="card mb-3">
+    <div class="card-header">{% trans "Contact Information" %}</div>
+    <div class="card-body">
+        <dl>
+ 
+            <dt>
+                {% trans "Email" %}
+            </dt>
+            <dd>
+                {{ participant.email }}
+            </dd>
+        </dl>
+
+    </div>
+</section>
+
+{% regroup answers by question.block as question_blocks %}
+{% for block in question_blocks %}
+    <section class="card mb-3">
+        <div class="card-header">{{ block.grouper.name }}</div>
+        <div class="card-body">
+            <dl>
+                {% for answer in block.list %}
+                    <dt>
+                        {{ answer.question.name }}
+                    </dt>
+                    <dd>
+                        {{ answer.render_answer }}
+                    </dd>
+                {% endfor %}
+            </dl>
+
+        </div>
+    </section>
+{% endfor %}

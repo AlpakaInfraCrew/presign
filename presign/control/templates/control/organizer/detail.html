@@ -1,0 +1,69 @@
+{% extends "control/base.html" %}
+
+{% load django_bootstrap5 %}
+{% load control_helpers %}
+{% load i18n %}
+
+{% block content %}
+
+    <div class="clearfix">
+        <h1 class="float-start">
+            {% blocktrans with organizer_name=request.organizer.name %}Organizer: "{{ organizer_name }}" {% endblocktrans %}
+        </h1>
+        <a class="btn btn-primary float-end"
+           href="{% url "control:organizer-settings" organizer=request.organizer.slug %}">Settings</a>
+    </div>
+ 
+    <div class="clearfix">
+        <h2 class="float-start">{% trans "Events" %}</h2>
+        <a class="btn btn-primary float-end"
+           href="{% url "control:event-create" organizer=request.organizer.slug %}">New Event</a>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">{% trans "Event Name" %}</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for event in organizer.event_set.all %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ event.name }}</td>
+                    <td>
+                        <a href="{% url "control:event" organizer=event.organizer.slug event=event.slug %}">{% trans "Show Event" %}</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+ 
+    <div class="clearfix">
+        <h2 class="float-start">{% trans "Questionnaires" %}</h2>
+        <a class="btn btn-primary float-end"
+           href="{% url "control:questionnaire-create" organizer=request.organizer.slug %}">New Questionnaire</a>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">{% trans "Questionnaire Name" %}</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for questionnaire in organizer.questionnaire_set.all %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ questionnaire.name }}</td>
+                    <td>
+                        <a href="{% url "control:questionnaire" questionnaire=questionnaire.pk %}">{% trans "Edit Questionnaire" %}</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock content %}

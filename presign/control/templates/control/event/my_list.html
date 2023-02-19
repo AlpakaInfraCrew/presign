@@ -1,0 +1,28 @@
+{% extends "control/base.html" %}
+
+{% load i18n %}
+
+{% block content %}
+    <h1>{% trans "Your events" %}</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">{% trans "Event Name" %}</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for event in event_list %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ event.name }}</td>
+                    <td>
+                        <a href="{% url "control:event" organizer=event.organizer.slug event=event.slug %}">{% trans "Show Event" %}</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+ 
+    </table>
+{% endblock content %}

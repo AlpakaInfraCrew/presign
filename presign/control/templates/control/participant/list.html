@@ -1,0 +1,9 @@
+{% extends "control/participant/base.html" %}
+
+{% load i18n %}
+
+{% block content %}
+    <h1>{% blocktrans with event_name=request.event.name %}Participants of "{{event_name}}"{% endblocktrans %}</h1>
+ 
+    {% include "./_participant_table.html" with participant_list=participant_list %}
+{% endblock content %}

@@ -1,0 +1,48 @@
+{% load django_bootstrap5 %}
+{% load static %}
+{% load i18n %}
+{% load compress %}
+{% get_current_language as LANGUAGE_CODE %}
+
+<!doctype html>
+<html lang="{{ LANGUAGE_CODE }}">
+    <head>
+        <title>PreSign</title>
+ 
+        {% block head_css %}
+            {% compress css %}
+                <link type="text/x-scss"
+                      rel="stylesheet"
+                      href="{% static "base/main.scss" %}"/>
+                <link type="text/css"
+                      rel="stylesheet"
+                      href="{% static "vendored/bootstrap-icons/bootstrap-icons.css" %}"/>
+                {% block additional_css %}{% endblock %}
+            {% endcompress %}
+        {% endblock %}
+        {% block head_js %}
+            {% compress js %}
+                <script src="{% static "vendored/bootstrap/dist/js/bootstrap.bundle.min.js" %}"></script>
+                {% block ts %}
+                    <script type="text/typescript" src="{% static "base/main.ts" %}"></script>
+                {% endblock %}
+            {% endcompress %}
+        {% endblock %}
+
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta charset="utf-8" />
+
+    </head>
+    <body>
+        {% block body %}
+            {% block above_content %}{% endblock %}
+            <div class="container py-2">
+                {# Display django.contrib.messages as Bootstrap alerts #}
+                {% bootstrap_messages %}
+ 
+                {% block content %}
+                {% endblock content %}
+            </div>
+        {% endblock body %}
+    </body>
+</html>

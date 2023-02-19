@@ -1,0 +1,51 @@
+{% extends "control/base.html" %}
+
+{% load i18n %}
+
+{% block content %}
+    <div class="clearfix">
+        <h1 class="float-start">{% trans "Your Questionnaires" %}</h1>
+    </div>
+    <table class="table">
+        <colgroup>
+            <col class="col-fit"/>
+            <col/>
+            <col/>
+            <col class="col-fit"/>
+        </colgroup>
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">{% trans "Questionnaire Name" %}</th>
+                <th scope="col">{% trans "Organizer" %}</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for questionnaire in questionnaire_list %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ questionnaire.name }}</td>
+                    <td>{{ questionnaire.organizer.name }}</td>
+                    <td>
+                        <div class="btn-group btn-group-sm">
+                            <a href="{% url "control:questionnaire" questionnaire=questionnaire.pk %}"
+                               class="btn btn-primary"><i class="bi bi-eye"></i><span class="visually-hidden">{% trans "Show Questionnaire" %}</span></a>
+                            {% can_update_questionnaire questionnaire=questionnaire as can_update %}
+                            {% if can_update %}
+                                <a href="{% url "control:questionnaire-change" organizer=questionnaire.organizer.slug questionnaire=questionnaire.pk %}"
+                                   class="btn btn-secondary"><i class="bi bi-gear"></i><span class="visually-hidden">{% trans "Edit Questionnaire" %}</span></a>
+ 
+                            {% endif %}
+                            <a href="{% url "control:questionnaire-clone" questionnaire=questionnaire.pk %}"
+                               class="btn btn-secondary"><i class="bi bi-stickies"></i><span class="visually-hidden">{% trans "Clone Questionnaire" %}</span></a>
+                        </div>
+                    </td>
+                    <td></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+ 
+    </table>
+{% endblock content %}

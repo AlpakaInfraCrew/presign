@@ -1,0 +1,14 @@
+{% extends "control/base.html" %}
+
+{% load i18n %}
+{% load django_bootstrap5 %}
+
+{% block content %}
+    <h1>{% trans "Create New Questionnaire" %}</h1>
+    <form method="post">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        <button class="btn btn-primary btn-lg float-end" type="submit">{% trans "Submit" %}</button>
+    </form>
+
+{% endblock content %}

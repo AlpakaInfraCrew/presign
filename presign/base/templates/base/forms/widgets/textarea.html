@@ -1,0 +1,5 @@
+<div class="input-group mb-3">
+    <span class="input-group-text">{{ widget.attrs.lang }}</span>
+    <textarea name="{{ widget.name }}"{% include "django/forms/widgets/attrs.html" %}>
+{% if widget.value %}{{ widget.value }}{% endif %}</textarea>
+</div>

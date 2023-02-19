@@ -1,0 +1,25 @@
+{% extends "control/base.html" %}
+
+{% load i18n %}
+{% load django_bootstrap5 %}
+{% load static %}
+
+{% block ts %}
+    {{ block.super }}
+    <script type="text/typescript"
+            src="{% static "control/question_detail.ts" %}"></script>
+{% endblock %}
+
+{% block content %}
+    <h1>{% trans "Change Question" %}</h1>
+    <form method="post">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        <div id="option-editor" class="mb-2">
+            <h2>{% trans "Options" %}</h2>
+            {% bootstrap_formset formset layout="cards" %}
+            <button type="button" class="btn btn-outline-dark" id="add-option">{% trans "Add Option" %}</button>
+        </div>
+        <button class="btn btn-primary btn-lg float-end" type="submit">{% trans "Submit" %}</button>
+    </form>
+{% endblock content %}

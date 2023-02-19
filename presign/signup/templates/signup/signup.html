@@ -1,0 +1,33 @@
+{% extends "signup/base.html" %}
+{% load django_bootstrap5 %}
+{% load i18n %}
+{% load markdownify %}
+{% load presign_tags %}
+
+{% block content %}
+    <div>
+        <h1>
+            {% blocktrans with event_name=request.event.name %}Sign up for {{ event_name }}{% endblocktrans %}
+            {% can_change_event request.event as can_change %}
+            {% if can_change %}
+                <a class="btn btn-secondary"
+                   href="{% url "control:event" organizer=request.event.organizer.slug event=request.event.slug %}">{% trans "Show in Control" %}</a>
+            {% endif %}
+        </h1>
+
+    </div>
+    <div class="mb-3">{{ request.event.description | markdownify }}</div>
+ 
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% for form in forms %}
+            <fieldset class="card mb-3">
+                <legend class="card-header">
+                    {{ form.form_title }}
+                </legend>
+                <div class="card-body">{% bootstrap_form form %}</div>
+            </fieldset>
+        {% endfor %}
+        <button class="btn btn-primary btn-lg float-end" type="submit">{% trans "Submit" %}</button>
+    </form>
+{% endblock content %}

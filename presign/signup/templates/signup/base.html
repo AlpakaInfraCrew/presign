@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block above_content %}
+    <header class="clearfix">
+ 
+        {% if not request.event.is_public %}
+            <div class="text-bg-warning p-3 text-center">
+                <strong>{% trans "This event is not public yet" %}</strong>
+            </div>
+        {% endif %}
+        <div class="container">
+            <form action="{% url 'set_language' %}" method="post" class="float-end">
+                {% csrf_token %}
+                <div class="input-group input-group-sm">
+ 
+                    <label class="input-group-text" for="language">
+                        <span class="visually-hidden">Language</span><i class="bi bi-globe"></i>
+                    </label>
+                    <select name="language" class="form-select form-select-sm">
+                        {% get_current_language as LANGUAGE_CODE %}
+                        {% get_available_languages as LANGUAGES %}
+                        {% get_language_info_list for LANGUAGES as languages %}
+                        {% for language in languages %}
+                            <option value="{{ language.code }}"
+                                    {% if language.code == LANGUAGE_CODE %} selected{% endif %}>
+                                {{ language.name_local }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                    <button type="submit" class="btn btn-sm btn-outline-secondary">{% trans "Save" %}</button>
+                </div>
+            </form>
+        </div>
+    </header>
+{% endblock %}

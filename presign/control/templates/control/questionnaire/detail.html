@@ -1,0 +1,84 @@
+{% extends "control/base.html" %}
+{% load django_bootstrap5 %}
+{% load control_helpers %}
+{% load i18n %}
+
+{% block content %}
+    <div class="clearfix">
+        <h1 class="float-start">{% blocktrans with name=object.name %}Questionnaire "{{name}}"{% endblocktrans %}</h1>
+        <div class="btn-group float-end " role="group">
+            <a href="{% url "control:questionnaire-change" organizer=object.organizer.slug questionnaire=object.pk %}"
+               class="btn btn-primary">{% trans "Edit Questionnaire" %}</a>
+            {% if can_update %}
+                <a href="{% url "control:questionblock-create" organizer=object.organizer.slug questionnaire=object.pk %}"
+                   class="btn btn-secondary">{% trans "Add Block" %}</a>
+            {% else %}
+                <a href="{% url "control:questionnaire-clone" questionnaire=object.pk %}"
+                   class="btn btn-secondary">{% trans "Clone Questionnaire" %}</a>
+            {% endif %}
+        </div>
+ 
+    </div>
+    <div class="row row-cols-1 row-cols-md-2">
+
+        {% for block in object.questionblock_set.all %}
+            <div class="col mb-3 d-flex align-items-stretch">
+                <section class="card w-100">
+                    <div class="card-header clearfix">
+                        <div class="float-start">{{ block.name }}</div>
+                        {% if can_update %}
+                            <div class="float-end">
+                                <div class="btn-group btn-group-sm" role="group">
+                                    <a class="btn btn-secondary"
+                                       href="{% url "control:questionblock-change" organizer=questionnaire.organizer.slug questionnaire=questionnaire.pk block=block.pk %}"><i class="bi-pencil-square"></i><span class="visually-hidden">{% trans "Edit" %}</span></a>
+                                    <a class="btn btn-danger"
+                                       href="{% url "control:questionblock-delete" organizer=questionnaire.organizer.slug questionnaire=questionnaire.pk block=block.pk %}"><i class="bi-trash"></i><span class="visually-hidden">{% trans "Delete" %}</span></a>
+                                </div>
+ 
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="card-body">
+                        <table class="table">
+                            <colgroup>
+                                <col class="col-fit"/>
+                                <col/>
+                                <col/>
+                                <col class="col-fit"/>
+                            </colgroup>
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">{% trans "Name" %}</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for question in block.question_set.all %}
+                                    <tr>
+                                        <th scope="row">{{ forloop.counter }}</th>
+                                        <td>{{ question.name }}</td>
+                                        <td></td>
+                                        <td>
+                                            <div class="btn-group btn-group-sm">
+
+                                                {% if can_update %}
+                                                    <a href="{% url "control:question-change" organizer=questionnaire.organizer.slug questionnaire=questionnaire.pk block=block.pk question=question.pk %}"
+                                                       class="btn btn-secondary"><i class="bi bi-gear"></i><span class="visually-hidden">{% trans "Edit Question" %}</span></a>
+
+                                                    {# TODO: Show disabled button if cannot update #}
+                                                {% endif %}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+        {% endfor %}
+    </div>
+
+{% endblock content %}
