@@ -194,7 +194,7 @@ class Dev(Base):
 
 
 class Test(Base):
-    SECRET_KEY = ""
+    SECRET_KEY = "test"
 
     DATABASES = {
         "default": {
