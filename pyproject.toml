@@ -15,12 +15,13 @@ django-bootstrap5 = "^22.2"
 django-compressor = "^4.3.1"
 django-libsass = "^0.9"
 django-scopes = "^1.2.0.post1"
-django-phonenumber-field = {extras = ["phonenumbers"], version = "^7.0.2"}
+django-phonenumber-field = { extras = ["phonenumbers"], version = "^7.0.2" }
 django-debug-toolbar = "^3.8.1"
 django-clone = "^5.3.0"
 django-simple-history = "^3.2.0"
 django-livereload-server = "^0.4"
 django-i18nfield = "^1.9.4"
+django-configurations = "^2.4"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -41,5 +42,5 @@ known_django = "django"
 sections = "FUTURE,STDLIB,DJANGO,THIRDPARTY,FIRSTPARTY,LOCALFOLDER"
 
 [tool.djlint]
-preserve_blank_lines=true
-ignore="T003,H006,H030,H031"
+preserve_blank_lines = true
+ignore = "T003,H006,H030,H031"

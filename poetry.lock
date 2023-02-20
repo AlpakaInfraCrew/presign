@@ -549,6 +549,28 @@ rcssmin = "1.1.1"
 rjsmin = "1.2.1"
 
 [[package]]
+name = "django-configurations"
+version = "2.4"
+description = "A helper for organizing Django settings."
+category = "main"
+optional = false
+python-versions = ">=3.7, <4.0"
+files = [
+    {file = "django-configurations-2.4.tar.gz", hash = "sha256:22b9964e6b657dafc7a35410a115d20f1451149a82737adc6c331ec365888196"},
+    {file = "django_configurations-2.4-py3-none-any.whl", hash = "sha256:d10bac11d71e29e8ea89548e2d5d2e91e1595667b3859989f50727dcbe7a8c80"},
+]
+
+[package.dependencies]
+django = ">=3.2"
+
+[package.extras]
+cache = ["django-cache-url"]
+database = ["dj-database-url"]
+email = ["dj-email-url"]
+search = ["dj-search-url"]
+testing = ["dj-database-url", "dj-email-url", "dj-search-url", "django-cache-url (>=1.0.0)"]
+
+[[package]]
 name = "django-debug-toolbar"
 version = "3.8.1"
 description = "A configurable set of panels that display various debug information about the current request/response."
@@ -1677,4 +1699,4 @@ testing = ["flake8 (<5)", "func-timeout", "jaraco.functools", "jaraco.itertools"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8"
-content-hash = "b0079200df9495c5546571b88e138caf3407a66b1a60b4a7e42d3d47c26d252b"
+content-hash = "3a0ba863cdb4b4ba9c68d534fd708ef20db7649e11f8826bd7811628230773fd"

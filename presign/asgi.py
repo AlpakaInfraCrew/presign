@@ -9,8 +9,9 @@ https://docs.djangoproject.com/en/3.2/howto/deployment/asgi/
 
 import os
 
-from django.core.asgi import get_asgi_application
+from configurations.asgi import get_asgi_application
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "presign.settings")
+os.environ.setdefault("DJANGO_CONFIGURATION", "Dev")
 
 application = get_asgi_application()
