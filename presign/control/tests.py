@@ -3,7 +3,7 @@ from urllib.parse import urlparse
 from django.urls import resolve, reverse
 
 import pytest
-from playwright.sync_api import BrowserContext
+from playwright.sync_api import BrowserContext, expect
 
 from presign.base.models import Organizer
 
@@ -64,3 +64,13 @@ def test_create_organizer(
         "de": "Test Organizer German",
         "en": "Test Organizer English",
     }
+
+
+@pytest.mark.django_db
+def test_slug_autofill(logged_in_context: BrowserContext):
+    page = logged_in_context.new_page()
+    page.goto_url("control:organizer-create")
+
+    page.fill('input[name^="name_"][lang="de"]', "Test Organizer")
+
+    expect(page.locator("input[name=slug]")).to_have_value("test-organizer")
