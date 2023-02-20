@@ -28,6 +28,8 @@ django-configurations = "^2.4"
 ipdb = "^0.13.11"
 djlint = "^1.19.13"
 pillow = "^9.4.0"
+pytest = "^7.2.1"
+pytest-django = "^4.5.2"
 
 [build-system]
 requires = ["poetry-core"]
