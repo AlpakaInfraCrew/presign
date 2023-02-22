@@ -297,8 +297,8 @@ class ChangeEventStatusTextsForm(forms.Form):
     def __init__(self, *args, organizer, **kwargs):
         super().__init__(*args, **kwargs)
 
-        for name, label in zip(ParticipantStates.names, ParticipantStates.labels):
-            self.fields[f"text_{name}"] = i18n_forms.I18nFormField(
+        for state, label in zip(ParticipantStates, ParticipantStates.labels):
+            self.fields[f"text_{state}"] = i18n_forms.I18nFormField(
                 label=label,
                 help_text=_(
                     'Text shown to the user in the "%(state)s" state. You can use markdown and the following variables: %(variables)s'

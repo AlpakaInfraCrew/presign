@@ -281,10 +281,9 @@ class ParticipantDetailView(DetailView):
         )
 
     def get_status_text(self, participant: Participant):
-        state_name = ParticipantStates.names[
-            ParticipantStates.values.index(participant.state)
-        ]
-        return str(LazyI18nString(participant.event.status_texts.get(state_name, {})))
+        return str(
+            LazyI18nString(participant.event.status_texts.get(participant.state, {}))
+        )
 
     def get_status_color(self, participant: Participant):
         if participant.state in self.NEUTRAL_STATES:

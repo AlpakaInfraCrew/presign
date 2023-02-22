@@ -151,10 +151,10 @@ class EventUpdateView(SingleObjectTemplateResponseMixin, View):
         self.object = forms["general_form"].save()
         self.object.status_texts = {}
         text_data = forms["texts_form"].cleaned_data
-        for name in ParticipantStates.names:
-            field_name = f"text_{name}"
+        for state in ParticipantStates:
+            field_name = f"text_{state}"
             if field_name in text_data:
-                self.object.status_texts[name] = text_data[field_name].data
+                self.object.status_texts[state] = text_data[field_name].data
         self.object.save()
         return redirect(self.get_success_url())
 
