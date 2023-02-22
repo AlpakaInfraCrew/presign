@@ -67,7 +67,7 @@ def test_create_organizer(
 
 
 @pytest.mark.django_db
-def test_slug_autofill(logged_in_context: BrowserContext):
+def test_organizer_slug_autofill(logged_in_context: BrowserContext):
     page = logged_in_context.new_page()
     page.goto_url("control:organizer-create")
 
