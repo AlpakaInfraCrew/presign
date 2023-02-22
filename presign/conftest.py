@@ -8,6 +8,8 @@ from playwright.sync_api import BrowserContext
 # Needed for playwright
 os.environ["DJANGO_ALLOW_ASYNC_UNSAFE"] = "true"
 
+PLAYWRIGHT_FIXTURES = ["browser", "live_server_context"]
+
 
 @pytest.fixture
 def live_server_context(context: BrowserContext, live_server):
@@ -42,6 +44,13 @@ def live_server_context(context: BrowserContext, live_server):
     context.new_page = new_page_func
 
     return context
+
+
+def pytest_collection_modifyitems(items):
+    for item in items:
+        for fixture_name in PLAYWRIGHT_FIXTURES:
+            if fixture_name in getattr(item, "fixturenames", ()):
+                item.add_marker("playwright")
 
 
 @pytest.fixture
