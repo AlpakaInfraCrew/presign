@@ -93,8 +93,10 @@ class QuestionBlockUpdateView(UpdateView):
             )
         )
 
-    def get_object(self):
-        return self.get_queryset().get(id=self.kwargs["block"])
+    def get_object(self, queryset=None):
+        if queryset is None:
+            queryset = self.get_queryset()
+        return queryset.get(id=self.kwargs["block"])
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

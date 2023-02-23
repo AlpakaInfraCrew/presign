@@ -253,6 +253,7 @@ def generate_participant_secret():
         )
         if not Participant.objects.filter(secret=secret).exists():
             return secret
+    raise ValidationError("Could not generate participant secret")
 
 
 def generate_participant_code():
@@ -262,6 +263,7 @@ def generate_participant_code():
         )
         if not Participant.objects.filter(code=code).exists():
             return code
+    raise ValidationError("Could not generate participant code")
 
 
 class Participant(models.Model):
@@ -303,8 +305,8 @@ class Participant(models.Model):
     def __str__(self) -> str:
         return self.email
 
-    def get_answers_to(self, event):
-        return QuestionAnswer.objects.filter(participant=self,).order_by(
+    def get_answers(self):
+        return QuestionAnswer.objects.filter(participant=self).order_by(
             "question__block__questionnaire",
             "question__block__order",
             "question__order",
@@ -382,9 +384,9 @@ class Participant(models.Model):
                     action=action, state_label=state.label
                 )
             )
-        else:
-            self.state = next_state
-            self.save(update_fields=["state"])
+
+        self.state = next_state
+        self.save(update_fields=["state"])
 
 
 class QuestionKind(models.TextChoices):

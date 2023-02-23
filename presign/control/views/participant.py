@@ -84,7 +84,7 @@ class ParticipantDetailView(ParticipantView, UpdateView):
         context = super().get_context_data(**kwargs)
         context.update(
             {
-                "answers": self.participant.get_answers_to(self.request.event),
+                "answers": self.participant.get_answers(),
                 "event": self.request.event,
                 "participant": self.get_object(),
                 "state_change_strings": STATE_CHANGE_STRINGS,

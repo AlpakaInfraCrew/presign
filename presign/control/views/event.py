@@ -94,9 +94,7 @@ class EventUpdateView(SingleObjectTemplateResponseMixin, View):
         return self.request.event
 
     def get_form_kwargs(self):
-        kwargs = {
-            "organizer": self.request.organizer,
-        }
+        kwargs = {}
 
         if self.request.method == "POST":
             kwargs.update(
@@ -126,7 +124,11 @@ class EventUpdateView(SingleObjectTemplateResponseMixin, View):
         )
 
     def get_general_form(self):
-        return ChangeEventForm(instance=self.object, **self.get_form_kwargs())
+        return ChangeEventForm(
+            instance=self.object,
+            organizer=self.request.organizer,
+            **self.get_form_kwargs(),
+        )
 
     def get_forms(self):
         return {

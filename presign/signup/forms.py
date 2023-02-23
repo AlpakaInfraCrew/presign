@@ -114,7 +114,7 @@ class QuestionBlockForm(forms.Form):
                     required=question.required,
                 )
             else:
-                raise Exception("Unsupported question type", question)
+                raise ValueError(f"Unsupported question type {question}")
 
             field_name = f"question_{question.pk}"
             field.question = question

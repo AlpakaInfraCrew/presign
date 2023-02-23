@@ -120,7 +120,7 @@ class ParticipantChangeView(View):
 
         for form in forms_to_save:
             if not form.is_valid():
-                raise Exception("You shall not save an invalid form")
+                raise ValueError("You shall not save an invalid form")
 
             if not isinstance(form, ParticipantForm):
                 for k, v in form.cleaned_data.items():
@@ -173,14 +173,14 @@ class ParticipantSignupView(ParticipantChangeView):
         participant: Optional[Participant] = None
         for form in forms_to_save:
             if not form.is_valid():
-                raise Exception("You shall not save an invalid form")
+                raise ValueError("You shall not save an invalid form")
 
             if isinstance(form, ParticipantForm):
                 participant = form.instance
                 participant.event = self.request.event
 
         if participant is None:
-            raise Exception("No participant form submitted")
+            raise ValueError("No participant form submitted")
         participant.save()
         self.participant = participant
 
@@ -234,8 +234,8 @@ class ParticipantUpdateView(ParticipantChangeView):
         else:
             raise ValueError("Participant not in a state that can change answers")
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
         context.update({"participant": self.participant})
         return context
 
@@ -276,7 +276,7 @@ class ParticipantDetailView(DetailView):
         ParticipantStates.CANCELLED,
     ]
 
-    def get_object(self):
+    def get_object(self, queryset=None):
         return get_object_or_404(
             Participant, secret=self.kwargs["secret"], event=self.request.event
         )
@@ -294,9 +294,9 @@ class ParticipantDetailView(DetailView):
         elif participant.state in self.WARNING_STATES:
             return "warning"
         elif participant.state in self.DANGER_STATES:
-            return "dander"
+            return "danger"
         else:
-            raise Exception("")
+            raise ValueError("Unknown State")
 
     def get_status_banner(self):
         participant = self.get_object()
@@ -329,12 +329,12 @@ class ParticipantDetailView(DetailView):
             ),
         }
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
         participant = self.get_object()
         context.update(
             {
-                "answers": participant.get_answers_to(self.request.event),
+                "answers": participant.get_answers(),
                 "event": self.request.event,
                 "participant": participant,
                 "can_update": can_update(participant, self.request.event),

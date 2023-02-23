@@ -300,7 +300,7 @@ QuestionOptionFormSet = modelformset_factory(
 
 
 class ChangeEventStatusTextsForm(forms.Form):
-    def __init__(self, *args, organizer, **kwargs):
+    def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
         for state, label in zip(ParticipantStates, ParticipantStates.labels):
@@ -319,7 +319,7 @@ class ChangeEventStatusTextsForm(forms.Form):
 
 
 class ChangeEventEmailTextsForm(forms.Form):
-    def __init__(self, *args, organizer, **kwargs):
+    def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
         for action, config in STATE_CHANGE_STRINGS.items():
