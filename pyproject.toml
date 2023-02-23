@@ -36,6 +36,7 @@ pytest-playwright = "^0.3.0"
 pytest-cov = "^4.0.0"
 pytest-factoryboy = "^2.5.1"
 django-eml-email-backend = "^0.1"
+playwright = ">=1.27.0"
 
 [build-system]
 requires = ["poetry-core"]

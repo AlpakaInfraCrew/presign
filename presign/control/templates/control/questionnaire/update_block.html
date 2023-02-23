@@ -9,7 +9,7 @@
         {% csrf_token %}
         {% bootstrap_form form %}
         <h2>Questions</h2>
-        {% bootstrap_formset formset layout="cards" %}
+        <div data-test-id="question-formset">{% bootstrap_formset formset layout="cards" %}</div>
         <button class="btn btn-primary btn-lg float-end" type="submit">{% trans "Submit" %}</button>
     </form>
 

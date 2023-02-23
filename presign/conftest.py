@@ -1,6 +1,7 @@
 import os
+from urllib.parse import urlparse
 
-from django.urls import reverse
+from django.urls import resolve, reverse
 
 import pytest
 from playwright.sync_api import BrowserContext
@@ -37,13 +38,51 @@ def live_server_context(context: BrowserContext, live_server):
             path = reverse(url, kwargs=kwargs)
             page.goto(url=f"{live_server.url}{path}")
 
+        def get_resolved_url():
+            return resolve(page.get_url_path())
+
+        def get_url_path():
+            return urlparse(page.url)[2]
+
+        page.get_resolved_url = get_resolved_url
+        page.get_url_path = get_url_path
+
         page.goto_url = goto_url_func
         return page
 
     context._hacky_original_new_page = context.new_page
     context.new_page = new_page_func
 
+    context.set_default_timeout(5000)
+
     return context
+
+
+@pytest.fixture(scope="session")
+def browser_context_args(browser_context_args):
+    return {
+        **browser_context_args,
+        "record_video_size": {"width": 1920, "height": 1080},
+    }
+
+
+@pytest.fixture
+def logged_in_context(django_user_model, live_server_context):
+    user = django_user_model.objects.create(username="eve_example")
+    user.set_password("example_pw")
+    user.save()
+
+    page = live_server_context.new_page()
+
+    page.goto_url("login")
+
+    page.fill('[placeholder="Username"]', "eve_example")
+    page.fill('[placeholder="Password"]', "example_pw")
+    page.click('button[type="submit"]')
+
+    page.close()
+
+    return live_server_context
 
 
 def pytest_collection_modifyitems(items):
