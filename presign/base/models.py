@@ -87,12 +87,12 @@ class Event(models.Model):
     enabled = models.BooleanField(default=False)
 
     event_date = DateTimeLocalModelField()
-    signup_start = DateTimeLocalModelField(null=True)
+    signup_start = DateTimeLocalModelField(null=True, blank=True)
     signup_end_shown = DateTimeLocalModelField(
-        verbose_name=_("Shown Signup End"), null=True
+        verbose_name=_("Shown Signup End"), null=True, blank=True
     )
-    signup_end = DateTimeLocalModelField(null=True)
-    lock_date = DateTimeLocalModelField(null=True)
+    signup_end = DateTimeLocalModelField(null=True, blank=True)
+    lock_date = DateTimeLocalModelField(null=True, blank=True)
 
     status_texts = models.JSONField(default=dict)
 
