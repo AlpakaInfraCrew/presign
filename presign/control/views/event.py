@@ -13,10 +13,15 @@ from django.views.generic.list import ListView
 
 from django_scopes import scope
 
-from presign.base.models import Event, ParticipantStates
+from presign.base.models import Event, ParticipantStateActions, ParticipantStates
 
-from ..forms import ChangeEventForm, ChangeEventStatusTextsForm, CreateEventForm
-from .participant import STATE_SETTINGS
+from ..constants import STATE_SETTINGS
+from ..forms import (
+    ChangeEventEmailTextsForm,
+    ChangeEventForm,
+    ChangeEventStatusTextsForm,
+    CreateEventForm,
+)
 
 
 class MyEventsListView(ListView):
@@ -109,6 +114,17 @@ class EventUpdateView(SingleObjectTemplateResponseMixin, View):
             **self.get_form_kwargs(),
         )
 
+    def get_email_texts_form(self):
+        initial = {}
+        for action in ParticipantStateActions:
+            action_data = self.object.get_action_email_texts(action)
+            initial[f"email_text_subject_{action}"] = action_data["subject"]
+            initial[f"email_text_body_{action}"] = action_data["body"]
+        return ChangeEventEmailTextsForm(
+            initial=initial,
+            **self.get_form_kwargs(),
+        )
+
     def get_general_form(self):
         return ChangeEventForm(instance=self.object, **self.get_form_kwargs())
 
@@ -116,6 +132,7 @@ class EventUpdateView(SingleObjectTemplateResponseMixin, View):
         return {
             "general_form": self.get_general_form(),
             "texts_form": self.get_texts_form(),
+            "email_texts_form": self.get_email_texts_form(),
         }
 
     def get_context_data(self, **kwargs):
@@ -155,6 +172,18 @@ class EventUpdateView(SingleObjectTemplateResponseMixin, View):
             field_name = f"text_{state}"
             if field_name in text_data:
                 self.object.status_texts[state] = text_data[field_name].data
+
+        email_text_data = forms["email_texts_form"].cleaned_data
+        for action in ParticipantStateActions:
+            subject_name = f"email_text_subject_{action}"
+            body_name = f"email_text_body_{action}"
+            subject = email_text_data.get(subject_name)
+            body = email_text_data.get(body_name)
+            if subject or body:
+                self.object.email_texts.set(
+                    action, {"subject": subject.data, "body": body.data}
+                )
+
         self.object.save()
         return redirect(self.get_success_url())
 

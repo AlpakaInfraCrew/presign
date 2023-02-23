@@ -1,7 +1,6 @@
 {% extends "signup/base.html" %}
 {% load django_bootstrap5 %}
 {% load i18n %}
-{% load markdownify %}
 {% load presign_tags %}
 
 {% block content %}
@@ -16,7 +15,7 @@
         </h1>
 
     </div>
-    <div class="mb-3">{{ request.event.description | to_string | markdownify }}</div>
+    <div class="mb-3">{{ request.event.description | markdownify }}</div>
  
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}

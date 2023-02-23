@@ -8,3 +8,4 @@ static/*
 storage/
 htmlcov
 .coverage
+sent_email

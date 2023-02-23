@@ -15,6 +15,7 @@ from i18nfield.strings import LazyI18nString
 
 from presign.base.models import (
     Participant,
+    ParticipantStateActions,
     ParticipantStates,
     QuestionAnswer,
     QuestionBlock,
@@ -250,7 +251,7 @@ class ParticipantUpdateView(ParticipantChangeView):
             ParticipantStates.Q1_CHANGES_REQUESTED,
             ParticipantStates.Q2_CHANGES_REQUESTED,
         ]:
-            participant.change_state("answers_saved")
+            participant.change_state(ParticipantStateActions.ANSWERS_SAVED)
 
 
 class ParticipantDetailView(DetailView):

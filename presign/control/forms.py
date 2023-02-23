@@ -7,7 +7,11 @@ from django.utils.translation import gettext_lazy as _
 from django_scopes import scope
 from i18nfield import forms as i18n_forms
 
-from presign.base.fields import I18nSmallerTextArea
+from presign.base.fields import (
+    I18nLargeTextArea,
+    I18nSmallerTextArea,
+    InputGroupI18nTextInput,
+)
 from presign.base.models import (
     Event,
     EventQuestionnaire,
@@ -20,6 +24,8 @@ from presign.base.models import (
     QuestionnaireRole,
     QuestionOption,
 )
+
+from .constants import STATE_CHANGE_STRINGS
 
 
 class ParticipantInternalForm(forms.ModelForm):
@@ -309,4 +315,46 @@ class ChangeEventStatusTextsForm(forms.Form):
                 },
                 required=False,
                 widget=I18nSmallerTextArea,
+            )
+
+
+class ChangeEventEmailTextsForm(forms.Form):
+    def __init__(self, *args, organizer, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        for action, config in STATE_CHANGE_STRINGS.items():
+            self.fields[f"email_text_subject_{action}"] = i18n_forms.I18nFormField(
+                label=_("Email Subject"),
+                help_text=_(
+                    'Subject of the email sent to the user for the "%(action_text)s" action. You can use the following variables: %(variables)s'
+                )
+                % {
+                    "action_text": config["btn_text"],
+                    "variables": "{event_name}, {application_url}, {change_answer_url}",
+                },
+                required=False,
+                widget=InputGroupI18nTextInput,
+            )
+
+            self.fields[f"email_text_body_{action}"] = i18n_forms.I18nFormField(
+                label=_("Email Body"),
+                help_text=_(
+                    'Body of the email sent to the user for the "%(action_text)s" action. You can use markdown and the following variables: %(variables)s'
+                )
+                % {
+                    "action_text": config["btn_text"],
+                    "variables": "{event_name}, {application_url}, {change_answer_url}",
+                },
+                required=False,
+                widget=I18nLargeTextArea,
+            )
+
+    def field_groups(self):
+        for action, config in STATE_CHANGE_STRINGS.items():
+            yield (
+                config["btn_text"],
+                [
+                    self[f"email_text_subject_{action}"],
+                    self[f"email_text_body_{action}"],
+                ],
             )

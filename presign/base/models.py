@@ -15,11 +15,15 @@ from django.utils.crypto import get_random_string
 from django.utils.translation import gettext_lazy as _
 
 from django_scopes import ScopedManager, scope
+from hierarkey.models import Hierarkey
+from i18nfield.strings import LazyI18nString
 from model_clone.models import CloneModel
 from simple_history.models import HistoricalRecords
 
 from .exceptions import ParticipantStateChangeException
 from .fields import DateTimeLocalModelField, I18nCharField, I18nTextField
+
+email_hierarkey = Hierarkey(attribute_name="email_texts")
 
 
 class User(AbstractUser):
@@ -68,6 +72,7 @@ class Organizer(models.Model):
         return str(self.name)
 
 
+@email_hierarkey.add()
 class Event(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     history = HistoricalRecords()
@@ -178,6 +183,13 @@ class Event(models.Model):
         ):
             raise ValidationError(_("Shown Signup End must be before Signup End"))
 
+    def get_action_email_texts(self, action: "ParticipantStateActions"):
+        action_texts = self.email_texts.get(action, as_type=dict, default="{}")
+        return {
+            "subject": LazyI18nString(action_texts.get("subject", {})),
+            "body": LazyI18nString(action_texts.get("body", {})),
+        }
+
 
 class QuestionnaireRole(models.IntegerChoices):
     # Step 1: Signup, pre-review
@@ -221,6 +233,17 @@ class ParticipantStates(models.TextChoices):
     # Step 3b: :'(
     WITHDRAWN = "WIT", _("Withdrawn")  # Participant withdrew their signup
     CANCELLED = "CAN", _("Cancelled")  # Orga cancelled the participation
+
+
+class ParticipantStateActions(models.TextChoices):
+    APPROVE = "approve"
+    REJECT = "reject"
+    REQUEST_CHANGES = "request_changes"
+    UNREJECT = "unreject"
+    ANSWERS_SAVED = "answers_saved"
+    CANCEL = "cancel"
+    WITHDRAW = "withdraw"
+    CONFIRM = "confirm"
 
 
 def generate_participant_secret():
@@ -316,37 +339,37 @@ class Participant(models.Model):
 
     STATE_CHANGES = {
         ParticipantStates.NEW: {
-            "approve": ParticipantStates.APPROVED,
-            "reject": ParticipantStates.REJECTED,
-            "request_changes": ParticipantStates.Q1_CHANGES_REQUESTED,
+            ParticipantStateActions.APPROVE: ParticipantStates.APPROVED,
+            ParticipantStateActions.REJECT: ParticipantStates.REJECTED,
+            ParticipantStateActions.REQUEST_CHANGES: ParticipantStates.Q1_CHANGES_REQUESTED,
         },
         ParticipantStates.REJECTED: {
-            "unreject": ParticipantStates.NEW,
-            "approve": ParticipantStates.APPROVED,
+            ParticipantStateActions.UNREJECT: ParticipantStates.NEW,
+            ParticipantStateActions.APPROVE: ParticipantStates.APPROVED,
         },
         ParticipantStates.Q1_CHANGES_REQUESTED: {
-            "answers_saved": ParticipantStates.NEW,
-            "cancel": ParticipantStates.CANCELLED,
+            ParticipantStateActions.ANSWERS_SAVED: ParticipantStates.NEW,
+            ParticipantStateActions.CANCEL: ParticipantStates.CANCELLED,
         },
         ParticipantStates.APPROVED: {
-            "answers_saved": ParticipantStates.NEEDS_REVIEW,
-            "withdraw": ParticipantStates.WITHDRAWN,
-            "cancel": ParticipantStates.CANCELLED,
+            ParticipantStateActions.ANSWERS_SAVED: ParticipantStates.NEEDS_REVIEW,
+            ParticipantStateActions.WITHDRAW: ParticipantStates.WITHDRAWN,
+            ParticipantStateActions.CANCEL: ParticipantStates.CANCELLED,
         },
         ParticipantStates.NEEDS_REVIEW: {
-            "request_changes": ParticipantStates.Q2_CHANGES_REQUESTED,
-            "confirm": ParticipantStates.CONFIRMED,
-            "withdraw": ParticipantStates.WITHDRAWN,
-            "cancel": ParticipantStates.CANCELLED,
+            ParticipantStateActions.REQUEST_CHANGES: ParticipantStates.Q2_CHANGES_REQUESTED,
+            ParticipantStateActions.CONFIRM: ParticipantStates.CONFIRMED,
+            ParticipantStateActions.WITHDRAW: ParticipantStates.WITHDRAWN,
+            ParticipantStateActions.CANCEL: ParticipantStates.CANCELLED,
         },
         ParticipantStates.Q2_CHANGES_REQUESTED: {
-            "answers_saved": ParticipantStates.NEEDS_REVIEW,
-            "withdraw": ParticipantStates.WITHDRAWN,
-            "cancel": ParticipantStates.CANCELLED,
+            ParticipantStateActions.ANSWERS_SAVED: ParticipantStates.NEEDS_REVIEW,
+            ParticipantStateActions.WITHDRAW: ParticipantStates.WITHDRAWN,
+            ParticipantStateActions.CANCEL: ParticipantStates.CANCELLED,
         },
         ParticipantStates.CONFIRMED: {
-            "withdraw": ParticipantStates.WITHDRAWN,
-            "cancel": ParticipantStates.CANCELLED,
+            ParticipantStateActions.WITHDRAW: ParticipantStates.WITHDRAWN,
+            ParticipantStateActions.CANCEL: ParticipantStates.CANCELLED,
         },
     }
 

@@ -33,6 +33,18 @@
                     {% trans "Status Texts" %}
                 </button>
             </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link"
+                        id="email-texts-tab"
+                        data-bs-toggle="tab"
+                        data-bs-target="#email-texts-tab-pane"
+                        type="button"
+                        role="tab"
+                        aria-controls="email-texts-tab-pane"
+                        aria-selected="false">
+                    {% trans "Email Texts" %}
+                </button>
+            </li>
         </ul>
         <div class="tab-content mb-4">
             <div class="tab-pane show active"
@@ -48,6 +60,39 @@
                  aria-labelledby="texts-tab"
                  tabindex="0">
                 <div class="row row-cols-1 row-cols-md-2">{% bootstrap_form texts_form %}</div>
+            </div>
+            <div class="tab-pane"
+                 id="email-texts-tab-pane"
+                 role="tabpanel"
+                 aria-labelledby="email-texts-tab"
+                 tabindex="0">
+                <div class="accordion" id="email-text-accordion">
+                    {% for group_name, fields in email_texts_form.field_groups %}
+                        <div class="accordion-item">
+                            <h2 class="accordion-header"
+                                id="email-text-heading-{{ forloop.counter }}">
+                                <button class="accordion-button {% if not forloop.first %}collapsed{% endif %}"
+                                        type="button"
+                                        data-bs-toggle="collapse"
+                                        data-bs-target="#email-text-collapse-{{ forloop.counter }}"
+                                        aria-expanded="true"
+                                        aria-controls="email-text-collapse-{{ forloop.counter }}">
+                                    {{ group_name }}
+                                </button>
+                            </h2>
+                            <div id="email-text-collapse-{{ forloop.counter }}"
+                                 class="accordion-collapse collapse {% if forloop.first %}show{% endif %}"
+                                 aria-labelledby="email-text-heading-{{ forloop.counter }}"
+                                 data-bs-parent="#email-text-accordion">
+                                <div class="accordion-body">
+                                    {% for field in fields %}
+                                        {% bootstrap_field field %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
             </div>
         </div>
         <div>

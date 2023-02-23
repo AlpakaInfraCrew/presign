@@ -1,0 +1,7 @@
+{% extends "mail/base.html" %}
+
+{% load presign_tags %}
+
+{% block title %}{{ subject }}{% endblock %}
+
+{% block text_content %}{{ body | markdownify }}{% endblock %}

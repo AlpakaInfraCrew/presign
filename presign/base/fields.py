@@ -117,6 +117,10 @@ class I18nSmallerTextArea(i18n_fields.I18nTextarea):
         super().__init__(attrs=default_attrs, **kwargs)
 
 
+class I18nLargeTextArea(i18n_fields.I18nTextarea):
+    widget = InputGroupI18nTextarea
+
+
 class InputGroupLangAwareTextInput(forms.TextInput):
     template_name = "base/forms/widgets/textfield.html"
 

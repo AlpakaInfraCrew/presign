@@ -34,7 +34,6 @@ class Base(Configuration):
         "django_bootstrap5",
         "compressor",
         "simple_history",
-        "markdownify",
         "presign.base",
         "presign.control",
         "presign.signup",
@@ -168,29 +167,34 @@ class Base(Configuration):
 
     LOGOUT_REDIRECT_URL = "control:index"
 
-    if DEBUG:
-        MEDIA_ROOT = BASE_DIR / "storage"
-        MEDIA_URL = "/media/"
-
-        # Add debug toolbar
-        INSTALLED_APPS += ("debug_toolbar",)
-        MIDDLEWARE.insert(
-            MIDDLEWARE.index("django.contrib.auth.middleware.AuthenticationMiddleware")
-            + 1,
-            "debug_toolbar.middleware.DebugToolbarMiddleware",
-        )
-
-        DEBUG_TOOLBAR_CONFIG = {
-            "SHOW_TOOLBAR_CALLBACK": "presign.settings.show_toolbar_to_superusers",
-        }
-
-        # Add livereload
-        MIDDLEWARE += ("livereload.middleware.LiveReloadScript",)
-
 
 class Dev(Base):
     # SECURITY WARNING: keep the secret key used in production secret!
     SECRET_KEY = "django-insecure-*@rchc%vvw5#!((4s1x1=rzh0_myd0_=^=dnzpw^(!3cy#y#3l"
+
+    EMAIL_BACKEND = "eml_email_backend.EmailBackend"
+    EMAIL_FILE_PATH = Base.BASE_DIR / "sent_email/"
+
+    MEDIA_ROOT = Base.BASE_DIR / "storage"
+    MEDIA_URL = "/media/"
+
+    # Add debug toolbar
+    INSTALLED_APPS = Base.INSTALLED_APPS + [
+        "debug_toolbar",
+    ]
+    MIDDLEWARE = Base.MIDDLEWARE.copy()
+
+    MIDDLEWARE.insert(
+        MIDDLEWARE.index("django.contrib.auth.middleware.AuthenticationMiddleware") + 1,
+        "debug_toolbar.middleware.DebugToolbarMiddleware",
+    )
+
+    DEBUG_TOOLBAR_CONFIG = {
+        "SHOW_TOOLBAR_CALLBACK": "presign.settings.show_toolbar_to_superusers",
+    }
+
+    # Add livereload
+    MIDDLEWARE += ("livereload.middleware.LiveReloadScript",)
 
 
 class Test(Base):
