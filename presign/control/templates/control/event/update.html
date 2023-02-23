@@ -75,7 +75,7 @@
                                         type="button"
                                         data-bs-toggle="collapse"
                                         data-bs-target="#email-text-collapse-{{ forloop.counter }}"
-                                        aria-expanded="true"
+                                        aria-expanded="{% if not forloop.first %}false{% else %}true{% endif %}"
                                         aria-controls="email-text-collapse-{{ forloop.counter }}">
                                     {{ group_name }}
                                 </button>
