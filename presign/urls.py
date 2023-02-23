@@ -37,3 +37,6 @@ if settings.DEBUG:
     urlpatterns += [
         path("__debug__/", include("debug_toolbar.urls")),
     ]
+
+handler404 = "presign.base.views.handler404"
+handler500 = "presign.base.views.handler500"

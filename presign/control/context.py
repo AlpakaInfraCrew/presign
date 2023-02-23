@@ -126,7 +126,10 @@ def get_nav_items(request):
 
 
 def contextprocessor(request):
-    if "control" not in request.resolved_path.namespaces:
+    if (
+        not hasattr(request, "resolved_path")
+        or "control" not in request.resolved_path.namespaces
+    ):
         return {}
 
     return {"nav_items": get_nav_items(request), "additional_nav_items": []}
