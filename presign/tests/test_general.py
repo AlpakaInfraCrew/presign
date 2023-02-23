@@ -170,9 +170,7 @@ def test_full_event_lifecycle(
         ],
     )
 
-    # TODO: Check that organizer appears in sidebar and click that one
-    # page.locator(".sidenav").click("text=Test Organizer en")
-    page.goto_url("control:organizer", kwargs={"organizer": organizer.slug})
+    page.click(".sidenav >> text=Test Organizer")
 
     questionnaire_2 = create_questionnaire(
         settings,
@@ -190,9 +188,7 @@ def test_full_event_lifecycle(
         ],
     )
 
-    # TODO: Check that organizer appears in sidebar and click that one
-    # page.locator(".sidenav").click("text=Test Organizer en")
-    page.goto_url("control:organizer", kwargs={"organizer": organizer.slug})
+    page.click(".sidenav >> text=Test Organizer")
 
     # Click text=New Event
     page.click("text=New Event")

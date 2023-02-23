@@ -14,6 +14,7 @@ from django_scopes import scope
 
 from presign.base.models import Question, QuestionBlock, Questionnaire
 
+from ..context import get_organizer_nav_items
 from ..forms import (
     QuestionBlockForm,
     QuestionForm,
@@ -65,7 +66,16 @@ class QuestionnaireDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["can_update"] = self.request.user in self.object.organizer.members.all()
+        user_is_orga_member = self.request.user in self.object.organizer.members.all()
+        context["can_update"] = (
+            self.object in self.request.user.get_editable_questionnaires()
+        )
+
+        if user_is_orga_member:
+            context["additional_nav_items"] = get_organizer_nav_items(
+                request=self.request, organizer=self.object.organizer
+            )
+
         return context
 
 

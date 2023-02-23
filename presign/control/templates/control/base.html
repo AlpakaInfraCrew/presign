@@ -15,7 +15,7 @@
                 <span class="fs-4">Presign</span>
             </a>
             <ul class="nav nav-pills flex-column mt-4 mb-auto">
-                {% for nav_item in nav_items %}
+                {% for nav_item in nav_items|add:additional_nav_items %}
                     {% if nav_item.type == "link" %}
                         <li class="nav-item">
                             <a href="{{ nav_item.url }}"

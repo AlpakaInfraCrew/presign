@@ -37,55 +37,57 @@ def get_top_nav(request):
     ]
 
 
+def get_organizer_nav_items(request, organizer):
+    return [
+        {"type": "seperator"},
+        {
+            "type": "link",
+            "label": organizer.name,
+            "url": reverse(
+                "control:organizer",
+                kwargs={"organizer": organizer.slug},
+            ),
+            "active": (request.resolved_path.url_name == "organizer"),
+            "icon": "people",
+        },
+        {
+            "type": "link",
+            "label": _("Settings"),
+            "url": reverse(
+                "control:organizer-settings",
+                kwargs={"organizer": organizer.slug},
+            ),
+            "active": (request.resolved_path.url_name == "organizer-settings"),
+            "icon": "gear",
+        },
+        {
+            "type": "link",
+            "label": _("Questionnaires"),
+            "url": reverse(
+                "control:questionnaire-list",
+                kwargs={"organizer": organizer.slug},
+            ),
+            "active": (request.resolved_path.url_name == "questionnaire-list"),
+            "icon": "card-list",
+        },
+        {
+            "type": "link",
+            "label": _("Events"),
+            "url": reverse(
+                "control:event-list",
+                kwargs={"organizer": organizer.slug},
+            ),
+            "active": (request.resolved_path.url_name == "event-list"),
+            "icon": "calendar",
+        },
+    ]
+
+
 def get_nav_items(request):
     nav_items = get_top_nav(request)
 
     if hasattr(request, "organizer"):
-        nav_items.extend(
-            [
-                {"type": "seperator"},
-                {
-                    "type": "link",
-                    "label": request.organizer.name,
-                    "url": reverse(
-                        "control:organizer",
-                        kwargs={"organizer": request.organizer.slug},
-                    ),
-                    "active": (request.resolved_path.url_name == "organizer"),
-                    "icon": "people",
-                },
-                {
-                    "type": "link",
-                    "label": _("Settings"),
-                    "url": reverse(
-                        "control:organizer-settings",
-                        kwargs={"organizer": request.organizer.slug},
-                    ),
-                    "active": (request.resolved_path.url_name == "organizer-settings"),
-                    "icon": "gear",
-                },
-                {
-                    "type": "link",
-                    "label": _("Questionnaires"),
-                    "url": reverse(
-                        "control:questionnaire-list",
-                        kwargs={"organizer": request.organizer.slug},
-                    ),
-                    "active": (request.resolved_path.url_name == "questionnaire-list"),
-                    "icon": "card-list",
-                },
-                {
-                    "type": "link",
-                    "label": _("Events"),
-                    "url": reverse(
-                        "control:event-list",
-                        kwargs={"organizer": request.organizer.slug},
-                    ),
-                    "active": (request.resolved_path.url_name == "event-list"),
-                    "icon": "calendar",
-                },
-            ]
-        )
+        nav_items.extend(get_organizer_nav_items(request, organizer=request.organizer))
 
     if hasattr(request, "event"):
         nav_items.extend(
@@ -127,4 +129,4 @@ def contextprocessor(request):
     if "control" not in request.resolved_path.namespaces:
         return {}
 
-    return {"nav_items": get_nav_items(request)}
+    return {"nav_items": get_nav_items(request), "additional_nav_items": []}
