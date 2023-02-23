@@ -131,7 +131,7 @@ class ParticipantChangeView(View):
                         )
                         answer.set_value(v)
                         answer.save()
-                    answers.append(answer)
+                        answers.append(answer)
 
         return participant
 
