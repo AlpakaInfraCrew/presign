@@ -8,57 +8,73 @@
 {% endblock %}
 
 {% block body %}
-    <div class="d-flex">
-        <nav class="sidenav d-flex flex-grow-0 flex-shrink-0 sticky-top flex-column p-3 text-bg-light">
-            <a href="{% url "control:index" %}"
-               class="d-flex justify-content-center text-bg-light text-decoration-none">
-                <span class="fs-4">Presign</span>
-            </a>
-            <ul class="nav nav-pills flex-column mt-4 mb-auto">
-                {% for nav_item in nav_items|add:additional_nav_items %}
-                    {% if nav_item.type == "link" %}
-                        <li class="nav-item">
-                            <a href="{{ nav_item.url }}"
-                               class="nav-link {% if nav_item.active %} active {% else %} text-bg-light {% endif %}"
-                               {% if nav_item.active %} aria-current="page"{% endif %}>
+    <div class="sidenav-expand-lg sidenav-container">
+        <nav class="sidenav sticky-top p-3 text-bg-light">
+            <div class="d-flex flex-row">
+                <a href="{% url "control:index" %}"
+                   class="d-flex justify-content-center text-bg-light text-decoration-none sidenav-brand">
+                    <span class="fs-4">Presign</span>
+                </a>
+                <button class="navbar-toggler"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#sidebarCollapse"
+                        aria-controls="sidebarCollapse"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+            <div class="collapse sidenav-collapse" id="sidebarCollapse">
+                <ul class="nav nav-pills flex-column mt-4 mb-auto">
+                    {% for nav_item in nav_items|add:additional_nav_items %}
+                        {% if nav_item.type == "link" %}
+                            <li class="nav-item">
+                                <a href="{{ nav_item.url }}"
+                                   class="nav-link {% if nav_item.active %} active {% else %} text-bg-light {% endif %}"
+                                   {% if nav_item.active %} aria-current="page"{% endif %}>
  
-                                <i class="me-2 bi-{{ nav_item.icon }}"></i>
-                                {{ nav_item.label }}
-                            </a>
-                        </li>
-                    {% elif nav_item.type == "seperator" %}
-                        <hr/>
-                    {% endif %}
-                {% endfor %}
-            </ul>
+                                    <i class="me-2 bi-{{ nav_item.icon }}"></i>
+                                    {{ nav_item.label }}
+                                </a>
+                            </li>
+                        {% elif nav_item.type == "seperator" %}
+                            <hr/>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+                <div class="flex-grow-1"></div>
 
-            <form action="{% url 'set_language' %}" method="post">
-                {% csrf_token %}
-                <div class="input-group input-group-sm">
-                    <label class="input-group-text" for="language">
-                        <span class="visually-hidden">Language</span><i class="bi bi-globe"></i>
-                    </label>
-                    <select name="language" class="form-select form-select-sm">
-                        {% get_current_language as LANGUAGE_CODE %}
-                        {% get_available_languages as LANGUAGES %}
-                        {% get_language_info_list for LANGUAGES as languages %}
-                        {% for language in languages %}
-                            <option value="{{ language.code }}"
-                                    {% if language.code == LANGUAGE_CODE %} selected{% endif %}>
-                                {{ language.name_local }}
-                            </option>
-                        {% endfor %}
-                    </select>
-                    <button type="submit" class="btn btn-sm btn-outline-secondary">{% trans "Save" %}</button>
-                </div>
-            </form>
-            <ul class="nav">
-                <li class="nav-item">
-                <a class="nav-link text-bg-light" href="{% url "logout" %}"><i class="me-2 bi-box-arrow-right"></i>
-            {% trans "Logout" %}</a>
-        </li>
-    </ul>
-</nav>
-<div class="d-flex flex-column p-2 flex-grow-1">{{ block.super }}</div>
-</div>
+                <form action="{% url 'set_language' %}" method="post">
+                    {% csrf_token %}
+                    <div class="input-group input-group-sm">
+                        <label class="input-group-text" for="language">
+                            <span class="visually-hidden">Language</span><i class="bi bi-globe"></i>
+                        </label>
+                        <select name="language" class="form-select form-select-sm">
+                            {% get_current_language as LANGUAGE_CODE %}
+                            {% get_available_languages as LANGUAGES %}
+                            {% get_language_info_list for LANGUAGES as languages %}
+                            {% for language in languages %}
+                                <option value="{{ language.code }}"
+                                        {% if language.code == LANGUAGE_CODE %} selected{% endif %}>
+                                    {{ language.name_local }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                        <button type="submit" class="btn btn-sm btn-outline-secondary">{% trans "Save" %}</button>
+                    </div>
+                </form>
+                <ul class="nav">
+                    <li class="nav-item">
+                        <a class="nav-link text-bg-light" href="{% url "logout" %}">
+                            <i class="me-2 bi-box-arrow-right"></i>
+                            {% trans "Logout" %}
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <div class="p-2 d-flex flex-grow-1">{{ block.super }}</div>
+    </div>
 {% endblock body %}

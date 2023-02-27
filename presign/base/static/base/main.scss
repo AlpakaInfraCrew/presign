@@ -1,13 +1,52 @@
 @import "../../../static/vendored/bootstrap/scss/bootstrap.scss";
 
-.sidenav {
-	min-width: 240px;
-	max-width: 240px;
-	height: 100vh;
-}
-
 .col-fit {
 	width: 1px;
+}
+
+.sidenav-container {
+	display: flex;
+	flex-direction: column;
+}
+
+.sidenav {
+	/* START: Taken from bootstraps _navbar.scss */
+	--#{$prefix}navbar-padding-x: #{if(
+			$navbar-padding-x == null,
+			0,
+			$navbar-padding-x
+		)};
+	--#{$prefix}navbar-padding-y: #{$navbar-padding-y};
+	--#{$prefix}navbar-color: #{$navbar-light-color};
+	--#{$prefix}navbar-hover-color: #{$navbar-light-hover-color};
+	--#{$prefix}navbar-disabled-color: #{$navbar-light-disabled-color};
+	--#{$prefix}navbar-active-color: #{$navbar-light-active-color};
+	--#{$prefix}navbar-brand-padding-y: #{$navbar-brand-padding-y};
+	--#{$prefix}navbar-brand-margin-end: #{$navbar-brand-margin-end};
+	--#{$prefix}navbar-brand-font-size: #{$navbar-brand-font-size};
+	--#{$prefix}navbar-brand-color: #{$navbar-light-brand-color};
+	--#{$prefix}navbar-brand-hover-color: #{$navbar-light-brand-hover-color};
+	--#{$prefix}navbar-nav-link-padding-x: #{$navbar-nav-link-padding-x};
+	--#{$prefix}navbar-toggler-padding-y: #{$navbar-toggler-padding-y};
+	--#{$prefix}navbar-toggler-padding-x: #{$navbar-toggler-padding-x};
+	--#{$prefix}navbar-toggler-font-size: #{$navbar-toggler-font-size};
+	--#{$prefix}navbar-toggler-icon-bg: #{escape-svg(
+			$navbar-light-toggler-icon-bg
+		)};
+	--#{$prefix}navbar-toggler-border-color: #{$navbar-light-toggler-border-color};
+	--#{$prefix}navbar-toggler-border-radius: #{$navbar-toggler-border-radius};
+	--#{$prefix}navbar-toggler-focus-width: #{$navbar-toggler-focus-width};
+	--#{$prefix}navbar-toggler-transition: #{$navbar-toggler-transition};
+	/* END: Taken from bootstraps _navbar.scss */
+
+	min-width: 100%;
+	height: 0%;
+	display: flex;
+	flex-direction: column;
+}
+
+.sidenav-brand {
+	margin-right: auto;
 }
 
 .tab-content {
@@ -18,4 +57,42 @@
 	border-top: none;
 
 	padding: $spacer;
+}
+
+@each $breakpoint in map-keys($grid-breakpoints) {
+	$next: breakpoint-next($breakpoint, $grid-breakpoints);
+	$infix: breakpoint-infix($next, $grid-breakpoints);
+	@include media-breakpoint-up($next) {
+		.sidenav-expand {
+			&#{$infix} {
+				.sidenav {
+					min-width: 240px;
+					max-width: 240px;
+					height: 100vh;
+					display: flex;
+					flex-direction: column;
+					flex-grow: 0;
+					flex-shrink: 0;
+				}
+				.navbar-toggler {
+					display: none;
+				}
+				.sidenav-collapse {
+					display: flex;
+					flex-basis: auto;
+					flex-direction: column;
+					flex: 1;
+				}
+				.sidenav-brand {
+					margin-left: auto;
+				}
+			}
+
+			&#{$infix}.sidenav-container {
+				display: flex;
+				flex-direction: row;
+				flex-grow: 1;
+			}
+		}
+	}
 }
