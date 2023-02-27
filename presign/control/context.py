@@ -108,6 +108,19 @@ def get_nav_items(request):
                 },
                 {
                     "type": "link",
+                    "label": _("Settings"),
+                    "url": reverse(
+                        "control:event-change",
+                        kwargs={
+                            "organizer": request.organizer.slug,
+                            "event": request.event.slug,
+                        },
+                    ),
+                    "active": (request.resolved_path.url_name == "event-change"),
+                    "icon": "gear",
+                },
+                {
+                    "type": "link",
                     "label": _("Participants"),
                     "url": reverse(
                         "control:participant-list",
