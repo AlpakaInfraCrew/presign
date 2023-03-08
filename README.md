@@ -32,7 +32,7 @@ to install the python dependencies
 
 ## License
 
-<!--Presign is published under a [TODO] license.-->
+Presign is published under an [AGPLv3 license](./LICENSE) with the following exception:
 
 The files `presign/base/static/Server_says_no.gif` and `presign/base/static/Server_says_no.png` are CC-BY-SA 4.0 lavalaempchen.
 
