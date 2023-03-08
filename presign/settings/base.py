@@ -2,26 +2,16 @@ from pathlib import Path
 
 from django.utils.translation import gettext_lazy as _
 
-from configurations import Configuration
+from configurations import Configuration, values
 
-
-def show_toolbar_to_superusers(request):
-    return request.user.is_superuser
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 
 class Base(Configuration):
-    # Build paths inside the project like this: BASE_DIR / 'subdir'.
-    BASE_DIR = Path(__file__).resolve().parent.parent
-
-    # Quick-start development settings - unsuitable for production
-    # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
-
-    DEBUG = False
-
-    ALLOWED_HOSTS = ["*"]
+    DEBUG = values.BooleanValue(default=False)
+    ALLOWED_HOSTS = values.ListValue(default=["*"])
 
     # Application definition
-
     INSTALLED_APPS = [
         "django.contrib.admin",
         "django.contrib.auth",
@@ -74,17 +64,6 @@ class Base(Configuration):
 
     WSGI_APPLICATION = "presign.wsgi.application"
 
-    # Database
-    # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
-
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.sqlite3",
-            "NAME": BASE_DIR / "db.sqlite3",
-            "ATOMIC_REQUESTS": True,
-        }
-    }
-
     # Password validation
     # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
@@ -126,7 +105,6 @@ class Base(Configuration):
     STATICFILES_FINDERS = (
         "django.contrib.staticfiles.finders.FileSystemFinder",
         "django.contrib.staticfiles.finders.AppDirectoriesFinder",
-        # other finders..
         "compressor.finders.CompressorFinder",
     )
 
@@ -166,47 +144,29 @@ class Base(Configuration):
 
     LOGOUT_REDIRECT_URL = "control:index"
 
-
-class Dev(Base):
-    # SECURITY WARNING: keep the secret key used in production secret!
-    SECRET_KEY = "django-insecure-*@rchc%vvw5#!((4s1x1=rzh0_myd0_=^=dnzpw^(!3cy#y#3l"
-    # SECURITY WARNING: don't run with debug turned on in production!
-    DEBUG = True
-
-    EMAIL_BACKEND = "eml_email_backend.EmailBackend"
-    EMAIL_FILE_PATH = Base.BASE_DIR / "sent_email/"
-
-    MEDIA_ROOT = Base.BASE_DIR / "storage"
-    MEDIA_URL = "/media/"
-
-    if DEBUG:
-        # Add debug toolbar
-        INSTALLED_APPS = Base.INSTALLED_APPS + [
-            "debug_toolbar",
-        ]
-        MIDDLEWARE = Base.MIDDLEWARE.copy()
-
-        MIDDLEWARE.insert(
-            MIDDLEWARE.index("django.contrib.auth.middleware.AuthenticationMiddleware")
-            + 1,
-            "debug_toolbar.middleware.DebugToolbarMiddleware",
-        )
-
-        DEBUG_TOOLBAR_CONFIG = {
-            "SHOW_TOOLBAR_CALLBACK": "presign.settings.show_toolbar_to_superusers",
-        }
-
-        # Add livereload
-        MIDDLEWARE += ("livereload.middleware.LiveReloadScript",)
-
-
-class Test(Base):
-    SECRET_KEY = "test"
-
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.sqlite3",
-            "NAME": ":memory:",
-            "ATOMIC_REQUESTS": True,
-        }
+    LOGGING = {
+        "version": 1,
+        "disable_existing_loggers": False,
+        "formatters": {
+            "verbose": {
+                "format": "{name} {levelname} {asctime} {module} {process:d} {thread:d} {message}",
+                "style": "{",
+            },
+        },
+        "handlers": {
+            "console": {"class": "logging.StreamHandler", "level": "DEBUG"},
+        },
+        "loggers": {
+            "": {
+                "handlers": ["console"],
+                "level": "DEBUG",
+                "formatter": "verbose",
+            },
+        },
+        "root": {"handlers": ["console"], "level": "DEBUG"},
     }
+
+    SELF_SERVE_STATIC = True
+    STATIC_URL = "/static/"
+
+    DATABASES = values.DatabaseURLValue()
