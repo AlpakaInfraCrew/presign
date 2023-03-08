@@ -1,5 +1,25 @@
 {% extends "base.html" %}
 
-{% block content %}
-    <h1>404 Page not found</h1>
-{% endblock content %}
+{% load static %}
+{% block body %}
+    <div style="height: 100vh;
+                display: flex;
+                justify-content: center;
+                align-items: center">
+        <div class="text-center">
+            <h1>Page Not Found</h1>
+            <img id="error_gif"
+                 src="{% static "base/Server_says_no.png" %}"
+                 alt="An alpaca stomping against a server rack"/>
+        </div>
+    </div>
+    <script>
+        const gif_elem = document.getElementById("error_gif");
+        gif_elem.addEventListener('mouseover', () => {
+            gif_elem.src = "{% static "base/Server_says_no.gif" %}"
+        });
+        gif_elem.addEventListener('mouseout', () => {
+            gif_elem.src = "{% static "base/Server_says_no.png" %}"
+        });
+    </script>
+{% endblock body %}

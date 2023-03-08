@@ -1,7 +1,27 @@
 {% extends "base.html" %}
 
+{% load static %}
 {% block body %}
-    <h1>Internal Server Error</h1>
+    <div style="height: 100vh;
+                display: flex;
+                justify-content: center;
+                align-items: center">
+        <div class="text-center">
+            <h1>Internal Server Error</h1>
  
-    OOPSIE WOOPSIE!! Uwu We made a fucky wucky!! A wittle fucko boingo! The code monkeys at our headquarters are working VEWY HAWD to fix this!
+            OOPSIE WOOPSIE!! Uwu We made a fucky wucky!! A wittle fucko boingo! The code monkeys at our headquarters are working VEWY HAWD to fix this!
+            <img id="error_gif"
+                 src="{% static "base/Server_says_no.png" %}"
+                 alt="An alpaca stomping against a server rack"/>
+        </div>
+    </div>
+    <script>
+        const gif_elem = document.getElementById("error_gif");
+        gif_elem.addEventListener('mouseover', () => {
+            gif_elem.src = "{% static "base/Server_says_no.gif" %}"
+        });
+        gif_elem.addEventListener('mouseout', () => {
+            gif_elem.src = "{% static "base/Server_says_no.png" %}"
+        });
+    </script>
 {% endblock body %}
