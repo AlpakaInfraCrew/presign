@@ -2,6 +2,7 @@ import datetime
 
 from django import forms
 from django.db import models
+from django.utils.timezone import make_aware
 
 from i18nfield import fields as i18n_fields
 
@@ -22,6 +23,8 @@ class DateTimeLocalFormField(forms.DateTimeField):
         if value in self.empty_values:
             return None
         value = datetime.datetime.fromisoformat(value)
+        if value.tzinfo is None:
+            value = make_aware(value)
         return value
 
 
