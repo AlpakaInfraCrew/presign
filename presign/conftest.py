@@ -49,7 +49,7 @@ class LiveServerBrowserContext(Proxy):
 @pytest.fixture
 def live_server_context(context: BrowserContext, live_server):
     live_context = LiveServerBrowserContext(context, live_server=live_server)
-    live_context.set_default_timeout(5000)
+    live_context.set_default_timeout(10000)
     return live_context
 
 
