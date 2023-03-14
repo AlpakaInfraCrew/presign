@@ -10,6 +10,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 class Base(Configuration):
     DEBUG = values.BooleanValue(default=False)
     ALLOWED_HOSTS = values.ListValue(default=["*"])
+    CSRF_TRUSTED_ORIGINS = values.ListValue(default=[])
 
     # Application definition
     INSTALLED_APPS = [
