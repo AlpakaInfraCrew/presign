@@ -1,0 +1,14 @@
+[Unit]
+Description=presign
+After=docker.service
+Requires=docker.service
+
+[Service]
+TimeoutStartSec=0
+ExecStartPre=-/usr/bin/docker kill %n
+ExecStartPre=-/usr/bin/docker rm %n
+ExecStart=/usr/bin/docker run --name %n -p 8002:8000 --env-file <presign directory>/docker_env --mount type=bind,source=<presign directory>/data_volume,target=/app/data ghcr.io/alpakainfracrew/presign:main
+ExecStop=/usr/bin/docker stop %n
+
+[Install]
+WantedBy=multi-user.target
