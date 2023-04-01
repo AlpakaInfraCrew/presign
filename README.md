@@ -4,10 +4,18 @@
 
 ## Installation (Docker)
 
+
+### Manual Build
 We provide a dockerfile for easy setup. To build it, run
 
 ```shell
 docker build -f image/Dockerfile -t presign:latest .
+```
+
+### Pull from GitHub
+
+```shell
+docker pull ghcr.io/alpakainfracrew/presign:main
 ```
 
 Now copy `docker_env.example` to `docker_env` and change the settings.
@@ -19,6 +27,21 @@ docker run -it -p 8002:8000 --env-file docker_env --mount type=bind,source="$(pw
 ```
 
 Now access `http://localhost:8002/control` with the superuser credentials specifies in `docker_env`
+
+### SystemD Unit
+The file `pretix.service` can be moved to `/etc/systemd/system/` to start/stop the presign service via systemd.
+**Please change the `<presign directory>` part to your presign location in the systemd file!**
+
+To activate the SystemD Unit run the following commands after placing the file into `/etc/systemd/system/`:
+
+```shell
+systemctl daemon-reload
+systemctl enable presign.service
+systemctl start presign.service
+```
+
+
+
 
 ## Installation (Manual)
 
