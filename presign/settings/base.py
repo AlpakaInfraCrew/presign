@@ -113,7 +113,7 @@ class Base(Configuration):
 
     COMPRESS_PRECOMPILERS = (
         ("text/x-scss", "django_libsass.SassCompiler"),
-        ("text/typescript", "tsc --target ES2016 --out {outfile} {infile}"),
+        ("text/typescript", "tsc --target ES2016 --outFile {outfile} {infile}"),
     )
     # Default primary key field type
     # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
