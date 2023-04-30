@@ -110,6 +110,11 @@ user_urlpatterns = [
 
 urlpatterns = [
     path("", views.index, name="index"),
+    path(
+        "change-password/",
+        views.user.PasswordChangeView.as_view(),
+        name="change-password",
+    ),
     path("my/", include(user_urlpatterns)),
     path(
         "new-organizer/",
