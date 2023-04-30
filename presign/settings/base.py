@@ -170,4 +170,12 @@ class Base(Configuration):
     SELF_SERVE_STATIC = True
     STATIC_URL = "/static/"
 
+    MEDIA_ROOT = BASE_DIR / "storage"
+    MEDIA_URL = "/media/"
+
     DATABASES = values.DatabaseURLValue()
+
+    # Signature salt to be used for signing media urls
+    PRESIGN_MEDIA_SIGNATURE_SALT = values.Value(default="transcribee.media")
+    # Valid time of signed urls, default: 60 min
+    PRESIGN_MEDIA_SIGNATURE_MAX_AGE_SECONDS = values.Value(default=60 * 60)

@@ -25,9 +25,6 @@ class Dev(Base):
     EMAIL_BACKEND = "eml_email_backend.EmailBackend"
     EMAIL_FILE_PATH = BASE_DIR / "sent_email/"
 
-    MEDIA_ROOT = BASE_DIR / "storage"
-    MEDIA_URL = "/media/"
-
     if DEBUG:
         # Add debug toolbar
         INSTALLED_APPS = Base.INSTALLED_APPS + [
