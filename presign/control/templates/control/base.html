@@ -32,14 +32,14 @@
                             <li class="nav-item">
                                 <a href="{{ nav_item.url }}"
                                    class="nav-link {% if nav_item.active %} active {% else %} text-bg-light {% endif %}"
-                                   {% if nav_item.active %} aria-current="page"{% endif %}>
+                                   {% if nav_item.active %}aria-current="page"{% endif %}>
  
                                     <i class="me-2 bi-{{ nav_item.icon }}"></i>
                                     {{ nav_item.label }}
                                 </a>
                             </li>
                         {% elif nav_item.type == "seperator" %}
-                            <hr/>
+                            <hr />
                         {% endif %}
                     {% endfor %}
                 </ul>
@@ -57,7 +57,7 @@
                             {% get_language_info_list for LANGUAGES as languages %}
                             {% for language in languages %}
                                 <option value="{{ language.code }}"
-                                        {% if language.code == LANGUAGE_CODE %} selected{% endif %}>
+                                        {% if language.code == LANGUAGE_CODE %}selected{% endif %}>
                                     {{ language.name_local }}
                                 </option>
                             {% endfor %}
@@ -66,11 +66,31 @@
                     </div>
                 </form>
                 <ul class="nav">
-                    <li class="nav-item">
-                        <a class="nav-link text-bg-light" href="{% url "logout" %}">
-                            <i class="me-2 bi-box-arrow-right"></i>
-                            {% trans "Logout" %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link text-bg-light dropdown-toggle"
+                           data-bs-toggle="dropdown"
+                           href="#"
+                           role="button"
+                           aria-expanded="false">
+                            <i class="me-2 bi-person"></i>
+                            {% firstof user.get_full_name user.get_username %}
+
                         </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="dropdown-item " href="{% url "control:change-password" %}">
+                                    <i class="me-2 bi-asterisk"></i>
+                                    {% trans "Change Password" %}
+                                </a>
+                            </li>
+                            <li class="dropdown-divider" />
+                            <li>
+                                <a class="dropdown-item" href="{% url "logout" %}">
+                                    <i class="me-2 bi-box-arrow-right"></i>
+                                    {% trans "Logout" %}
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                 </ul>
             </div>
