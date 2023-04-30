@@ -22,6 +22,7 @@ from simple_history.models import HistoricalRecords
 
 from .exceptions import ParticipantStateChangeException
 from .fields import DateTimeLocalModelField, I18nCharField, I18nTextField
+from .utils import sign_url
 
 email_hierarkey = Hierarkey(attribute_name="email_texts")
 
@@ -587,3 +588,10 @@ class QuestionAnswer(models.Model):
             )
         else:
             return self.get_value()
+
+    def file_media_url(self, request=None):
+        url = sign_url(self.file.url, salt=settings.PRESIGN_MEDIA_SIGNATURE_SALT)
+        if request is not None:
+            return request.build_absolute_uri(url)
+        else:
+            return url
