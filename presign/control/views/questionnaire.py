@@ -25,6 +25,27 @@ from ..forms import (
 )
 
 
+class QuestionnaireNavContextMixin:
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.setdefault("additional_nav_items", [])
+        context["additional_nav_items"] += [
+            {"type": "seperator"},
+            {
+                "type": "link",
+                "label": self.questionnaire.name,
+                "url": reverse(
+                    "control:questionnaire",
+                    kwargs={"questionnaire": self.questionnaire.pk},
+                ),
+                "active": True,
+                "icon": "people",
+            },
+        ]
+
+        return context
+
+
 class MyQuestionnairesListView(ListView):
     model = Questionnaire
     template_name = "control/questionnaire/my_list.html"
@@ -50,7 +71,7 @@ class QuestionnaireListView(ListView):
         )
 
 
-class QuestionnaireDetailView(DetailView):
+class QuestionnaireDetailView(QuestionnaireNavContextMixin, DetailView):
     model = Questionnaire
     template_name = "control/questionnaire/detail.html"
     pk_url_kwarg = "questionnaire"
@@ -74,12 +95,16 @@ class QuestionnaireDetailView(DetailView):
         if user_is_orga_member:
             context["additional_nav_items"] = get_organizer_nav_items(
                 request=self.request, organizer=self.object.organizer
-            )
+            ) + context.get("additional_nav_items", [])
 
         return context
 
+    @property
+    def questionnaire(self, *args, **kwargs):
+        return self.object
 
-class QuestionBlockUpdateView(UpdateView):
+
+class QuestionBlockUpdateView(QuestionnaireNavContextMixin, UpdateView):
     model = QuestionBlock
     template_name = "control/questionnaire/update_block.html"
     fields = ["name", "order"]
@@ -131,6 +156,10 @@ class QuestionBlockUpdateView(UpdateView):
             },
         )
 
+    @property
+    def questionnaire(self, *args, **kwargs):
+        return self.object.questionnaire
+
     @transaction.atomic
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
@@ -163,7 +192,7 @@ class QuestionnaireCreateView(CreateView):
         return kwargs
 
 
-class QuestionnaireUpdateView(UpdateView):
+class QuestionnaireUpdateView(QuestionnaireNavContextMixin, UpdateView):
     model = Questionnaire
     form_class = QuestionnaireForm
     template_name = "control/questionnaire/update.html"
@@ -186,8 +215,12 @@ class QuestionnaireUpdateView(UpdateView):
         kwargs["organizer"] = self.request.organizer
         return kwargs
 
+    @property
+    def questionnaire(self, *args, **kwargs):
+        return self.object
 
-class QuestionBlockCreateView(CreateView):
+
+class QuestionBlockCreateView(QuestionnaireNavContextMixin, CreateView):
     model = QuestionBlock
     form_class = QuestionBlockForm
     template_name = "control/questionnaire/create_block.html"
@@ -223,8 +256,12 @@ class QuestionBlockCreateView(CreateView):
             kwargs["initial"]["order"] = 1
         return kwargs
 
+    @property
+    def questionnaire(self, *args, **kwargs):
+        return self.get_questionnaire()
 
-class QuestionBlockDeleteView(DetailView):
+
+class QuestionBlockDeleteView(QuestionnaireNavContextMixin, DetailView):
     model = QuestionBlock
     pk_url_kwarg = "block"
 
@@ -265,8 +302,12 @@ class QuestionBlockDeleteView(DetailView):
             },
         )
 
+    @property
+    def questionnaire(self, *args, **kwargs):
+        return self.get_questionnaire()
 
-class QuestionnaireCloneView(FormView):
+
+class QuestionnaireCloneView(QuestionnaireNavContextMixin, FormView):
     model = Questionnaire
     form_class = QuestionnaireCloneForm
     template_name = "control/questionnaire/clone.html"
@@ -296,8 +337,12 @@ class QuestionnaireCloneView(FormView):
         kwargs["initial"]["name"] = self.get_object().name
         return kwargs
 
+    @property
+    def questionnaire(self, *args, **kwargs):
+        return self.get_object()
 
-class QuestionUpdateView(UpdateView):
+
+class QuestionUpdateView(QuestionnaireNavContextMixin, UpdateView):
     model = Question
     form_class = QuestionForm
     template_name = "control/questionnaire/question_update.html"
@@ -347,3 +392,7 @@ class QuestionUpdateView(UpdateView):
             return self.form_valid(form)
         else:
             return self.form_invalid(form)
+
+    @property
+    def questionnaire(self, *args, **kwargs):
+        return self.object.block.questionnaire
