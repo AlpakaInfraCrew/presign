@@ -7,9 +7,9 @@
     <div class="clearfix">
         <h1 class="float-start">{% blocktrans with name=object.name %}Questionnaire "{{name}}"{% endblocktrans %}</h1>
         <div class="btn-group float-end " role="group">
-            <a href="{% url "control:questionnaire-change" organizer=object.organizer.slug questionnaire=object.pk %}"
-               class="btn btn-primary">{% trans "Edit Questionnaire" %}</a>
             {% if can_update %}
+                <a href="{% url "control:questionnaire-change" organizer=object.organizer.slug questionnaire=object.pk %}"
+                   class="btn btn-primary">{% trans "Edit Questionnaire" %}</a>
                 <a href="{% url "control:questionblock-create" organizer=object.organizer.slug questionnaire=object.pk %}"
                    class="btn btn-secondary">{% trans "Add Block" %}</a>
             {% else %}
@@ -41,10 +41,10 @@
                     <div class="card-body">
                         <table class="table">
                             <colgroup>
-                                <col class="col-fit"/>
-                                <col/>
-                                <col/>
-                                <col class="col-fit"/>
+                                <col class="col-fit" />
+                                <col />
+                                <col />
+                                <col class="col-fit" />
                             </colgroup>
                             <thead>
                                 <tr>
