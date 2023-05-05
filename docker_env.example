@@ -2,3 +2,4 @@ DJANGO_SECRET_KEY= # SET ME!
 DATABASE_URL=sqlite:///data/db.sqlite
 PRESIGN_SUPERUSER_NAME=admin
 PRESIGN_SUPERUSER_PASS=admin
+DJANGO_MEDIA_ROOT=/app/data/storage
