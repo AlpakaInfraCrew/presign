@@ -170,7 +170,7 @@ class Base(Configuration):
     SELF_SERVE_STATIC = True
     STATIC_URL = "/static/"
 
-    MEDIA_ROOT = BASE_DIR / "storage"
+    MEDIA_ROOT = values.Value(BASE_DIR / "storage")
     MEDIA_URL = "/media/"
 
     DATABASES = values.DatabaseURLValue()
