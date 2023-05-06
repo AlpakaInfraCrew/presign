@@ -4,19 +4,15 @@
 {% load compress %}
 {% get_current_language as LANGUAGE_CODE %}
 
-<!doctype html>
+<!DOCTYPE html>
 <html lang="{{ LANGUAGE_CODE }}">
     <head>
         <title>PreSign</title>
  
         {% block head_css %}
             {% compress css %}
-                <link type="text/x-scss"
-                      rel="stylesheet"
-                      href="{% static "base/main.scss" %}"/>
-                <link type="text/css"
-                      rel="stylesheet"
-                      href="{% static "vendored/bootstrap-icons/bootstrap-icons.css" %}"/>
+                <link type="text/x-scss" rel="stylesheet" href="{% static "base/main.scss" %}" />
+                <link type="text/css" rel="stylesheet" href="{% static "vendored/bootstrap-icons/bootstrap-icons.css" %}" />
                 {% block additional_css %}{% endblock %}
             {% endcompress %}
         {% endblock %}

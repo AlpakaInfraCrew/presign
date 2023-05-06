@@ -9,10 +9,10 @@
 
 {% block body %}
     <div class="sidenav-expand-lg sidenav-container">
-        <nav class="sidenav sticky-top p-3 text-bg-light">
+        <nav class="sidenav sticky-top p-3">
             <div class="d-flex flex-row">
                 <a href="{% url "control:index" %}"
-                   class="d-flex justify-content-center text-bg-light text-decoration-none sidenav-brand">
+                   class="d-flex justify-content-center text-decoration-none sidenav-brand">
                     <span class="fs-4">Presign</span>
                 </a>
                 <button class="navbar-toggler"
@@ -31,7 +31,7 @@
                         {% if nav_item.type == "link" %}
                             <li class="nav-item">
                                 <a href="{{ nav_item.url }}"
-                                   class="nav-link {% if nav_item.active %} active {% else %} text-bg-light {% endif %}"
+                                   class="nav-link {% if nav_item.active %}active{% endif %}"
                                    {% if nav_item.active %}aria-current="page"{% endif %}>
  
                                     <i class="me-2 bi-{{ nav_item.icon }}"></i>
@@ -67,7 +67,7 @@
                 </form>
                 <ul class="nav">
                     <li class="nav-item dropdown">
-                        <a class="nav-link text-bg-light dropdown-toggle"
+                        <a class="nav-link dropdown-toggle"
                            data-bs-toggle="dropdown"
                            href="#"
                            role="button"
