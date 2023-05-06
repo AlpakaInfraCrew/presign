@@ -1,19 +1,27 @@
+import csv
+import io
 from typing import Any, Dict, Optional
 
 from django.contrib import messages
 from django.db.models import QuerySet
+from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import View
 from django.views.generic.detail import DetailView, SingleObjectTemplateResponseMixin
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, FormView
 from django.views.generic.list import ListView
 
 from django_scopes import scope
 
-from presign.base.models import Event, ParticipantStateActions, ParticipantStates
+from presign.base.models import (
+    Event,
+    ParticipantStateActions,
+    ParticipantStates,
+    QuestionAnswer,
+)
 
 from ..constants import STATE_SETTINGS
 from ..forms import (
@@ -21,6 +29,7 @@ from ..forms import (
     ChangeEventForm,
     ChangeEventStatusTextsForm,
     CreateEventForm,
+    ExportForm,
 )
 
 
@@ -253,3 +262,61 @@ class EventDisableView(EventConfirmActionView):
         return {
             "question": _("Are you sure that you want to disable this event?"),
         }
+
+
+class EventExportView(FormView):
+    model = Event
+    template_name = "control/event/export.html"
+
+    def get_object(self, *args):
+        return self.request.event
+
+    def get_form_kwargs(self):
+        kwargs = {}
+
+        if self.request.method == "POST":
+            kwargs.update(
+                {
+                    "data": self.request.POST,
+                    "files": self.request.FILES,
+                }
+            )
+
+        return kwargs
+
+    def get_form(self) -> ExportForm:
+        return ExportForm(event=self.get_object(), **self.get_form_kwargs())
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["state_settings"] = STATE_SETTINGS
+        context["event"] = self.get_object()
+        context["form"] = self.get_form()
+        return context
+
+    def form_valid(self, form):
+        vfile = io.StringIO()
+        fieldnames = [str(form.id_map[x]) for x in form.cleaned_data["fields"]]
+        writer = csv.DictWriter(vfile, fieldnames=fieldnames)
+        writer.writeheader()
+        for participant in self.get_object().participant_set.all():
+            row = {}
+            for fieldname, field in zip(fieldnames, form.cleaned_data["fields"]):
+                if field == "__email":
+                    row[fieldname] = participant.email
+                elif field == "__id":
+                    row[fieldname] = participant.pk
+                else:
+                    try:
+                        answer = QuestionAnswer.objects.get(
+                            participant=participant, question=field
+                        )
+                        row[fieldname] = str(answer.get_value())
+                    except QuestionAnswer.DoesNotExist:
+                        row[fieldname] = ""
+            writer.writerow(row)
+        csv_text = vfile.getvalue()
+        response = HttpResponse(csv_text.encode())
+        response["Content-Type"] = "text/plain"
+        response["Content-Disposition"] = "attachment; filename=export.csv"
+        return response

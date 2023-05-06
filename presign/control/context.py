@@ -132,6 +132,19 @@ def get_nav_items(request):
                     "active": (request.resolved_path.url_name == "participant-list"),
                     "icon": "person",
                 },
+                {
+                    "type": "link",
+                    "label": _("Export"),
+                    "url": reverse(
+                        "control:event-export",
+                        kwargs={
+                            "organizer": request.organizer.slug,
+                            "event": request.event.slug,
+                        },
+                    ),
+                    "active": (request.resolved_path.url_name == "event-export"),
+                    "icon": "download",
+                },
             ]
         )
 
