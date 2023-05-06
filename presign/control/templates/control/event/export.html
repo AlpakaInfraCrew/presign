@@ -1,0 +1,27 @@
+{% extends "control/base.html" %}
+{% load django_bootstrap5 %}
+{% load control_helpers %}
+{% load i18n %}
+{% load static %}
+
+{% block ts %}
+    {{ block.super }}
+    <script type="text/typescript" src="{% static "control/export.ts" %}"></script>
+{% endblock %}
+
+{% block content %}
+    <h1>{% blocktrans with event_name=event.name %}Export "{{event_name}}"{% endblocktrans %}</h1>
+    <form method="post">
+        <div class="btn-group btn-group-sm float-end" role="group">
+            <button type="button"
+                    class="btn btn-outline-secondary "
+                    id="select_all_fields">{% translate "Select All Fields" %}</button>
+            <button type="button"
+                    class="btn btn-outline-secondary"
+                    id="deselect_all_fields">{% translate "Deselect All Fields" %}</button>
+        </div>
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        <button class="btn btn-primary btn-lg float-end" type="submit">{% trans "Export" %}</button>
+    </form>
+{% endblock content %}

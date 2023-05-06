@@ -24,6 +24,11 @@ event_urlpatterns = [
         views.participant.ParticipantListView.as_view(),
         name="participant-list",
     ),
+    path(
+        "export/",
+        views.event.EventExportView.as_view(),
+        name="event-export",
+    ),
     path("participant/<str:code>/", include(participant_url_patterns)),
 ]
 questionnaire_urlpatterns = [

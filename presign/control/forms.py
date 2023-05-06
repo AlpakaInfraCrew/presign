@@ -358,3 +358,32 @@ class ChangeEventEmailTextsForm(forms.Form):
                     self[f"email_text_body_{action}"],
                 ],
             )
+
+
+class ExportForm(forms.Form):
+    fields = forms.MultipleChoiceField(
+        widget=forms.CheckboxSelectMultiple(), label=_("Fields")
+    )
+
+    def __init__(
+        self,
+        *args,
+        event: Event,
+        **kwargs,
+    ):
+
+        super().__init__(*args, **kwargs)
+
+        choices = [
+            ["Participant Information", [["__id", _("Id")], ["__email", _("Email")]]]
+        ]
+        self.id_map = {"__id": _("Id"), "__email": _("Email")}
+        for questionnaire in event.questionnaires.all():
+            for block in QuestionBlock.objects.filter(questionnaire=questionnaire):
+                block_choices = []
+                for question in block.question_set.all():
+                    block_choices.append((question.pk, question.name))
+                    self.id_map[str(question.pk)] = question.name
+                choices.append((block.name, block_choices))
+
+        self.fields["fields"].choices = choices
