@@ -1,4 +1,8 @@
 window.addEventListener("load", () => {
+	setupFormsAutoSlugify();
+});
+
+function setupFormsAutoSlugify() {
 	(
 		document.querySelectorAll(
 			"[data-auto-slugify-from]"
@@ -36,8 +40,7 @@ window.addEventListener("load", () => {
 		};
 		sourceElems.forEach((e) => e.addEventListener("input", onInput));
 	});
-});
-
+}
 function slugify(text: string) {
 	return text
 		.normalize("NFD")
