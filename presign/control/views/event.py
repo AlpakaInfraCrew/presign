@@ -116,8 +116,12 @@ class EventUpdateView(SingleObjectTemplateResponseMixin, View):
         return kwargs
 
     def get_texts_form(self):
+        initial = {}
+        for state in ParticipantStates:
+            initial[f"text_{state}"] = self.object.get_status_text(state)
+
         return ChangeEventStatusTextsForm(
-            initial={f"text_{k}": v for k, v in self.object.status_texts.items()},
+            initial=initial,
             **self.get_form_kwargs(),
         )
 
@@ -177,12 +181,14 @@ class EventUpdateView(SingleObjectTemplateResponseMixin, View):
 
     def forms_valid(self, forms):
         self.object = forms["general_form"].save()
-        self.object.status_texts = {}
         text_data = forms["texts_form"].cleaned_data
         for state in ParticipantStates:
             field_name = f"text_{state}"
-            if field_name in text_data:
-                self.object.status_texts[state] = text_data[field_name].data
+            if (
+                field_name in text_data
+                and self.object.get_status_text(state) != text_data[field_name].data
+            ):
+                self.object.status_texts.set(state, text_data[field_name].data)
 
         email_text_data = forms["email_texts_form"].cleaned_data
         for action in ParticipantStateActions:
@@ -191,9 +197,9 @@ class EventUpdateView(SingleObjectTemplateResponseMixin, View):
             subject = email_text_data.get(subject_name)
             body = email_text_data.get(body_name)
             if subject or body:
-                self.object.email_texts.set(
-                    action, {"subject": subject.data, "body": body.data}
-                )
+                data = {"subject": subject.data, "body": body.data}
+                if self.object.get_action_email_texts(action) != data:
+                    self.object.email_texts.set(action, data)
 
         self.object.save()
         return redirect(self.get_success_url())

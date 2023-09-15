@@ -15,7 +15,7 @@ from django.utils.crypto import get_random_string
 from django.utils.translation import gettext_lazy as _
 
 from django_scopes import ScopedManager, scope
-from hierarkey.models import Hierarkey
+from hierarkey.models import GlobalSettingsBase, Hierarkey
 from i18nfield.strings import LazyI18nString
 from model_clone.models import CloneModel
 from simple_history.models import HistoricalRecords
@@ -25,6 +25,13 @@ from .fields import DateTimeLocalModelField, I18nCharField, I18nTextField
 from .utils import sign_url
 
 email_hierarkey = Hierarkey(attribute_name="email_texts")
+status_hierarkey = Hierarkey(attribute_name="status_texts")
+
+
+@email_hierarkey.set_global()
+@status_hierarkey.set_global()
+class GlobalSettings(GlobalSettingsBase):
+    pass
 
 
 class User(AbstractUser):
@@ -54,6 +61,8 @@ class User(AbstractUser):
         return Questionnaire.objects.filter(organizer__in=self.get_organizers())
 
 
+@email_hierarkey.add()
+@status_hierarkey.add()
 class Organizer(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     history = HistoricalRecords()
@@ -73,7 +82,8 @@ class Organizer(models.Model):
         return str(self.name)
 
 
-@email_hierarkey.add()
+@email_hierarkey.add(parent_field="organizer")
+@status_hierarkey.add(parent_field="organizer")
 class Event(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     history = HistoricalRecords()
@@ -94,8 +104,6 @@ class Event(models.Model):
     )
     signup_end = DateTimeLocalModelField(null=True, blank=True)
     lock_date = DateTimeLocalModelField(null=True, blank=True)
-
-    status_texts = models.JSONField(default=dict)
 
     questionnaires = models.ManyToManyField(
         "Questionnaire", related_name="events", through="EventQuestionnaire"
@@ -190,6 +198,10 @@ class Event(models.Model):
             "subject": LazyI18nString(action_texts.get("subject", {})),
             "body": LazyI18nString(action_texts.get("body", {})),
         }
+
+    def get_status_text(self, status: "ParticipantStates"):
+        status_text = self.status_texts.get(status, as_type=dict, default="{}")
+        return LazyI18nString(status_text)
 
 
 class QuestionnaireRole(models.IntegerChoices):

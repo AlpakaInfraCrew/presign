@@ -11,7 +11,6 @@ from django.views import View
 from django.views.generic.detail import DetailView
 
 from django_scopes import scope
-from i18nfield.strings import LazyI18nString
 
 from presign.base.models import (
     Participant,
@@ -282,9 +281,7 @@ class ParticipantDetailView(DetailView):
         )
 
     def get_status_text(self, participant: Participant):
-        return str(
-            LazyI18nString(participant.event.status_texts.get(participant.state, {}))
-        )
+        return str(participant.event.get_status_text(participant.state))
 
     def get_status_color(self, participant: Participant):
         if participant.state in self.NEUTRAL_STATES:
