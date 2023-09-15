@@ -2,6 +2,11 @@
 
 {% load i18n %}
 
+{% block title %}
+    PreSign
+    {% if request.event %}| {{ request.event }}{% endif %}
+{% endblock %}
+
 {% block above_content %}
     <header class="clearfix">
  
@@ -24,7 +29,7 @@
                         {% get_language_info_list for LANGUAGES as languages %}
                         {% for language in languages %}
                             <option value="{{ language.code }}"
-                                    {% if language.code == LANGUAGE_CODE %} selected{% endif %}>
+                                    {% if language.code == LANGUAGE_CODE %}selected{% endif %}>
                                 {{ language.name_local }}
                             </option>
                         {% endfor %}
