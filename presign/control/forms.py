@@ -29,6 +29,11 @@ from .constants import STATE_CHANGE_STRINGS
 
 
 class ParticipantInternalForm(forms.ModelForm):
+    def __init__(self, *args, is_superuser, **kwargs):
+        super().__init__(*args, **kwargs)
+        if not is_superuser:
+            del self.fields["state"]
+
     class Meta:
         model = Participant
         fields = ["internal_comment", "public_comment", "state"]
@@ -371,7 +376,6 @@ class ExportForm(forms.Form):
         event: Event,
         **kwargs,
     ):
-
         super().__init__(*args, **kwargs)
 
         choices = [
