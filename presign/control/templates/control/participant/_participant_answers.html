@@ -1,13 +1,12 @@
 {% load i18n %}
+{% load presign_tags %}
 
 <section class="card mb-3">
     <div class="card-header">{% trans "Contact Information" %}</div>
     <div class="card-body">
         <dl>
  
-            <dt>
-                {% trans "Email" %}
-            </dt>
+            <dt>{% trans "Email" %}</dt>
             <dd>
                 {{ participant.email }}
             </dd>
@@ -16,22 +15,33 @@
     </div>
 </section>
 
-{% regroup answers by question.block as question_blocks %}
-{% for block in question_blocks %}
-    <section class="card mb-3">
-        <div class="card-header">{{ block.grouper.name }}</div>
-        <div class="card-body">
-            <dl>
-                {% for answer in block.list %}
-                    <dt>
-                        {{ answer.question.name }}
-                    </dt>
-                    <dd>
-                        {{ answer.render_answer }}
-                    </dd>
-                {% endfor %}
-            </dl>
+{% for block in blocks %}
+    <div class="col mb-3 d-flex align-items-stretch">
+        <section class="card w-100">
+            <div class="card-header clearfix">
+                <div class="float-start">{{ block.name }}</div>
+                {% if can_update %}
+                    <div class="float-end">
+                        <a href="{% url "signup:participant-update" organizer=participant.event.organizer.slug event=participant.event.slug code=participant.code secret=participant.secret %}"><i class="me-2 bi-pencil-square"></i>{% trans "Edit answers" %}</a>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="card-body">
+                <dl>
+                    {% for question in block.question_set.all %}
+                        <dt>{{ question.name }}</dt>
+                        <dd>
+                            {% if question in answer_by_question %}
+                                {% get_item answer_by_question question as answer %}
+                                {{ answer.render_answer }}
+                            {% else %}
+                                <em class="text-danger">{% trans "Not Answered" %}</em>
+                            {% endif %}
+                        </dd>
+                    {% endfor %}
+                </dl>
 
-        </div>
-    </section>
+            </div>
+        </section>
+    </div>
 {% endfor %}

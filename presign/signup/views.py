@@ -13,6 +13,7 @@ from django.views.generic.detail import DetailView
 from django_scopes import scope
 from i18nfield.strings import LazyI18nString
 
+from presign.base.constants import CAN_CHANGE_Q1_AND_Q2_STATES, CAN_CHANGE_Q1_STATES
 from presign.base.models import (
     Participant,
     ParticipantStateActions,
@@ -24,17 +25,6 @@ from presign.base.models import (
 
 from .forms import ParticipantForm, QuestionBlockForm
 
-CAN_CHANGE_Q1_STATES = [
-    ParticipantStates.NEW,
-    ParticipantStates.Q1_CHANGES_REQUESTED,
-]
-CAN_CHANGE_Q1_AND_Q2_STATES = [
-    ParticipantStates.APPROVED,
-    ParticipantStates.NEEDS_REVIEW,
-    ParticipantStates.Q2_CHANGES_REQUESTED,
-    ParticipantStates.CONFIRMED,
-]
-
 
 def can_update(participant, event):
     if participant.state not in CAN_CHANGE_Q1_STATES + CAN_CHANGE_Q1_AND_Q2_STATES:
@@ -44,6 +34,39 @@ def can_update(participant, event):
         return False
 
     return True
+
+
+class ExistingParticipantMixin:
+    @property
+    def participant(self):
+        raise NotImplementedError("Must implement `participant`")
+
+    @cached_property
+    def questionnaires(self):
+        if self.participant.state in CAN_CHANGE_Q1_STATES:
+            return self.request.event.questionnaires.filter(
+                eventquestionnaire__role=QuestionnaireRole.DURING_SIGNUP
+            )
+        elif self.participant.state in CAN_CHANGE_Q1_AND_Q2_STATES:
+            return self.request.event.questionnaires.filter(
+                eventquestionnaire__role__in=[
+                    QuestionnaireRole.DURING_SIGNUP,
+                    QuestionnaireRole.AFTER_APPROVAL,
+                ]
+            ).order_by("eventquestionnaire__role")
+        else:
+            raise ValueError("Participant not in a state that can change answers")
+
+    @cached_property
+    def blocks(self):
+        blocks = []
+        for questionnaire in self.questionnaires:
+            blocks += list(
+                QuestionBlock.objects.filter(questionnaire=questionnaire).exclude(
+                    question=None
+                )
+            )
+        return blocks
 
 
 class ParticipantChangeView(View):
@@ -254,7 +277,7 @@ class ParticipantUpdateView(ParticipantChangeView):
             participant.change_state(ParticipantStateActions.ANSWERS_SAVED)
 
 
-class ParticipantDetailView(DetailView):
+class ParticipantDetailView(ExistingParticipantMixin, DetailView):
     model = Participant
     template_name = "signup/participant_details.html"
 
@@ -278,8 +301,15 @@ class ParticipantDetailView(DetailView):
 
     def get_object(self, queryset=None):
         return get_object_or_404(
-            Participant, secret=self.kwargs["secret"], event=self.request.event
+            Participant,
+            code=self.kwargs["code"],
+            secret=self.kwargs["secret"],
+            event=self.request.event,
         )
+
+    @property
+    def participant(self):
+        return self.get_object()
 
     def get_status_text(self, participant: Participant):
         return str(
@@ -299,16 +329,15 @@ class ParticipantDetailView(DetailView):
             raise ValueError("Unknown State")
 
     def get_status_banner(self):
-        participant = self.get_object()
         banner_kwargs = {
-            "event_name": participant.event.name,
+            "event_name": self.participant.event.name,
             "change_answer_url": reverse(
                 "signup:participant-update",
                 kwargs={
                     "organizer": self.request.event.organizer.slug,
                     "event": self.request.event.slug,
-                    "code": participant.code,
-                    "secret": participant.secret,
+                    "code": self.participant.code,
+                    "secret": self.participant.secret,
                 },
             ),
             "application_url": reverse(
@@ -316,29 +345,33 @@ class ParticipantDetailView(DetailView):
                 kwargs={
                     "organizer": self.request.event.organizer.slug,
                     "event": self.request.event.slug,
-                    "code": participant.code,
-                    "secret": participant.secret,
+                    "code": self.participant.code,
+                    "secret": self.participant.secret,
                 },
             ),
         }
 
         return {
-            "type": self.get_status_color(participant),
-            "text": self.get_status_text(participant).format_map(
+            "type": self.get_status_color(self.participant),
+            "text": self.get_status_text(self.participant).format_map(
                 defaultdict(str, banner_kwargs),
             ),
         }
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
-        participant = self.get_object()
+        answer_by_question = {}
+        answers = self.participant.get_answers()
+        for answer in answers:
+            answer_by_question[answer.question] = answer
         context.update(
             {
-                "answers": participant.get_answers(),
                 "event": self.request.event,
-                "participant": participant,
-                "can_update": can_update(participant, self.request.event),
+                "participant": self.participant,
+                "can_update": can_update(self.participant, self.request.event),
                 "status_banner": self.get_status_banner(),
+                "blocks": self.blocks,
+                "answer_by_question": answer_by_question,
             }
         )
         return context

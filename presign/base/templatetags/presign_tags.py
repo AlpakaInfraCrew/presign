@@ -1,3 +1,5 @@
+from typing import Any
+
 from django.template.defaulttags import register
 from django.utils.html import mark_safe
 
@@ -26,3 +28,8 @@ def markdownify(value):
     html = markdown.markdown(value)
     cleaned_html = nh3.clean(html)
     return mark_safe(cleaned_html)
+
+
+@register.simple_tag
+def get_item(d: dict, key: Any):
+    return d.get(key)

@@ -16,11 +16,12 @@ from django.views.generic.list import ListView
 
 from django_scopes import scope
 
+from presign.base.constants import CAN_CHANGE_Q1_AND_Q2_STATES, CAN_CHANGE_Q1_STATES
 from presign.base.exceptions import (
     ActionEmailNotConfigured,
     ParticipantStateChangeException,
 )
-from presign.base.models import Participant
+from presign.base.models import Participant, QuestionBlock, QuestionnaireRole
 
 from ..constants import STATE_CHANGE_STRINGS, STATE_SETTINGS
 from ..forms import ParticipantInternalForm
@@ -75,6 +76,33 @@ class ParticipantView(DetailView):
             },
         )
 
+    @cached_property
+    def questionnaires(self):
+        if self.participant.state in CAN_CHANGE_Q1_STATES:
+            return self.request.event.questionnaires.filter(
+                eventquestionnaire__role=QuestionnaireRole.DURING_SIGNUP
+            )
+        elif self.participant.state in CAN_CHANGE_Q1_AND_Q2_STATES:
+            return self.request.event.questionnaires.filter(
+                eventquestionnaire__role__in=[
+                    QuestionnaireRole.DURING_SIGNUP,
+                    QuestionnaireRole.AFTER_APPROVAL,
+                ]
+            ).order_by("eventquestionnaire__role")
+        else:
+            raise ValueError("Participant not in a state that can change answers")
+
+    @cached_property
+    def blocks(self):
+        blocks = []
+        for questionnaire in self.questionnaires:
+            blocks += list(
+                QuestionBlock.objects.filter(questionnaire=questionnaire).exclude(
+                    question=None
+                )
+            )
+        return blocks
+
 
 class ParticipantDetailView(ParticipantView, UpdateView):
     template_name = "control/participant/detail.html"
@@ -82,13 +110,20 @@ class ParticipantDetailView(ParticipantView, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
+        answer_by_question = {}
+        answers = self.participant.get_answers()
+        for answer in answers:
+            answer_by_question[answer.question] = answer
+
         context.update(
             {
-                "answers": self.participant.get_answers(),
+                "answer_by_question": answer_by_question,
                 "event": self.request.event,
                 "participant": self.get_object(),
                 "state_change_strings": STATE_CHANGE_STRINGS,
                 "state_settings": STATE_SETTINGS,
+                "blocks": self.blocks,
             }
         )
         return context
