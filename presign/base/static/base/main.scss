@@ -2,6 +2,12 @@ $color-mode-type: media-query;
 
 @import "../../../static/vendored/bootstrap/scss/bootstrap.scss";
 
+@include color-mode(dark) {
+	.btn-outline-secondary {
+		--bs-btn-color: var(--bs-body-color);
+	}
+}
+
 .col-fit {
 	width: 1px;
 }
