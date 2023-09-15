@@ -28,6 +28,19 @@ email_hierarkey = Hierarkey(attribute_name="email_texts")
 status_hierarkey = Hierarkey(attribute_name="status_texts")
 
 
+class TextMixin:
+    def get_action_email_texts(self, action: "ParticipantStateActions"):
+        action_texts = self.email_texts.get(action, as_type=dict, default="{}")
+        return {
+            "subject": LazyI18nString(action_texts.get("subject", {})),
+            "body": LazyI18nString(action_texts.get("body", {})),
+        }
+
+    def get_status_text(self, status: "ParticipantStates"):
+        status_text = self.status_texts.get(status, as_type=dict, default="{}")
+        return LazyI18nString(status_text)
+
+
 @email_hierarkey.set_global()
 @status_hierarkey.set_global()
 class GlobalSettings(GlobalSettingsBase):
@@ -63,7 +76,7 @@ class User(AbstractUser):
 
 @email_hierarkey.add()
 @status_hierarkey.add()
-class Organizer(models.Model):
+class Organizer(TextMixin, models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     history = HistoricalRecords()
 
@@ -84,7 +97,7 @@ class Organizer(models.Model):
 
 @email_hierarkey.add(parent_field="organizer")
 @status_hierarkey.add(parent_field="organizer")
-class Event(models.Model):
+class Event(TextMixin, models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     history = HistoricalRecords()
 
@@ -191,17 +204,6 @@ class Event(models.Model):
             and self.signup_end_shown >= self.calculated_signup_end
         ):
             raise ValidationError(_("Shown Signup End must be before Signup End"))
-
-    def get_action_email_texts(self, action: "ParticipantStateActions"):
-        action_texts = self.email_texts.get(action, as_type=dict, default="{}")
-        return {
-            "subject": LazyI18nString(action_texts.get("subject", {})),
-            "body": LazyI18nString(action_texts.get("body", {})),
-        }
-
-    def get_status_text(self, status: "ParticipantStates"):
-        status_text = self.status_texts.get(status, as_type=dict, default="{}")
-        return LazyI18nString(status_text)
 
 
 class QuestionnaireRole(models.IntegerChoices):

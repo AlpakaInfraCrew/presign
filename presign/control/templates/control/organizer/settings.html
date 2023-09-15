@@ -5,63 +5,144 @@
 
 {% block content %}
     <h1>{% trans "Organizer Settings" %}</h1>
-    <div class="clearfix">
-        <form method="post">
-            {% csrf_token %}
-            {% bootstrap_form form %}
-            <button class="btn btn-primary btn-lg float-end" type="submit">{% trans "Submit" %}</button>
-        </form>
-    </div>
-
-    <h2>{% trans "Members" %}</h2>
-    <table class="table">
-        <colgroup>
-            <col class="col-fit"/>
-            <col/>
-            <col class="col-fit"/>
-        </colgroup>
-        <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">{% trans "Username" %}</th>
-                <th scope="col"></th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for member in object.members.all %}
-                <tr>
-                    <th scope="row">{{ forloop.counter }}</th>
-                    <td>{{ member.username }}</td>
-                    <td class="text-end">
+ 
+    <form method="post">
+        {% csrf_token %}
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active"
+                        id="general-tab"
+                        data-bs-toggle="tab"
+                        data-bs-target="#general-tab-pane"
+                        type="button"
+                        role="tab"
+                        aria-controls="general-tab-pane"
+                        aria-selected="true">{% trans "General" %}</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link"
+                        id="texts-tab"
+                        data-bs-toggle="tab"
+                        data-bs-target="#texts-tab-pane"
+                        type="button"
+                        role="tab"
+                        aria-controls="texts-tab-pane"
+                        aria-selected="false">{% trans "Status Texts" %}</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link"
+                        id="email-texts-tab"
+                        data-bs-toggle="tab"
+                        data-bs-target="#email-texts-tab-pane"
+                        type="button"
+                        role="tab"
+                        aria-controls="email-texts-tab-pane"
+                        aria-selected="false">{% trans "Email Texts" %}</button>
+            </li>
+        </ul>
+        <div class="tab-content mb-4">
+            <div class="tab-pane show active"
+                 id="general-tab-pane"
+                 role="tabpanel"
+                 aria-labelledby="general-tab"
+                 tabindex="0">
+                {% bootstrap_form general_form %}
+ 
+                <h2>{% trans "Members" %}</h2>
+                <table class="table">
+                    <colgroup>
+                        <col class="col-fit" />
+                        <col />
+                        <col class="col-fit" />
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">{% trans "Username" %}</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for member in object.members.all %}
+                            <tr>
+                                <th scope="row">{{ forloop.counter }}</th>
+                                <td>{{ member.username }}</td>
+                                <td class="text-end">
+                                    <form method="post"
+                                          action="{% url "control:organizer-remove_member" organizer=request.organizer.slug %}">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="username" value="{{ member.username }}" />
+                                        <button class="btn btn-sm btn-danger">
+                                            <i class="bi bi-trash"></i><span class="visually-hidden">{% trans "Remove Member" %}</span>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
                         <form method="post"
-                              action="{% url "control:organizer-remove_member" organizer=request.organizer.slug %}">
-                            {% csrf_token %}
-                            <input type="hidden" name="username" value="{{ member.username }}" />
-                            <button class="btn btn-sm btn-danger">
-                                <i class="bi bi-trash"></i><span class="visually-hidden">{% trans "Remove Member" %}</span>
-                            </button>
+                              action="{% url "control:organizer-add_member" organizer=request.organizer.slug %}">
+                            <tr>
+                                <td></td>
+                                <td>
+                                    {% csrf_token %}
+                                    <input type="text"
+                                           name="username"
+                                           class="form-control"
+                                           placeholder="Username"
+                                           required=""
+                                           id="id_username" />
+                                </td>
+                                <td>
+                                    <button class="btn btn-primary float-end" type="submit">{% trans "Submit" %}</button>
+                                </td>
+                            </tr>
                         </form>
-                    </td>
-                </tr>
-            {% endfor %}
-            <form method="post"
-                  action="{% url "control:organizer-add_member" organizer=request.organizer.slug %}">
-                <tr>
-                    <td></td>
-                    <td>
-                        {% csrf_token %}
-                        <input type="text"
-                               name="username"
-                               class="form-control"
-                               placeholder="Username"
-                               required=""
-                               id="id_username"/>
-                    </td>
-                    <td>
-                        <button class="btn btn-primary float-end" type="submit">{% trans "Submit" %}</button>
-                    </td>
-                </tr>
-            </form>
-        </tbody>
-    </table>
+                    </tbody>
+                </table>
+            </div>
+            <div class="tab-pane"
+                 id="texts-tab-pane"
+                 role="tabpanel"
+                 aria-labelledby="texts-tab"
+                 tabindex="0">
+                <div class="row row-cols-1 row-cols-md-2">{% bootstrap_form texts_form %}</div>
+            </div>
+            <div class="tab-pane"
+                 id="email-texts-tab-pane"
+                 role="tabpanel"
+                 aria-labelledby="email-texts-tab"
+                 tabindex="0">
+                <div class="accordion" id="email-text-accordion">
+                    {% for group_name, fields in email_texts_form.field_groups %}
+                        <div class="accordion-item">
+                            <h2 class="accordion-header"
+                                id="email-text-heading-{{ forloop.counter }}">
+                                <button class="accordion-button {% if not forloop.first %}collapsed{% endif %}"
+                                        type="button"
+                                        data-bs-toggle="collapse"
+                                        data-bs-target="#email-text-collapse-{{ forloop.counter }}"
+                                        aria-expanded="{% if not forloop.first %}false{% else %}true{% endif %}"
+                                        aria-controls="email-text-collapse-{{ forloop.counter }}">
+                                    {{ group_name }}
+                                </button>
+                            </h2>
+                            <div id="email-text-collapse-{{ forloop.counter }}"
+                                 class="accordion-collapse collapse {% if forloop.first %}show{% endif %}"
+                                 aria-labelledby="email-text-heading-{{ forloop.counter }}"
+                                 data-bs-parent="#email-text-accordion">
+                                <div class="accordion-body">
+                                    {% for field in fields %}
+                                        {% bootstrap_field field %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div>
+            <button class="btn btn-primary btn-lg float-end" type="submit">{% trans "Submit" %}</button>
+        </div>
+    </form>
 {% endblock content %}
