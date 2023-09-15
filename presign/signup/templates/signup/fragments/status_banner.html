@@ -2,11 +2,11 @@
 {% load presign_tags %}
 
 {% if status_banner and status_banner.text %}
-    <div class="alert alert-{{ status_banner.type }}" role="alert">
-        <p class="mb-0">{{ status_banner.text | markdownify }}</p>
+    <div class="last-p-mb-0 alert alert-{{ status_banner.type }}" role="alert">
+        {{ status_banner.text | markdownify }}
         {% if participant.public_comment %}
-            <hr/>
-            <p class="mb-0">{{ participant.public_comment }}</p>
+            <hr />
+            {{ participant.public_comment }}
         {% endif %}
     </div>
 {% elif participant.public_comment %}
