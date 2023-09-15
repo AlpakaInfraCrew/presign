@@ -13,4 +13,6 @@ if [ ! -z "$PRESIGN_SUPERUSER_NAME"  ] && [ ! -z "$PRESIGN_SUPERUSER_PASS" ]; th
     python manage.py create_superuser_if_not_exists --user "$PRESIGN_SUPERUSER_NAME" --pass "$PRESIGN_SUPERUSER_PASS"
 fi
 
+python manage.py import_text_defaults mail_texts.json status_texts.json
+
 gunicorn presign.wsgi -b 0.0.0.0:8000

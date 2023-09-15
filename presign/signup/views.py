@@ -11,7 +11,6 @@ from django.views import View
 from django.views.generic.detail import DetailView
 
 from django_scopes import scope
-from i18nfield.strings import LazyI18nString
 
 from presign.base.constants import CAN_CHANGE_Q1_AND_Q2_STATES, CAN_CHANGE_Q1_STATES
 from presign.base.models import (
@@ -312,9 +311,7 @@ class ParticipantDetailView(ExistingParticipantMixin, DetailView):
         return self.get_object()
 
     def get_status_text(self, participant: Participant):
-        return str(
-            LazyI18nString(participant.event.status_texts.get(participant.state, {}))
-        )
+        return str(participant.event.get_status_text(participant.state))
 
     def get_status_color(self, participant: Participant):
         if participant.state in self.NEUTRAL_STATES:

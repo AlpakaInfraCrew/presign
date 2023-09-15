@@ -4,8 +4,8 @@
 
 ## Installation (Docker)
 
-
 ### Manual Build
+
 We provide a dockerfile for easy setup. To build it, run
 
 ```shell
@@ -29,6 +29,7 @@ docker run -it -p 8002:8000 --env-file docker_env --mount type=bind,source="$(pw
 Now access `http://localhost:8002/control` with the superuser credentials specifies in `docker_env`
 
 ### SystemD Unit
+
 The file `pretix.service` can be moved to `/etc/systemd/system/` to start/stop the presign service via systemd.
 **Please change the `<presign directory>` part to your presign location in the systemd file!**
 
@@ -40,9 +41,6 @@ systemctl enable presign.service
 systemctl start presign.service
 ```
 
-
-
-
 ## Installation (Manual)
 
 Install python and typescript (`tsc`). Then run
@@ -51,7 +49,23 @@ Install python and typescript (`tsc`). Then run
 poetry install
 ```
 
-to install the python dependencies
+to install the python dependencies.
+
+Then run
+
+```shell
+poetry run python manage.py import_text_defaults mail_texts.json status_texts.json
+```
+
+to import the default texts for mails and status.
+
+Then run
+
+```shell
+poetry run python manage.py runserver
+```
+
+to start the development server.
 
 ## License
 

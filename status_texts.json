@@ -1,0 +1,38 @@
+{
+	"NEW": {
+		"de": "Wir haben deine Anmeldung bekommen. Sie wird jetzt gepr\u00fcft, dann melden wir uns nochmal bei dir.",
+		"en": "We received your application. We will now process it and then contact you again."
+	},
+	"REJ": {
+		"de": "Deine Anmeldung wurde leider abgelehnt :(.",
+		"en": "Sadly, your application was rejected :(."
+	},
+	"Q1C": {
+		"de": "Wir brauchen noch ein paar Infos von dir. Deine Antworten kannst du hier \u00e4ndern: <{change_answer_url}>",
+		"en": "We need some more information from you. You can change your answers here: <{change_answer_url}>"
+	},
+	"APP": {
+		"de": "Herzlichen Gl\u00fcckwunsch. Du wurdest angenommen. Jetzt brauchen wir noch ein paar Informationen von dir, die kannst du hier eintragen: <{change_answer_url}>",
+		"en": "Congratulation, you were approved. Now we need some more information for you, which you can enter here: <{change_answer_url}>"
+	},
+	"NER": {
+		"de": "Deine Anmeldung wird von uns gepr\u00fcft. Danach melden wir uns nochmal bei dir.",
+		"en": "Were now reviewing your application and will contact you again soon."
+	},
+	"Q2C": {
+		"de": "Wir brauchen noch ein paar Infos von dir. Deine Antworten kannst du hier \u00e4ndern: <{change_answer_url}>",
+		"en": "We need some more information from you. You can change your answers here: <{change_answer_url}>"
+	},
+	"CON": {
+		"de": "Herzlichen Gl\u00fcckwunsch. Wir haben alle ben\u00f6tigten Informationen von dir erhalten. Jetzt bist du sicher dabei!",
+		"en": "Congratulations. We received all required information. Now you can come to {event_name} for sure!"
+	},
+	"WIT": {
+		"de": "Du hast deine Anmeldung zur\u00fcckgezogen.",
+		"en": "You withdrew your application."
+	},
+	"CAN": {
+		"de": "Deine Anmeldung wurde storniert.",
+		"en": "Your application was cancelled."
+	}
+}
