@@ -64,7 +64,7 @@ $color-mode-type: media-query;
 }
 
 .tab-content {
-	border-color: $gray-300;
+	border-color: $nav-tabs-border-color;
 	border-width: #{$nav-tabs-border-width};
 	border-style: solid;
 	border-radius: 0 0 $nav-tabs-border-radius $nav-tabs-border-radius;
