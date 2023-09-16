@@ -57,6 +57,11 @@ questionnaire_urlpatterns = [
         views.questionnaire.QuestionUpdateView.as_view(),
         name="question-change",
     ),
+    path(
+        "block/<uuid:block>/question/<uuid:question>/delete/",
+        views.questionnaire.QuestionDeleteView.as_view(),
+        name="question-delete",
+    ),
 ]
 organizer_urlpatterns = [
     path("", views.organizer.OrganizerDetailView.as_view(), name="organizer"),

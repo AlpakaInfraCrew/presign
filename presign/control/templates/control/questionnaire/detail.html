@@ -66,7 +66,8 @@
                                                 {% if can_update %}
                                                     <a href="{% url "control:question-change" organizer=questionnaire.organizer.slug questionnaire=questionnaire.pk block=block.pk question=question.pk %}"
                                                        class="btn btn-secondary"><i class="bi bi-gear"></i><span class="visually-hidden">{% trans "Edit Question" %}</span></a>
-
+                                                    <a class="btn btn-danger"
+                                                       href="{% url "control:question-delete" organizer=questionnaire.organizer.slug questionnaire=questionnaire.pk block=block.pk question=question.pk %}"><i class="bi-trash"></i><span class="visually-hidden">{% trans "Delete" %}</span></a>
                                                     {# TODO: Show disabled button if cannot update #}
                                                 {% endif %}
                                             </div>

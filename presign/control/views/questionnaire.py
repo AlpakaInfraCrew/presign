@@ -395,3 +395,44 @@ class QuestionUpdateView(QuestionnaireNavContextMixin, UpdateView):
     @property
     def questionnaire(self, *args, **kwargs):
         return self.object.block.questionnaire
+
+
+class QuestionDeleteView(QuestionnaireNavContextMixin, DetailView):
+    model = Question
+    pk_url_kwarg = "block"
+    pk_url_kwarg = "question"
+
+    def get_queryset(self):
+        return Question.objects.filter(
+            block__questionnaire__in=self.request.user.get_editable_questionnaires(),
+            block=self.kwargs["block"],
+        )
+
+    def get_success_url(self) -> str:
+        with scope(user=self.request.user):
+            return reverse(
+                "control:questionnaire",
+                kwargs={
+                    "questionnaire": self.object.block.questionnaire.pk,
+                },
+            )
+
+    def post(self, *args, **kwargs):
+        self.object = self.get_object()
+        self.get_object().delete()
+        messages.success(self.request, _("Question deleted."))
+        return redirect(self.get_success_url())
+
+    def get(self, *args, **kwargs):
+        return render(
+            self.request,
+            "control/confirm_action.html",
+            {
+                "cancel_url": self.get_success_url(),
+                "confirmation_strings": {
+                    "question": _(
+                        "Are you sure that you want to delete this question?"
+                    ),
+                },
+            },
+        )
