@@ -17,6 +17,7 @@ from presign.base.models import (
     Event,
     Organizer,
     Participant,
+    ParticipantStateActions,
     ParticipantStates,
     Question,
     QuestionAnswer,
@@ -139,6 +140,13 @@ def event_status_texts():
     return data
 
 
+def event_email_texts():
+    data = {}
+    for action in ParticipantStateActions:
+        data[action] = {"body": random_lang_chars(), "subject": random_lang_chars()}
+    return data
+
+
 def slugify_name(obj):
     return slugify(obj.name)
 
@@ -194,7 +202,14 @@ class EventFactory(factory.django.DjangoModelFactory):
         tzinfo=timezone.get_default_timezone(),
     )
 
-    status_texts = factory.LazyFunction(event_status_texts)
+    @factory.post_generation
+    def post(obj, create, extracted, **kwargs):
+        status_texts = event_status_texts()
+        email_texts = event_email_texts()
+        for k, v in status_texts.items():
+            obj.status_texts.set(k, v)
+        for k, v in email_texts.items():
+            obj.email_texts.set(k, v)
 
 
 @register
@@ -234,7 +249,6 @@ class QuestionFactory(factory.django.DjangoModelFactory):
 
 @register
 class FileQuestionFactory(QuestionFactory):
-
     kind = QuestionKind.FILE
 
 
