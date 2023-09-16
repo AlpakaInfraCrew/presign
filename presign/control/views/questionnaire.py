@@ -107,14 +107,13 @@ class QuestionnaireDetailView(QuestionnaireNavContextMixin, DetailView):
 class QuestionBlockUpdateView(QuestionnaireNavContextMixin, UpdateView):
     model = QuestionBlock
     template_name = "control/questionnaire/update_block.html"
-    fields = ["name", "order"]
+    fields = ["questionnaire", "name", "order"]
 
     def get_queryset(self):
         return self.model.objects.filter(
             (
                 Q(questionnaire__organizer=self.request.organizer)
                 & Q(questionnaire__organizer__in=self.request.user.get_organizers())
-                & Q(questionnaire=self.kwargs["questionnaire"])
             )
         )
 
