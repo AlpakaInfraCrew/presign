@@ -83,8 +83,7 @@ class OrganizerSettingsView(SingleObjectTemplateResponseMixin, View):
         return context
 
     def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        kwargs.update({"instance": self.get_object()})
+        kwargs = {}
 
         if self.request.method == "POST":
             kwargs.update(
