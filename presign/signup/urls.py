@@ -18,4 +18,9 @@ urlpatterns = [
         views.ParticipantUpdateView.as_view(),
         name="participant-update",
     ),
+    path(
+        "<slug:organizer>/<slug:event>/<str:code>/<str:secret>/withdraw/",
+        views.ParticipantWithdrawApplicationView.as_view(),
+        name="participant-withdraw",
+    ),
 ]

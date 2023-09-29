@@ -5,7 +5,7 @@ window.addEventListener("load", () => {
 function setupFormsAutoSlugify() {
 	(
 		document.querySelectorAll(
-			"[data-auto-slugify-from]"
+			"[data-auto-slugify-from]",
 		) as NodeListOf<HTMLInputElement>
 	).forEach((elem: HTMLInputElement) => {
 		const slugifyFrom = elem.dataset.autoSlugifyFrom;
@@ -13,11 +13,11 @@ function setupFormsAutoSlugify() {
 			return;
 		}
 		let sourceElems: NodeListOf<HTMLInputElement> = document.querySelectorAll(
-			`input[name="${CSS.escape(slugifyFrom)}"]`
+			`input[name="${CSS.escape(slugifyFrom)}"]`,
 		);
 		if (sourceElems.length == 0) {
 			sourceElems = document.querySelectorAll(
-				`input[name^="${CSS.escape(slugifyFrom)}_"]`
+				`input[name^="${CSS.escape(slugifyFrom)}_"]`,
 			);
 		}
 

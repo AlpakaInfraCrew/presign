@@ -1,15 +1,11 @@
-from collections import defaultdict
 from typing import Optional
 
 from django.contrib import messages
-from django.core.mail import EmailMultiAlternatives
 from django.db.models import QuerySet
 from django.http import Http404
 from django.shortcuts import redirect, render
-from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils.functional import cached_property
-from django.utils.translation import gettext_lazy as _
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import UpdateView
 from django.views.generic.list import ListView
@@ -90,7 +86,7 @@ class ParticipantView(DetailView):
                 ]
             ).order_by("eventquestionnaire__role")
         else:
-            raise ValueError("Participant not in a state that can change answers")
+            return []
 
     @cached_property
     def blocks(self):
@@ -148,7 +144,7 @@ class ParticipantStateChangeView(ParticipantView):
 
         try:
             self.participant.change_state(action)
-            self.send_change_state_email(action)
+            self.participant.send_change_state_email(self.request, action)
         except ParticipantStateChangeException as e:
             messages.error(self.request, str(e))
         except ActionEmailNotConfigured as e:
@@ -157,55 +153,6 @@ class ParticipantStateChangeView(ParticipantView):
         else:
             messages.success(self.request, success_msg)
         return redirect(self.get_participant_url())
-
-    def send_change_state_email(self, action):
-        texts = self.participant.event.get_action_email_texts(action)
-        context_vars = defaultdict(
-            str,
-            {
-                "participant_email": self.participant.email,
-                "event_name": self.participant.event.name,
-                "change_answer_url": self.request.build_absolute_uri(
-                    reverse(
-                        "signup:participant-update",
-                        kwargs={
-                            "organizer": self.participant.event.organizer.slug,
-                            "event": self.participant.event.slug,
-                            "code": self.participant.code,
-                            "secret": self.participant.secret,
-                        },
-                    )
-                ),
-                "application_url": self.request.build_absolute_uri(
-                    reverse(
-                        "signup:participant-details",
-                        kwargs={
-                            "organizer": self.participant.event.organizer.slug,
-                            "event": self.participant.event.slug,
-                            "code": self.participant.code,
-                            "secret": self.participant.secret,
-                        },
-                    )
-                ),
-            },
-        )
-        subject = str(texts["subject"]).format_map(context_vars)
-        body = str(texts["body"]).format_map(context_vars)
-
-        if not body:
-            raise ActionEmailNotConfigured(
-                _("No email was configured for this action.")
-            )
-
-        to = self.participant.email
-
-        html_content = render_to_string(
-            "mail/participant/state_change.html",
-            context={"subject": subject, "body": body},
-        )
-        msg = EmailMultiAlternatives(subject=subject, body=body, to=[to])
-        msg.attach_alternative(html_content, "text/html")
-        msg.send()
 
     def get(self, *args, **kwargs):
         action = self.kwargs["state_change"]

@@ -4,13 +4,16 @@
 {% load presign_tags %}
 
 {% block content %}
-    <h1>
+    <h1 class="d-flex flex-row align-items-center">
         {% blocktrans with event_name=event.name %}Your sign up for "{{ event_name }}"{% endblocktrans %}
         {% can_change_event request.event as can_change %}
         {% if can_change %}
-            <a class="btn btn-secondary"
+            <a class="btn btn-secondary mx-2"
                href="{% url "control:participant-details" organizer=request.event.organizer.slug event=request.event.slug code=participant.code %}">{% trans "Show in Control" %}</a>
         {% endif %}
+        <div class="flex-grow-1" />
+        <a class="btn btn-danger"
+           href="{% url "signup:participant-withdraw" organizer=request.event.organizer.slug event=request.event.slug code=participant.code secret=participant.secret %}"><i class="bi bi-ban pe-2"></i>{% trans "Withdraw application" %}</a>
     </h1>
 
     {# The banner(s) above the participant information informing them about the current state of their application and the next steps#}

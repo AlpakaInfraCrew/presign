@@ -1,8 +1,9 @@
-from django.contrib.auth import get_user_model
-from django.core.management.base import BaseCommand
-from presign.base.models import GlobalSettings
-from argparse import FileType
 import json
+from argparse import FileType
+
+from django.core.management.base import BaseCommand
+
+from presign.base.models import GlobalSettings
 
 
 class Command(BaseCommand):

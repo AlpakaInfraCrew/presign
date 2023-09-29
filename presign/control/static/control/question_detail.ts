@@ -37,7 +37,7 @@ function setupAddOptionButton() {
 	emptyForm = forms[forms.length - 1].cloneNode(true) as HTMLElement;
 
 	const addOptionButton = document.getElementById(
-		"add-option"
+		"add-option",
 	) as HTMLButtonElement;
 	console.log(addOptionButton);
 	addOptionButton.addEventListener("click", addOptionForm);
@@ -50,7 +50,7 @@ function addOptionForm() {
 
 	const formsetContainer = optionEditor.querySelector(".formset-container");
 	const totalForms = document.getElementById(
-		"id_form-TOTAL_FORMS"
+		"id_form-TOTAL_FORMS",
 	) as HTMLInputElement;
 	if (formsetContainer === null || totalForms === null) {
 		return;
@@ -61,7 +61,7 @@ function addOptionForm() {
 	const formNum = optionEditor.querySelectorAll(".formset-form").length;
 	newForm.innerHTML = newForm.innerHTML.replace(
 		/form-\d+-/g,
-		`form-${formNum}-`
+		`form-${formNum}-`,
 	);
 	formsetContainer.insertAdjacentElement("beforeend", newForm);
 	totalForms.value = (formNum + 1).toString();

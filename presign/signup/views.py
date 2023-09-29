@@ -1,18 +1,24 @@
 from collections import defaultdict
 from typing import List, Optional
 
+from django.contrib import messages
 from django.db import transaction
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.functional import cached_property
+from django.utils.translation import gettext_lazy as _
 from django.views import View
 from django.views.generic.detail import DetailView
 
 from django_scopes import scope
 
 from presign.base.constants import CAN_CHANGE_Q1_AND_Q2_STATES, CAN_CHANGE_Q1_STATES
+from presign.base.exceptions import (
+    ActionEmailNotConfigured,
+    ParticipantStateChangeException,
+)
 from presign.base.models import (
     Participant,
     ParticipantStateActions,
@@ -35,6 +41,20 @@ def can_update(participant, event):
     return True
 
 
+def get_success_redirect(participant: Participant):
+    return redirect(
+        reverse(
+            "signup:participant-details",
+            kwargs={
+                "organizer": participant.event.organizer.slug,
+                "event": participant.event.slug,
+                "code": participant.code,
+                "secret": participant.secret,
+            },
+        )
+    )
+
+
 class ExistingParticipantMixin:
     @property
     def participant(self):
@@ -54,7 +74,7 @@ class ExistingParticipantMixin:
                 ]
             ).order_by("eventquestionnaire__role")
         else:
-            raise ValueError("Participant not in a state that can change answers")
+            return []
 
     @cached_property
     def blocks(self):
@@ -127,7 +147,7 @@ class ParticipantChangeView(View):
 
         if is_valid:
             participant = self.save(forms)
-            return self.get_success_redirect(participant)
+            return get_success_redirect(participant)
         else:
             return render(
                 request,
@@ -156,19 +176,6 @@ class ParticipantChangeView(View):
                         answers.append(answer)
 
         return participant
-
-    def get_success_redirect(self, participant: Participant):
-        return redirect(
-            reverse(
-                "signup:participant-details",
-                kwargs={
-                    "organizer": self.request.event.organizer.slug,
-                    "event": self.request.event.slug,
-                    "code": participant.code,
-                    "secret": participant.secret,
-                },
-            )
-        )
 
 
 class ParticipantSignupView(ParticipantChangeView):
@@ -372,3 +379,29 @@ class ParticipantDetailView(ExistingParticipantMixin, DetailView):
             }
         )
         return context
+
+
+class ParticipantWithdrawApplicationView(ParticipantDetailView):
+    def post(self, *args, **kwargs):
+        success_msg = _("Application was withdrawn")
+
+        try:
+            self.participant.change_state(ParticipantStateActions.WITHDRAW)
+            self.participant.send_change_state_email(
+                self.request, ParticipantStateActions.WITHDRAW
+            )
+        except ParticipantStateChangeException as e:
+            messages.error(self.request, str(e))
+        except ActionEmailNotConfigured as e:
+            messages.warning(self.request, str(e))
+            messages.success(self.request, success_msg)
+        else:
+            messages.success(self.request, success_msg)
+        return get_success_redirect(participant=self.participant)
+
+    def get(self, *args, **kwargs):
+        return render(
+            self.request,
+            "signup/withdraw_confirmation.html",
+            {"participant": self.participant},
+        )
