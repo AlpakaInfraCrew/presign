@@ -1,10 +1,12 @@
 import datetime
 import string
 import uuid
+from collections import defaultdict
 
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
+from django.core.mail import EmailMultiAlternatives
 from django.db import models
 from django.db.models import Q
 from django.db.models.functions import Lower
@@ -20,7 +22,7 @@ from i18nfield.strings import LazyI18nString
 from model_clone.models import CloneModel
 from simple_history.models import HistoricalRecords
 
-from .exceptions import ParticipantStateChangeException
+from .exceptions import ActionEmailNotConfigured, ParticipantStateChangeException
 from .fields import DateTimeLocalModelField, I18nCharField, I18nTextField
 from .utils import sign_url
 
@@ -359,6 +361,7 @@ class Participant(models.Model):
             ParticipantStateActions.APPROVE: ParticipantStates.APPROVED,
             ParticipantStateActions.REJECT: ParticipantStates.REJECTED,
             ParticipantStateActions.REQUEST_CHANGES: ParticipantStates.Q1_CHANGES_REQUESTED,
+            ParticipantStateActions.WITHDRAW: ParticipantStates.WITHDRAWN,
         },
         ParticipantStates.REJECTED: {
             ParticipantStateActions.UNREJECT: ParticipantStates.NEW,
@@ -367,6 +370,7 @@ class Participant(models.Model):
         ParticipantStates.Q1_CHANGES_REQUESTED: {
             ParticipantStateActions.ANSWERS_SAVED: ParticipantStates.NEW,
             ParticipantStateActions.CANCEL: ParticipantStates.CANCELLED,
+            ParticipantStateActions.WITHDRAW: ParticipantStates.WITHDRAWN,
         },
         ParticipantStates.APPROVED: {
             ParticipantStateActions.ANSWERS_SAVED: ParticipantStates.NEEDS_REVIEW,
@@ -402,6 +406,55 @@ class Participant(models.Model):
 
         self.state = next_state
         self.save(update_fields=["state"])
+
+    def send_change_state_email(self, request, action):
+        texts = self.event.get_action_email_texts(action)
+        context_vars = defaultdict(
+            str,
+            {
+                "participant_email": self.email,
+                "event_name": self.event.name,
+                "change_answer_url": request.build_absolute_uri(
+                    reverse(
+                        "signup:participant-update",
+                        kwargs={
+                            "organizer": self.event.organizer.slug,
+                            "event": self.event.slug,
+                            "code": self.code,
+                            "secret": self.secret,
+                        },
+                    )
+                ),
+                "application_url": request.build_absolute_uri(
+                    reverse(
+                        "signup:participant-details",
+                        kwargs={
+                            "organizer": self.event.organizer.slug,
+                            "event": self.event.slug,
+                            "code": self.code,
+                            "secret": self.secret,
+                        },
+                    )
+                ),
+            },
+        )
+        subject = str(texts["subject"]).format_map(context_vars)
+        body = str(texts["body"]).format_map(context_vars)
+
+        if not body:
+            raise ActionEmailNotConfigured(
+                _("No email was configured for this action.")
+            )
+
+        to = self.email
+
+        html_content = render_to_string(
+            "mail/participant/state_change.html",
+            context={"subject": subject, "body": body},
+        )
+        msg = EmailMultiAlternatives(subject=subject, body=body, to=[to])
+        msg.attach_alternative(html_content, "text/html")
+        msg.send()
 
 
 class QuestionKind(models.TextChoices):

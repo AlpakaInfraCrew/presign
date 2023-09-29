@@ -1,0 +1,19 @@
+{% extends "signup/base.html" %}
+{% load django_bootstrap5 %}
+{% load i18n %}
+
+{% block content %}
+    <h1>{% trans "Confirm Withdraw" %}</h1>
+    <p>{% trans "Are you sure you want to withdraw your application?" %}</p>
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="clearfix">
+            <button class="btn btn-danger btn-lg float-start col-3" type="submit">{% trans "Withdraw" %}</button>
+            <a class="btn btn-secondary btn-lg float-end col-3"
+               href="{% url "signup:participant-withdraw" organizer=participant.event.organizer.slug event=participant.event.slug code=participant.code secret=participant.secret %}">
+                {% trans "Cancel" %}
+            </a>
+        </div>
+    </form>
+{% endblock %}
