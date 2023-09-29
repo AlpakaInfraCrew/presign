@@ -17,7 +17,12 @@ from presign.base.exceptions import (
     ActionEmailNotConfigured,
     ParticipantStateChangeException,
 )
-from presign.base.models import Participant, QuestionBlock, QuestionnaireRole
+from presign.base.models import (
+    Participant,
+    ParticipantStates,
+    QuestionBlock,
+    QuestionnaireRole,
+)
 
 from ..constants import STATE_CHANGE_STRINGS, STATE_SETTINGS
 from ..forms import ParticipantInternalForm
@@ -85,8 +90,10 @@ class ParticipantView(DetailView):
                     QuestionnaireRole.AFTER_APPROVAL,
                 ]
             ).order_by("eventquestionnaire__role")
-        else:
+        elif self.participant.state == ParticipantStates.WITHDRAWN:
             return []
+        else:
+            raise ValueError("Participant not in a state that can change answers")
 
     @cached_property
     def blocks(self):

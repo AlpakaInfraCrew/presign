@@ -73,8 +73,10 @@ class ExistingParticipantMixin:
                     QuestionnaireRole.AFTER_APPROVAL,
                 ]
             ).order_by("eventquestionnaire__role")
-        else:
+        elif self.participant.state == ParticipantStates.WITHDRAWN:
             return []
+        else:
+            raise ValueError("Participant not in a state that can change answers")
 
     @cached_property
     def blocks(self):
