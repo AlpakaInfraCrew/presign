@@ -184,3 +184,4 @@ class Base(Configuration):
     EMAIL_HOST_USER = values.Value()
     EMAIL_HOST_PASS = values.Value()
     EMAIL_SUBJECT_PREFIX = values.Value("[Presign] ")
+    EMAIL_PORT = values.IntegerValue(587)
