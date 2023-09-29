@@ -93,6 +93,16 @@ to start the development server.
 
 You can now go to `http://localhost:8000/control` and login.
 
+## Test/Demo Data
+
+You can load test/demo data using the following command:
+
+```
+poetry run python manage.py loaddata fixtures/example.yaml
+```
+
+User/Password: presignadm/presignadm
+
 ## License
 
 Presign is published under an [AGPLv3 license](./LICENSE) with the following exception:

@@ -1,0 +1,208 @@
+- model: sessions.session
+  pk: 9u0c1kzijtn1hgrggjjhe9xr4la4a0ud
+  fields:
+    session_data: .eJxVzDsOwjAQRdG9uCZW_Lcp6VlDNOOZIQGUSPlUiL1DpBRQv3veS3WwrX23LTx3A6mzisnl6GpuyDI0PrA0xThqBGMJAj4ykTr9MoT64HG3dIfxNuk6jes8oN4TfayLvk7Ez8vR_h30sPRfXQEoBosR0HElm03iaIoLgG1ONpIIE7TFC0Igyb414KQk9MUKo1fvD2KOQqg:1qmJfc:yseOg-vf6ujZA37FYIs_NnKWj7ccwRqRy3CjWQQZT20
+    expire_date: 2023-10-13 20:01:04.930514+00:00
+- model: base.globalsettings_status_textsstore
+  pk: 1
+  fields:
+    key: NEW
+    value: '{"de": "Wir haben deine Anmeldung bekommen. Sie wird jetzt gepr\u00fcft,
+      dann melden wir uns nochmal bei dir.", "en": "We received your application.
+      We will now process it and then contact you again."}'
+- model: base.globalsettings_status_textsstore
+  pk: 2
+  fields:
+    key: REJ
+    value: '{"de": "Deine Anmeldung wurde leider abgelehnt :(.", "en": "Sadly, your
+      application was rejected :(."}'
+- model: base.globalsettings_status_textsstore
+  pk: 3
+  fields:
+    key: Q1C
+    value: '{"de": "Wir brauchen noch ein paar Infos von dir. Deine Antworten kannst
+      du hier \u00e4ndern: <{change_answer_url}>", "en": "We need some more information
+      from you. You can change your answers here: <{change_answer_url}>"}'
+- model: base.globalsettings_status_textsstore
+  pk: 4
+  fields:
+    key: APP
+    value: '{"de": "Herzlichen Gl\u00fcckwunsch. Du wurdest angenommen. Jetzt brauchen
+      wir noch ein paar Informationen von dir, die kannst du hier eintragen: <{change_answer_url}>",
+      "en": "Congratulation, you were approved. Now we need some more information
+      for you, which you can enter here: <{change_answer_url}>"}'
+- model: base.globalsettings_status_textsstore
+  pk: 5
+  fields:
+    key: NER
+    value: '{"de": "Deine Anmeldung wird von uns gepr\u00fcft. Danach melden wir uns
+      nochmal bei dir.", "en": "Were now reviewing your application and will contact
+      you again soon."}'
+- model: base.globalsettings_status_textsstore
+  pk: 6
+  fields:
+    key: Q2C
+    value: '{"de": "Wir brauchen noch ein paar Infos von dir. Deine Antworten kannst
+      du hier \u00e4ndern: <{change_answer_url}>", "en": "We need some more information
+      from you. You can change your answers here: <{change_answer_url}>"}'
+- model: base.globalsettings_status_textsstore
+  pk: 7
+  fields:
+    key: CON
+    value: '{"de": "Herzlichen Gl\u00fcckwunsch. Wir haben alle ben\u00f6tigten Informationen
+      von dir erhalten. Jetzt bist du sicher dabei!", "en": "Congratulations. We received
+      all required information. Now you can come to {event_name} for sure!"}'
+- model: base.globalsettings_status_textsstore
+  pk: 8
+  fields:
+    key: WIT
+    value: '{"de": "Du hast deine Anmeldung zur\u00fcckgezogen.", "en": "You withdrew
+      your application."}'
+- model: base.globalsettings_status_textsstore
+  pk: 9
+  fields:
+    key: CAN
+    value: '{"de": "Deine Anmeldung wurde storniert.", "en": "Your application was
+      cancelled."}'
+- model: base.globalsettings_email_textsstore
+  pk: 1
+  fields:
+    key: approve
+    value: '{"subject": {"de": "Du wurdest f\u00fcr {event_name} angenommen", "en":
+      "You were approved for {event_name}"}, "body": {"de": "Hallo,\r\n\r\nherzlichen
+      Gl\u00fcckwunsch. Du wurdest f\u00fcr {event_name} angenommen. Damit du teilnehmen
+      kannst, muss du nur noch ein paar Fragen beantworten. Das kannst du hier tun:
+      <{change_answer_url}>.\r\n\r\nViele Gr\u00fc\u00dfe,\r\nDas {event_name}-Team",
+      "en": "Hello,\r\n\r\ncongratulations. You were approved for {event_name}. You
+      just need to answer a few more questions so that you can participate. You can
+      do that here: <{change_answer_url}>.\r\n\r\nKind greetings,\r\nthe {event_name}-Team"}}'
+- model: base.globalsettings_email_textsstore
+  pk: 2
+  fields:
+    key: reject
+    value: '{"subject": {"de": "Du kannst leider bei {event_name} nicht dabei sein",
+      "en": "Sadly you cannot participate in {event_name}"}, "body": {"de": "Hallo,\r\n\r\nleider
+      wurdest du nicht f\u00fcr {event_name} angenommen.\r\n\r\nViele Gr\u00fc\u00dfe,\r\nDas
+      {event_name}-Team", "en": "Hello,\r\n\r\nsadly, you were approved for {event_name}.\r\n\r\nKind
+      greetings,\r\nthe {event_name}-Team"}}'
+- model: base.globalsettings_email_textsstore
+  pk: 3
+  fields:
+    key: request_changes
+    value: '{"subject": {"de": "\u00c4nderungen ben\u00f6tigt", "en": "Changes Requested"},
+      "body": {"de": "Hallo,\r\n\r\nwir brauchen noch ein paar Informationen zu deiner
+      Anmeldung f\u00fcr {event_name}. Bitte trage diese hier nach: <{change_answer_url}>.\r\n\r\nViele
+      Gr\u00fc\u00dfe,\r\nDas {event_name}-Team", "en": "Hey,\r\n\r\nwe need some
+      more information regarding your application for {event_name}. Please enter them
+      here: <{change_answer_url}>.\r\n\r\nKind greetings,\r\nthe {event_name}-Team"}}'
+- model: base.globalsettings_email_textsstore
+  pk: 4
+  fields:
+    key: cancel
+    value: '{"subject": {"de": "Anmeldung storniert", "en": "Application cancelled"},
+      "body": {"de": "Hallo,\r\n\r\ndeine Anmeldung f\u00fcr {event_name} wurde storniert.\r\n\r\nViele
+      Gr\u00fc\u00dfe,\r\nDas {event_name}-Team", "en": "Hey,\r\n\r\nyour application
+      for {event_name} was cancelled.\r\n\r\nKind greetings,\r\nthe {event_name}-Team"}}'
+- model: base.globalsettings_email_textsstore
+  pk: 5
+  fields:
+    key: confirm
+    value: '{"subject": {"de": "Du bist bei {event_name} dabei!", "en": "You are confirmed
+      for {event_name}"}, "body": {"de": "Hallo,\r\n\r\nherzlichen Gl\u00fcckwunsch.
+      Wir haben alle n\u00f6tigen Unterlagen von dir bekommen und gepr\u00fcft. Damit
+      bist du sicher bei {event_name} dabei.\r\n\r\nViele Gr\u00fc\u00dfe,\r\nDas
+      {event_name}-Team", "en": "Hey,\r\n\r\ncongratulations. We received all required
+      information. That means you are now confirmed for {event_name} and can come
+      for sure.\r\n\r\nKind greetings,\r\nthe {event_name}-Team"}}'
+- model: base.historicaluser
+  pk: 1
+  fields:
+    password: pbkdf2_sha256$600000$3TjntfSnPyAacbizQJpgRJ$JDfLePQ/QpJrofyGmtwtz79JUEMHMx+TgAoW26xCaS4=
+    last_login: 2023-09-29 20:01:04.913778+00:00
+    is_superuser: true
+    username: presignadm
+    first_name: ''
+    last_name: ''
+    email: presign@example.com
+    is_staff: true
+    is_active: true
+    date_joined: 2023-09-29 18:59:11.045512+00:00
+    id: 673863c8-d2ea-45ef-913d-fb695fa46edd
+    history_date: 2023-09-29 20:01:04.914290+00:00
+    history_change_reason: null
+    history_type: '~'
+    history_user: 673863c8-d2ea-45ef-913d-fb695fa46edd
+- model: base.user
+  pk: 673863c8-d2ea-45ef-913d-fb695fa46edd
+  fields:
+    password: pbkdf2_sha256$600000$3TjntfSnPyAacbizQJpgRJ$JDfLePQ/QpJrofyGmtwtz79JUEMHMx+TgAoW26xCaS4=
+    last_login: 2023-09-29 20:01:04.913778+00:00
+    is_superuser: true
+    username: presignadm
+    first_name: ''
+    last_name: ''
+    email: presign@example.com
+    is_staff: true
+    is_active: true
+    date_joined: 2023-09-29 18:59:11.045512+00:00
+    groups: []
+    user_permissions: []
+- model: base.organizer
+  pk: 7e0415ae-a0a1-4509-abea-a9ae4270fb43
+  fields:
+    slug: alpakadorf
+    name: '{"de": "Alpakadorf", "en": "Alpaka Village"}'
+    members:
+    - 673863c8-d2ea-45ef-913d-fb695fa46edd
+- model: base.event
+  pk: c856bc9e-5c05-4973-82cb-769b80da657d
+  fields:
+    organizer: 7e0415ae-a0a1-4509-abea-a9ae4270fb43
+    name: '{"de": "Alpakadorf Hackt 2023", "en": "Alpaka Village Hackt 2023"}'
+    slug: alpakadorf-hackt-2023
+    description: '{}'
+    enabled: true
+    event_date: 2023-11-01 00:00:00+00:00
+    signup_start: 2023-09-01 00:00:00+00:00
+    signup_end_shown: 2023-09-30 23:59:00+00:00
+    signup_end: 2023-10-15 23:59:00+00:00
+    lock_date: 2023-09-30 23:59:00+00:00
+- model: base.eventquestionnaire
+  pk: 1d67d209-3607-4ad4-96d5-4d455d233829
+  fields:
+    event: c856bc9e-5c05-4973-82cb-769b80da657d
+    questionnaire: 50cf1cfb-a9d9-4608-adaf-53f548ee5590
+    role: 2
+- model: base.eventquestionnaire
+  pk: 39968fa5-b325-4654-a5f0-65b728593c36
+  fields:
+    event: c856bc9e-5c05-4973-82cb-769b80da657d
+    questionnaire: 8203e2da-b514-4149-89b1-5832d76bf248
+    role: 1
+- model: base.questionnaire
+  pk: 50cf1cfb-a9d9-4608-adaf-53f548ee5590
+  fields:
+    name: '{"de": "Detailfragebogen", "en": "Detail Questions"}'
+    organizer: 7e0415ae-a0a1-4509-abea-a9ae4270fb43
+    is_public: false
+- model: base.questionnaire
+  pk: 8203e2da-b514-4149-89b1-5832d76bf248
+  fields:
+    name: '{"de": "Vorabfragen", "en": "Pre Questions"}'
+    organizer: 7e0415ae-a0a1-4509-abea-a9ae4270fb43
+    is_public: true
+- model: base.questionblock
+  pk: abf9925b-16f1-4255-883f-75138c7ce997
+  fields:
+    questionnaire: 8203e2da-b514-4149-89b1-5832d76bf248
+    name: '{"de": "Abschnitt 1", "en": "Section 1"}'
+    order: 1
+- model: base.question
+  pk: a724e887-bb03-4539-93c3-3d81d7f9147e
+  fields:
+    block: abf9925b-16f1-4255-883f-75138c7ce997
+    kind: N
+    required: true
+    name: '{"de": "Alter", "en": "Age"}'
+    help: '{}'
+    order: 1
