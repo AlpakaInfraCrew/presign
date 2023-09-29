@@ -51,6 +51,9 @@ STATE_CHANGE_STRINGS = {
             "Are you sure that you want to confirm this participant?"
         ),
     },
+    ParticipantStateActions.WITHDRAW: {
+        "btn_text": _("Withdraw Application"),
+    },
 }
 
 STATE_SETTINGS = {

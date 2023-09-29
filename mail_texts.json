@@ -45,5 +45,15 @@
 			"de": "Hallo,\r\n\r\nherzlichen Gl\u00fcckwunsch. Wir haben alle n\u00f6tigen Unterlagen von dir bekommen und gepr\u00fcft. Damit bist du sicher bei {event_name} dabei.\r\n\r\nViele Gr\u00fc\u00dfe,\r\nDas {event_name}-Team",
 			"en": "Hey,\r\n\r\ncongratulations. We received all required information. That means you are now confirmed for {event_name} and can come for sure.\r\n\r\nKind greetings,\r\nthe {event_name}-Team"
 		}
+	},
+	"withdraw": {
+		"subject": {
+			"de": "Du hast deine Anmeldung für {event_name} zurückgezogen.",
+			"en": "You withdrew your application for {event_name}"
+		},
+		"body": {
+			"de": "Hallo,\r\n\r\ndu hast deine Anmeldung für {event_name} erfolgreich zurückgezogen.\r\n\r\nViele Gr\u00fc\u00dfe,\r\nDas {event_name}-Team",
+			"en": "Hey,\r\n\r\nyou successfully withdrew your application for {event_name}.\r\n\r\nKind greetings,\r\nthe {event_name}-Team"
+		}
 	}
 }
