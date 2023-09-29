@@ -11,7 +11,7 @@
             <a class="btn btn-secondary mx-2"
                href="{% url "control:participant-details" organizer=request.event.organizer.slug event=request.event.slug code=participant.code %}">{% trans "Show in Control" %}</a>
         {% endif %}
-        <div class="flex-grow-1" />
+        <div class="flex-grow-1"></div>
         <a class="btn btn-danger"
            href="{% url "signup:participant-withdraw" organizer=request.event.organizer.slug event=request.event.slug code=participant.code secret=participant.secret %}"><i class="bi bi-ban pe-2"></i>{% trans "Withdraw application" %}</a>
     </h1>
