@@ -253,6 +253,7 @@ class ParticipantStates(models.TextChoices):
 
 
 class ParticipantStateActions(models.TextChoices):
+    SUBMIT_APPLICATION = "submit_application"
     APPROVE = "approve"
     REJECT = "reject"
     REQUEST_CHANGES = "request_changes"

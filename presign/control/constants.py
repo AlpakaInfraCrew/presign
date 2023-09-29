@@ -3,6 +3,9 @@ from django.utils.translation import gettext_lazy as _
 from presign.base.models import ParticipantStateActions, ParticipantStates
 
 STATE_CHANGE_STRINGS = {
+    ParticipantStateActions.SUBMIT_APPLICATION: {
+        "btn_text": _("Submit application"),
+    },
     ParticipantStateActions.APPROVE: {
         "btn_text": _("Approve"),
         "btn_type": "success",

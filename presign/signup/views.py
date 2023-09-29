@@ -217,6 +217,13 @@ class ParticipantSignupView(ParticipantChangeView):
         participant.save()
         self.participant = participant
 
+        try:
+            self.participant.send_change_state_email(
+                self.request, ParticipantStateActions.SUBMIT_APPLICATION
+            )
+        except ActionEmailNotConfigured:
+            pass
+
         return super().save(forms_to_save)
 
     def get(self, *args, **kwargs):

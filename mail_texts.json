@@ -1,4 +1,14 @@
 {
+	"submit_application": {
+		"subject": {
+			"de": "Du hast dich f\u00fcr {event_name} angemeldet",
+			"en": "You applied for {event_name}"
+		},
+		"body": {
+			"de": "Hallo,\r\n\r\nschön, dass du an {event_name} teilnehmen möchtest. Deine Anmeldung ist bei uns angekommen, du kannst sie hier einsehen: <{application_url}>. Sobald wir Neuigkeiten zu deiner Anmeldung haben, schicken wir dir noch eine E-Mail.\r\n\r\nViele Gr\u00fc\u00dfe,\r\nDas {event_name}-Team",
+			"en": "Hello,\r\n\r\nre received you application for {event_name}. You can access your application here: <{application_url}>. Once we have news regarding your application, we will send you another email.\r\n\r\nKind greetings,\r\nthe {event_name}-Team"
+		}
+	},
 	"approve": {
 		"subject": {
 			"de": "Du wurdest f\u00fcr {event_name} angenommen",
