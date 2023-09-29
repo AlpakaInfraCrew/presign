@@ -7,6 +7,8 @@ from django.views.static import serve
 
 from presign.base.views import serve_signed
 
+from . import views
+
 
 def get_status_patterns(prefix, view=serve, **kwargs):
     return [
@@ -23,6 +25,7 @@ def static_pattern(prefix, view=serve, **kwargs):
 
 
 urlpatterns = [
+    path("", views.HomeView.as_view()),
     path(settings.ADMIN_URL_BASE, admin.site.urls),
     path("i18n/", include("django.conf.urls.i18n")),
     path("accounts/", include("django.contrib.auth.urls")),
