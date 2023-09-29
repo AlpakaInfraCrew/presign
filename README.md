@@ -2,6 +2,10 @@
 
 > **<div align="center">singup software for alpaca and other fluffy animals</div>**
 
+## Configuration
+
+Configuration is done using environment variables. See `docker_env.example` for an example.
+
 ## Installation (Docker)
 
 ### Manual Build
@@ -28,9 +32,9 @@ docker run -it -p 8002:8000 --env-file docker_env --mount type=bind,source="$(pw
 
 Now access `http://localhost:8002/control` with the superuser credentials specifies in `docker_env`
 
-### SystemD Unit
+### SystemD Unit (Run dockerized presign)
 
-The file `pretix.service` can be moved to `/etc/systemd/system/` to start/stop the presign service via systemd.
+The file `presign.service` can be moved to `/etc/systemd/system/` to start/stop the presign service via systemd.
 **Please change the `<presign directory>` part to your presign location in the systemd file!**
 
 To activate the SystemD Unit run the following commands after placing the file into `/etc/systemd/system/`:
@@ -41,7 +45,13 @@ systemctl enable presign.service
 systemctl start presign.service
 ```
 
-## Installation (Manual)
+## Installation (Manual/Development)
+
+Make sure you have set the necessary configuration.
+
+presign should run out of the box for development purposes.
+
+**For production usage, you want to set a proper `DJANGO_SECRET_KEY` and use a proper database instead of sqlite (e.g. postgres)**
 
 Install python and typescript (`tsc`). Then run
 
@@ -50,6 +60,12 @@ poetry install
 ```
 
 to install the python dependencies.
+
+Run migrations:
+
+```shell
+poetry run python manage.py migrate
+```
 
 Then run
 
