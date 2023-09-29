@@ -78,10 +78,20 @@ to import the default texts for mails and status.
 Then run
 
 ```shell
+poetry run python manage.py createsuperuser
+```
+
+and follow the instructions to create a super user.
+
+Then run
+
+```shell
 poetry run python manage.py runserver
 ```
 
 to start the development server.
+
+You can now go to `http://localhost:8000/control` and login.
 
 ## License
 
