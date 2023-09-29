@@ -180,8 +180,10 @@ class Base(Configuration):
     # Valid time of signed urls, default: 60 min
     PRESIGN_MEDIA_SIGNATURE_MAX_AGE_SECONDS = values.Value(default=60 * 60)
 
-    EMAIL_HOST = values.Value()
-    EMAIL_HOST_USER = values.Value()
-    EMAIL_HOST_PASS = values.Value()
-    EMAIL_SUBJECT_PREFIX = values.Value("[Presign] ")
+    EMAIL_HOST = values.Value("")
     EMAIL_PORT = values.IntegerValue(587)
+    EMAIL_HOST_USER = values.Value("")
+    EMAIL_HOST_PASSWORD = values.Value("")
+    EMAIL_USE_TLS = values.BooleanValue(True)
+    EMAIL_SUBJECT_PREFIX = values.Value("[Presign] ")
+    DEFAULT_FROM_EMAIL = values.Value("webmaster@localhost")
