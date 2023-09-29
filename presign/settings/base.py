@@ -179,3 +179,8 @@ class Base(Configuration):
     PRESIGN_MEDIA_SIGNATURE_SALT = values.Value(default="transcribee.media")
     # Valid time of signed urls, default: 60 min
     PRESIGN_MEDIA_SIGNATURE_MAX_AGE_SECONDS = values.Value(default=60 * 60)
+
+    EMAIL_HOST = values.Value()
+    EMAIL_HOST_USER = values.Value()
+    EMAIL_HOST_PASS = values.Value()
+    EMAIL_SUBJECT_PREFIX = values.Value("[Presign] ")
