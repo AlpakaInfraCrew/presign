@@ -407,6 +407,12 @@ class Participant(models.Model):
         self.state = next_state
         self.save(update_fields=["state"])
 
+        # if the action is not a answer save, we set all current messages to inactive
+        if action != ParticipantStateActions.ANSWERS_SAVED:
+            ParticipantCustomMessage.objects.filter(
+                participant=self, is_current=True
+            ).update(is_current=False)
+
     def send_change_state_email(self, request, action):
         texts = self.event.get_action_email_texts(action)
         context_vars = defaultdict(
@@ -455,6 +461,25 @@ class Participant(models.Model):
         msg = EmailMultiAlternatives(subject=subject, body=body, to=[to])
         msg.attach_alternative(html_content, "text/html")
         msg.send()
+
+
+class ParticipantCustomMessage(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+
+    participant = models.ForeignKey(Participant, on_delete=models.CASCADE)
+    message = I18nTextField(
+        help_text=_(
+            "This text <strong>will be shown to the participant</strong> on their overview page. "
+            "You can for example use it for requesting more information."
+        ),
+    )
+
+    is_current = models.BooleanField(
+        default=True
+    )  # if we add a new message, it is current in almost any case
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    changed_at = models.DateTimeField(auto_now=True)
 
 
 class QuestionKind(models.TextChoices):
