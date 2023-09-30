@@ -93,7 +93,9 @@ to start the development server.
 
 You can now go to `http://localhost:8000/control` and login.
 
-## Test/Demo Data
+## Development
+
+### Test/Demo Data
 
 You can load test/demo data using the following command:
 
@@ -102,6 +104,22 @@ poetry run python manage.py loaddata fixtures/example.yaml
 ```
 
 User/Password: presignadm/presignadm
+
+### E-Mails
+
+During development, sent emails are saved to the `sent_email/` folder.
+
+### Offline Compression
+
+If the sass/ts compilers run too long during development, you can switch to offline compression.
+To do so set the `USE_OFFLINE_COMPRESSION_IN_DEV` environment variable to True.
+You know have to pre-compile the compressor files by running
+
+```
+poetry run python manage.py compress
+```
+
+You might have to restart the development server after that.
 
 ## License
 
