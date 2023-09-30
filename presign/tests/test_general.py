@@ -232,7 +232,7 @@ def test_full_event_lifecycle(
             subject_div.locator(f'[lang="{lang}"]').fill(f"Subject {action} {name}")
             body_div.locator(f'[lang="{lang}"]').fill(f"Body {action} {name}")
 
-    page.get_by_role("button", name="Submit").click()
+    page.get_by_role("button", name="Submit", exact=True).click()
 
     page.click("text=View on site")
 
