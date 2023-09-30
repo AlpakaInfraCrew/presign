@@ -41,4 +41,28 @@
     </section>
  
     {% include "./_participant_answers.html" %}
+
+    <section class="card mb-3">
+        <div class="card-header">{% trans "Events" %}</div>
+        <ul class="list-group list-group-flush">
+            {% for event in participant.log_events.all %}
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-lg-2 col-sm-6 col-xs-12">{{ event.datetime|date:"SHORT_DATETIME_FORMAT" }}</div>
+                        <div class="col-lg-6 col-sm-12 col-xs-12">{{ event.display }}</div>
+                        {% if request.user.is_staff %}
+                            <div class="col-12">
+                                <details>
+                                    <summary>Show raw event data</summary>
+                                    <code>
+                                        {{ event.data }}
+                                    </code>
+                                </details>
+                            </div>
+                        {% endif %}
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </section>
 {% endblock content %}
