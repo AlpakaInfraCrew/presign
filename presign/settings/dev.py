@@ -1,3 +1,5 @@
+from configurations import values
+
 from .base import BASE_DIR, Base
 
 
@@ -24,6 +26,11 @@ class Dev(Base):
 
     EMAIL_BACKEND = "eml_email_backend.EmailBackend"
     EMAIL_FILE_PATH = BASE_DIR / "sent_email/"
+
+    USE_OFFLINE_COMPRESSION_IN_DEV = values.BooleanValue(False)
+    if USE_OFFLINE_COMPRESSION_IN_DEV:
+        COMPRESS_ENABLED = False
+        COMPRESS_OFFLINE = True
 
     if DEBUG:
         # Add debug toolbar
