@@ -1,4 +1,5 @@
 from .event import Event, EventQuestionnaire, QuestionnaireRole
+from .log import ParticipantLogEvent
 from .organizer import Organizer
 from .participant import (
     Participant,
@@ -36,4 +37,5 @@ __all__ = [
     "QuestionOption",
     "GlobalSettings",
     "User",
+    "ParticipantLogEvent",
 ]

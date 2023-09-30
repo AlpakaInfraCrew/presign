@@ -180,6 +180,8 @@ class Participant(models.Model):
     }
 
     def change_state(self, action):
+        from .log import ParticipantLogEvent
+
         state = ParticipantStates(self.state)
         next_state = self.STATE_CHANGES.get(state, {}).get(action)
         if next_state is None:
@@ -190,6 +192,11 @@ class Participant(models.Model):
             )
 
         self.state = next_state
+        ParticipantLogEvent.objects.create(
+            event_type="presign.base.change_state",
+            participant=self,
+            data={"old_state": state, "new_state": next_state, "action": action},
+        )
         self.save(update_fields=["state"])
 
     def send_change_state_email(self, request, action):
