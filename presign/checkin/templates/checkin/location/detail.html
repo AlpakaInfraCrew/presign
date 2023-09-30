@@ -15,24 +15,14 @@
     <div class="row row-cols-1 row-cols-md-2">
         <div class="col mb-3 d-flex align-items-stretch">
             <section class="card w-100">
-                <div class="card-header">{% trans "Internal Information" %}</div>
+                <div class="card-header">{% trans "Summary" %}</div>
                 <div class="card-body">
                     <dl>
                         <dt>
-                            {% trans "Organizer" %}
+                            {% trans "Participants" %}
                         </dt>
                         <dd>
-                            <a href="{% url "control:organizer" organizer=request.event.organizer.slug %}">{{ request.event.organizer.name }}</a>
-                        </dd>
-                        <dt>
-                            {% trans "Enabled" %}
-                        </dt>
-                        <dd>
-                            {% if event.enabled %}
-                                {% trans "Yes" %}
-                            {% else %}
-                                {% trans "No" %}
-                            {% endif %}
+                            TODO
                         </dd>
                     </dl>
                 </div>
@@ -43,6 +33,12 @@
                 <div class="card-header">{% trans "Dates" %}</div>
                 <div class="card-body">
                     <dl>
+												<dt>
+                            {% trans "Event" %}
+                        </dt>
+                        <dd>
+                            <a href="{% url "checkin:event-overview" organizer=request.event.organizer.slug event=request.event.slug %}">{{ request.event.name }}</a>
+                        </dd>
                         <dt>
                             {% trans "Event Date" %}
                         </dt>
