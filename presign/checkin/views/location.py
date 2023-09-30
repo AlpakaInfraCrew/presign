@@ -2,11 +2,25 @@ from typing import Dict, Any
 from django import forms
 
 from django.urls import reverse
-from django.views.generic import CreateView
+from django.views.generic import CreateView, DetailView
 from django_scopes import scope
 
 from presign.base.models import Event
 from presign.checkin.models import Location
+from presign.control.constants import STATE_SETTINGS
+
+
+class LocationDetailView(DetailView):
+    model = Location
+    template_name = "checkin/location/detail.html"
+
+    def get_object(self, *args):
+        return self.request.location
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["state_settings"] = STATE_SETTINGS
+        return context
 
 
 class CreateLocationForm(forms.ModelForm):

@@ -61,6 +61,19 @@ class CheckinMiddleware:
 
                 request.locations = locations
 
+                if "location" in url.kwargs:
+                    location = Location.objects.filter(
+                        id=url.kwargs["location"]
+                    ).first()
+
+                    if not location:
+                        raise Http404(
+                            _("Location not found")
+                        )
+
+                    request.location = location
+
+
         if hasattr(request, "event"):
             with scope(organizer=request.organizer, event=request.event):
                 return self.get_response(request)

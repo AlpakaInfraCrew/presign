@@ -6,4 +6,5 @@ urlpatterns = [
     path("", views.index, name="index"),
     path("organizer/<slug:organizer>/event/<slug:event>/", views.event.EventDetailView.as_view(), name="event-overview"),
     path("organizer/<slug:organizer>/event/<slug:event>/location/create/", views.location.LocationCreateView.as_view(), name="location-create"),
+    path("organizer/<slug:organizer>/event/<slug:event>/location/<uuid:location>/", views.location.LocationDetailView.as_view(), name="location-detail"),
 ]

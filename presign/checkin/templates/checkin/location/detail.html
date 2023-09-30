@@ -6,8 +6,11 @@
 {% block content %}
     <div class="clearfix">
         <h1 class="float-start">
-            {% blocktrans with event_name=event.name %}Location overview for "{{event_name}}"{% endblocktrans %}
+            {% blocktrans with location_name=location.name %}Checkin for {{location_name}}{% endblocktrans %}
         </h1>
+        <div class="float-end align-middle">
+            <a class="btn btn-secondary" href="{% url "checkin:event-overview" organizer=request.event.organizer.slug event=request.event.slug %}">{% trans "Show all event locations" %}</a>
+        </div>
     </div>
     <div class="row row-cols-1 row-cols-md-2">
         <div class="col mb-3 d-flex align-items-stretch">
@@ -52,9 +55,6 @@
         </div>
     </div>
 
-    <h2>{% trans "Locations" %}</h2>
-    {% include "checkin/event/_locations_list.html" with locations=request.locations %}
-		<div class="float-end align-middle">
-				<a class="btn btn-secondary" href="{% url "checkin:location-create" organizer=request.event.organizer.slug event=request.event.slug %}">{% trans "Add new location" %}</a>
-		</div>
+    <h2>{% trans "Participants" %}</h2>
+    {% include "checkin/location/_participants_list.html" %}
 {% endblock content %}
