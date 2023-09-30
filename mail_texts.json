@@ -5,8 +5,8 @@
 			"en": "You were approved for {event_name}"
 		},
 		"body": {
-			"de": "Hallo,\r\n\r\nherzlichen Gl\u00fcckwunsch. Du wurdest f\u00fcr {event_name} angenommen. Damit du teilnehmen kannst, muss du nur noch ein paar Fragen beantworten. Das kannst du hier tun: <{change_answer_url}>.\r\n\r\nViele Gr\u00fc\u00dfe,\r\nDas {event_name}-Team",
-			"en": "Hello,\r\n\r\ncongratulations. You were approved for {event_name}. You just need to answer a few more questions so that you can participate. You can do that here: <{change_answer_url}>.\r\n\r\nKind greetings,\r\nthe {event_name}-Team"
+			"de": "Hallo,\r\n\r\nherzlichen Gl\u00fcckwunsch. Du wurdest f\u00fcr {event_name} angenommen. Damit du teilnehmen kannst, muss du nur noch ein paar Fragen beantworten. Das kannst du hier tun: <{change_answer_url}>. \r\n\r\n{custom_msg}\r\n\r\nViele Gr\u00fc\u00dfe,\r\nDas {event_name}-Team",
+			"en": "Hello,\r\n\r\ncongratulations. You were approved for {event_name}. You just need to answer a few more questions so that you can participate. You can do that here: <{change_answer_url}>. \r\n\r\n{custom_msg}\r\n\r\nKind greetings,\r\nthe {event_name}-Team"
 		}
 	},
 	"reject": {
@@ -15,8 +15,8 @@
 			"en": "Sadly you cannot participate in {event_name}"
 		},
 		"body": {
-			"de": "Hallo,\r\n\r\nleider wurdest du nicht f\u00fcr {event_name} angenommen.\r\n\r\nViele Gr\u00fc\u00dfe,\r\nDas {event_name}-Team",
-			"en": "Hello,\r\n\r\nsadly, you were approved for {event_name}.\r\n\r\nKind greetings,\r\nthe {event_name}-Team"
+			"de": "Hallo,\r\n\r\nleider wurdest du nicht f\u00fcr {event_name} angenommen.\r\n\r\n{custom_msg}\r\n\r\nViele Gr\u00fc\u00dfe,\r\nDas {event_name}-Team",
+			"en": "Hello,\r\n\r\nsadly, you were approved for {event_name}.\r\n\r\n{custom_msg}\r\n\r\nKind greetings,\r\nthe {event_name}-Team"
 		}
 	},
 	"request_changes": {
@@ -25,15 +25,15 @@
 			"en": "Changes Requested"
 		},
 		"body": {
-			"de": "Hallo,\r\n\r\nwir brauchen noch ein paar Informationen zu deiner Anmeldung f\u00fcr {event_name}. Bitte trage diese hier nach: <{change_answer_url}>.\r\n\r\nViele Gr\u00fc\u00dfe,\r\nDas {event_name}-Team",
-			"en": "Hey,\r\n\r\nwe need some more information regarding your application for {event_name}. Please enter them here: <{change_answer_url}>.\r\n\r\nKind greetings,\r\nthe {event_name}-Team"
+			"de": "Hallo,\r\n\r\nwir brauchen noch ein paar Informationen zu deiner Anmeldung f\u00fcr {event_name}. Bitte trage diese hier nach: <{change_answer_url}>.\r\n\r\n{custom_msg}\r\n\r\nViele Gr\u00fc\u00dfe,\r\nDas {event_name}-Team",
+			"en": "Hey,\r\n\r\nwe need some more information regarding your application for {event_name}. Please enter them here: <{change_answer_url}>.\r\n\r\n{custom_msg}\r\n\r\nKind greetings,\r\nthe {event_name}-Team"
 		}
 	},
 	"cancel": {
 		"subject": { "de": "Anmeldung storniert", "en": "Application cancelled" },
 		"body": {
-			"de": "Hallo,\r\n\r\ndeine Anmeldung f\u00fcr {event_name} wurde storniert.\r\n\r\nViele Gr\u00fc\u00dfe,\r\nDas {event_name}-Team",
-			"en": "Hey,\r\n\r\nyour application for {event_name} was cancelled.\r\n\r\nKind greetings,\r\nthe {event_name}-Team"
+			"de": "Hallo,\r\n\r\ndeine Anmeldung f\u00fcr {event_name} wurde storniert.\r\n\r\n{custom_msg}\r\n\r\nViele Gr\u00fc\u00dfe,\r\nDas {event_name}-Team",
+			"en": "Hey,\r\n\r\nyour application for {event_name} was cancelled.\r\n\r\n{custom_msg}\r\n\r\nKind greetings,\r\nthe {event_name}-Team"
 		}
 	},
 	"confirm": {
@@ -42,8 +42,8 @@
 			"en": "You are confirmed for {event_name}"
 		},
 		"body": {
-			"de": "Hallo,\r\n\r\nherzlichen Gl\u00fcckwunsch. Wir haben alle n\u00f6tigen Unterlagen von dir bekommen und gepr\u00fcft. Damit bist du sicher bei {event_name} dabei.\r\n\r\nViele Gr\u00fc\u00dfe,\r\nDas {event_name}-Team",
-			"en": "Hey,\r\n\r\ncongratulations. We received all required information. That means you are now confirmed for {event_name} and can come for sure.\r\n\r\nKind greetings,\r\nthe {event_name}-Team"
+			"de": "Hallo,\r\n\r\nherzlichen Gl\u00fcckwunsch. Wir haben alle n\u00f6tigen Unterlagen von dir bekommen und gepr\u00fcft. Damit bist du sicher bei {event_name} dabei.\r\n\r\n{custom_msg}\r\n\r\nViele Gr\u00fc\u00dfe,\r\nDas {event_name}-Team",
+			"en": "Hey,\r\n\r\ncongratulations. We received all required information. That means you are now confirmed for {event_name} and can come for sure.\r\n\r\n{custom_msg}\r\n\r\nKind greetings,\r\nthe {event_name}-Team"
 		}
 	}
 }

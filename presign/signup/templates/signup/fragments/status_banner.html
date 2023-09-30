@@ -4,13 +4,17 @@
 {% if status_banner and status_banner.text %}
     <div class="last-p-mb-0 alert alert-{{ status_banner.type }}" role="alert">
         {{ status_banner.text | markdownify }}
-        {% if participant.public_comment %}
+        {% if messages %}
+            {% for m in messages %}
             <hr />
-            {{ participant.public_comment }}
+            {{ m.message }}
+            {% endfor %}
         {% endif %}
     </div>
-{% elif participant.public_comment %}
+{% elif messages %}
     <div class="alert alert-warning" role="alert">
-        <p class="mb-0">{{ participant.public_comment }}</p>
+        {% for m in messages %}
+        <p class="mb-0">{{ m.message }}</p>
+        {% endfor %}
     </div>
 {% endif %}

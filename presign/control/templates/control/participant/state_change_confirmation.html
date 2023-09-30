@@ -8,7 +8,10 @@
 
     <form method="post">
         {% csrf_token %}
-        <div class="clearfix">
+        <div class="form-group">
+            {{ form }}
+        </div>
+        <div class="clearfix form-group">
             <a class="btn btn-secondary btn-lg float-start col-3"
                href="{% url "control:participant-details" organizer=participant.event.organizer.slug event=participant.event.slug code=participant.code %}">
                 {% trans "Cancel" %}

@@ -301,14 +301,6 @@ class Participant(models.Model):
     state = models.CharField(
         choices=ParticipantStates.choices, default=ParticipantStates.NEW, max_length=3
     )
-    public_comment = I18nTextField(
-        blank=True,
-        null=True,
-        help_text=_(
-            "This text <strong>will be shown to the participant</strong> on their overview page. "
-            "You can for example use it for requesting more information."
-        ),
-    )
 
     internal_comment = I18nTextField(
         blank=True,
@@ -394,7 +386,7 @@ class Participant(models.Model):
         },
     }
 
-    def change_state(self, action):
+    def change_state(self, action, custom_msg=None):
         state = ParticipantStates(self.state)
         next_state = self.STATE_CHANGES.get(state, {}).get(action)
         if next_state is None:
@@ -413,11 +405,19 @@ class Participant(models.Model):
                 participant=self, is_current=True
             ).update(is_current=False)
 
-    def send_change_state_email(self, request, action):
+        if custom_msg:
+            ParticipantCustomMessage.objects.create(
+                participant=self, message=custom_msg, is_current=True
+            )
+
+    def send_change_state_email(self, request, action, custom_msg=""):
         texts = self.event.get_action_email_texts(action)
+
+        # TODO: Implement I18N for custom messages
         context_vars = defaultdict(
             str,
             {
+                "custom_msg": custom_msg,
                 "participant_email": self.email,
                 "event_name": self.event.name,
                 "change_answer_url": request.build_absolute_uri(
@@ -464,12 +464,17 @@ class Participant(models.Model):
 
 
 class ParticipantCustomMessage(models.Model):
+    class Meta:
+        ordering = ("-created_at",)
+
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
-    participant = models.ForeignKey(Participant, on_delete=models.CASCADE)
+    participant = models.ForeignKey(
+        Participant, on_delete=models.CASCADE, related_name="messages"
+    )
     message = I18nTextField(
         help_text=_(
-            "This text <strong>will be shown to the participant</strong> on their overview page. "
+            "This text <strong>will be shown to the participant</strong> on their overview page and sent to them via email. "
             "You can for example use it for requesting more information."
         ),
     )

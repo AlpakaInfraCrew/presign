@@ -376,6 +376,7 @@ class ParticipantDetailView(ExistingParticipantMixin, DetailView):
                 "participant": self.participant,
                 "can_update": can_update(self.participant, self.request.event),
                 "status_banner": self.get_status_banner(),
+                "messages": self.participant.messages.filter(is_current=True),
                 "blocks": self.blocks,
                 "answer_by_question": answer_by_question,
             }
