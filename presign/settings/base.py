@@ -27,6 +27,7 @@ class Base(Configuration):
         "presign.base",
         "presign.control",
         "presign.signup",
+        "presign.checkin",
     ]
 
     MIDDLEWARE = [
@@ -42,6 +43,7 @@ class Base(Configuration):
         "presign.base.middleware.ignore_scopes_in_admin_middleware",
         "presign.control.middleware.ControlMiddleware",
         "presign.signup.middleware.SignupMiddleware",
+        "presign.checkin.middleware.CheckinMiddleware",
     ]
 
     ROOT_URLCONF = "presign.urls"

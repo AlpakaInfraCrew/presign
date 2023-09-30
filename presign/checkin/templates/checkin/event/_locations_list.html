@@ -1,0 +1,17 @@
+{% load i18n %}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">{% trans "Name" %}</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for location in locations %}
+            <tr>
+                <td>{{ location.name }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+
+</table>

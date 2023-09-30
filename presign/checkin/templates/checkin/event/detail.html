@@ -1,0 +1,63 @@
+{% extends "checkin/base.html" %}
+{% load django_bootstrap5 %}
+{% load control_helpers %}
+{% load i18n %}
+
+{% block content %}
+    <div class="clearfix">
+        <h1 class="float-start">
+            {% blocktrans with event_name=event.name %}Checkin for "{{event_name}}"{% endblocktrans %}
+        </h1>
+        <div class="float-end align-middle">
+            <a class="btn btn-secondary" href="{{ event.get_absolute_url }}">{% trans "View on site" %}</a>
+        </div>
+    </div>
+    <div class="row row-cols-1 row-cols-md-2">
+        <div class="col mb-3 d-flex align-items-stretch">
+            <section class="card w-100">
+                <div class="card-header">{% trans "Internal Information" %}</div>
+                <div class="card-body">
+                    <dl>
+                        <dt>
+                            {% trans "Organizer" %}
+                        </dt>
+                        <dd>
+                            <a href="{% url "control:organizer" organizer=request.event.organizer.slug %}">{{ request.event.organizer.name }}</a>
+                        </dd>
+                        <dt>
+                            {% trans "Enabled" %}
+                        </dt>
+                        <dd>
+                            {% if event.enabled %}
+                                {% trans "Yes" %}
+                            {% else %}
+                                {% trans "No" %}
+                            {% endif %}
+                        </dd>
+                    </dl>
+                </div>
+            </section>
+        </div>
+        <div class="col mb-3 d-flex align-items-stretch">
+            <section class="card w-100">
+                <div class="card-header">{% trans "Dates" %}</div>
+                <div class="card-body">
+                    <dl>
+                        <dt>
+                            {% trans "Event Date" %}
+                        </dt>
+                        <dd>
+                            {{ request.event.event_date }}
+                        </dd>
+                    </dl>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <h2>{% trans "Locations" %}</h2>
+    {% include "checkin/event/_locations_list.html" with locations=request.locations %}
+		<div class="float-end align-middle">
+				<a class="btn btn-secondary" href="{% url "checkin:location-create" organizer=request.event.organizer.slug event=request.event.slug %}">{% trans "Add new location" %}</a>
+		</div>
+{% endblock content %}

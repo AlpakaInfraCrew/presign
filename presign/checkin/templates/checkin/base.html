@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% load django_bootstrap5 %}
+{% load i18n %}
+
+{% block nav %}
+    {% block navbar %}{% endblock %}
+{% endblock %}
+
+{% block body %}
+    <div class="sidenav-expand-lg sidenav-container">
+        <nav class="sidenav sticky-top p-3">
+        </nav>
+        <div class="p-2 d-flex flex-grow-1">{{ block.super }}</div>
+    </div>
+{% endblock body %}
