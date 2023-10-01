@@ -36,7 +36,7 @@ class ParticipantInternalForm(forms.ModelForm):
 
     class Meta:
         model = Participant
-        fields = ["internal_comment", "public_comment", "state"]
+        fields = ["internal_comment", "state"]
 
 
 class CreateOrganizerForm(forms.ModelForm):
@@ -391,3 +391,14 @@ class ExportForm(forms.Form):
                 choices.append((block.name, block_choices))
 
         self.fields["fields"].choices = choices
+
+
+class CustomMessageForm(forms.Form):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["message"] = i18n_forms.I18nFormField(
+            label=_("Custom Message"),
+            help_text=_("Custom message to send to the user additionally."),
+            required=False,
+            widget=I18nLargeTextArea,
+        )

@@ -25,7 +25,7 @@ from presign.base.models import (
 )
 
 from ..constants import STATE_CHANGE_STRINGS, STATE_SETTINGS
-from ..forms import ParticipantInternalForm
+from ..forms import CustomMessageForm, ParticipantInternalForm
 
 
 class ParticipantListView(ListView):
@@ -151,9 +151,16 @@ class ParticipantStateChangeView(ParticipantView):
             raise Http404()
         success_msg = STATE_CHANGE_STRINGS[action]["success_msg"]
 
+        message_form = CustomMessageForm(self.request.POST)
+        if message_form.is_valid():
+            # if we have content in custom-message form parameter, we need to save it
+            custom_message = message_form.cleaned_data["message"]
+
         try:
-            self.participant.change_state(action)
-            self.participant.send_change_state_email(self.request, action)
+            self.participant.change_state(action, custom_message)
+            self.participant.send_change_state_email(
+                self.request, action, custom_message
+            )
         except ParticipantStateChangeException as e:
             messages.error(self.request, str(e))
         except ActionEmailNotConfigured as e:
@@ -164,6 +171,7 @@ class ParticipantStateChangeView(ParticipantView):
         return redirect(self.get_participant_url())
 
     def get(self, *args, **kwargs):
+        message_form = CustomMessageForm()
         action = self.kwargs["state_change"]
         if action not in STATE_CHANGE_STRINGS:
             raise Http404()
@@ -176,5 +184,6 @@ class ParticipantStateChangeView(ParticipantView):
                 "participant": self.participant,
                 "question": confirmation_question,
                 "state_change_strings": STATE_CHANGE_STRINGS,
+                "form": message_form,
             },
         )

@@ -8,6 +8,7 @@ from .models import (
     EventQuestionnaire,
     Organizer,
     Participant,
+    ParticipantCustomMessage,
     Question,
     QuestionAnswer,
     QuestionBlock,
@@ -34,6 +35,7 @@ class QuestionnaireAdmin(SimpleHistoryAdmin):
 admin.site.register(Organizer, SimpleHistoryAdmin)
 admin.site.register(Event, EventAdmin)
 admin.site.register(Participant, SimpleHistoryAdmin)
+admin.site.register(ParticipantCustomMessage, SimpleHistoryAdmin)
 admin.site.register(Question, SimpleHistoryAdmin)
 admin.site.register(QuestionAnswer, SimpleHistoryAdmin)
 admin.site.register(QuestionBlock, SimpleHistoryAdmin)
