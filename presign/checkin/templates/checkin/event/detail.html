@@ -1,0 +1,62 @@
+{% extends "checkin/base.html" %}
+{% load django_bootstrap5 %}
+{% load control_helpers %}
+{% load i18n %}
+
+{% block content %}
+    <div class="clearfix">
+        <h1 class="float-start">
+            {% blocktrans with event_name=event.name %}Location overview for "{{ event_name }}"{% endblocktrans %}
+        </h1>
+    </div>
+    <div class="row row-cols-1 row-cols-md-2">
+        <div class="col mb-3 d-flex align-items-stretch">
+            <section class="card w-100">
+                <div class="card-header">{% trans "Participants" %}</div>
+                <div class="card-body">
+                    <dl>
+                        <dt>
+                            Unknown
+                        </dt>
+                        <dd>
+                            {{ participants|length }}/{{ participants|length }}
+                        </dd>
+                    </dl>
+                </div>
+            </section>
+        </div>
+        <div class="col mb-3 d-flex align-items-stretch">
+            <section class="card w-100">
+                <div class="card-header">{% trans "Dates" %}</div>
+                <div class="card-body">
+                    <dl>
+                        <dt>
+                            {% trans "Event Date" %}
+                        </dt>
+                        <dd>
+                            {{ request.event.event_date }}
+                        </dd>
+                        <dt>
+                            {% trans "Organizer" %}
+                        </dt>
+                        <dd>
+                            <a href="{% url "control:organizer" organizer=request.event.organizer.slug %}">{{ request.event.organizer.name }}</a>
+                        </dd>
+                    </dl>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <h2>{% trans "Locations" %}</h2>
+    {% include "checkin/event/_locations_list.html" with locations=request.locations %}
+    <div class="float-end align-middle">
+        <a class="btn btn-secondary"
+           href="{% url "checkin:location-create" organizer=request.event.organizer.slug event=request.event.slug %}">
+            {% trans "Add new location" %}
+        </a>
+    </div>
+
+    <h2>{% trans "Participants" %}</h2>
+    {% include "checkin/location/_participants_list_minimal.html" with participants=participants %}
+{% endblock content %}

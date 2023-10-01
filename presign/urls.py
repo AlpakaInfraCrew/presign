@@ -37,6 +37,10 @@ urlpatterns = [
         "control/",
         include(("presign.control.urls", "presign.control"), namespace="control"),
     ),
+    path(
+        "checkin/",
+        include(("presign.checkin.urls", "presign.checkin"), namespace="checkin"),
+    ),
     static_pattern(
         prefix=settings.MEDIA_URL,
         view=serve_signed,
