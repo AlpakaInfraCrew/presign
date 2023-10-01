@@ -4,6 +4,8 @@ from django.views.generic.edit import ModelFormMixin
 from presign.base.models import Event
 from presign.control.constants import STATE_SETTINGS
 
+from presign.base.models import Participant as BaseParticipant
+
 
 class EventDetailView(DetailView):
     model = Event
@@ -15,4 +17,6 @@ class EventDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["state_settings"] = STATE_SETTINGS
+
+        context['participants'] = BaseParticipant.objects.all()
         return context

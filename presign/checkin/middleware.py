@@ -1,4 +1,7 @@
+from pprint import pprint
+
 from django.contrib.auth.views import redirect_to_login
+from django.db.models import Prefetch
 from django.http import Http404
 from django.urls import resolve
 from django.utils.translation import gettext_lazy as _
@@ -6,7 +9,8 @@ from django.utils.translation import gettext_lazy as _
 from django_scopes import scope
 
 from presign.base.models import Event, Organizer
-from presign.checkin.models import Location
+from presign.checkin.models import Location, Participant as CheckinParticipant
+from presign.base.models import Participant as BaseParticipant
 
 
 class CheckinMiddleware:

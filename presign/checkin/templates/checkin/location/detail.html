@@ -6,10 +6,13 @@
 {% block content %}
     <div class="clearfix">
         <h1 class="float-start">
-            {% blocktrans with location_name=location.name %}Checkin for {{location_name}}{% endblocktrans %}
+            {% blocktrans with location_name=location.name %}Checkin for {{ location_name }}{% endblocktrans %}
         </h1>
         <div class="float-end align-middle">
-            <a class="btn btn-secondary" href="{% url "checkin:event-overview" organizer=request.event.organizer.slug event=request.event.slug %}">{% trans "Show all event locations" %}</a>
+            <a class="btn btn-secondary"
+               href="{% url "checkin:event-overview" organizer=request.event.organizer.slug event=request.event.slug %}">
+                {% trans "Show all event locations" %}
+            </a>
         </div>
     </div>
     <div class="row row-cols-1 row-cols-md-2">
@@ -19,10 +22,10 @@
                 <div class="card-body">
                     <dl>
                         <dt>
-                            {% trans "Participants" %}
+                            {% trans "Participants checked in" %}
                         </dt>
                         <dd>
-                            TODO
+                            0/1
                         </dd>
                     </dl>
                 </div>
@@ -30,14 +33,16 @@
         </div>
         <div class="col mb-3 d-flex align-items-stretch">
             <section class="card w-100">
-                <div class="card-header">{% trans "Dates" %}</div>
+                <div class="card-header">{% trans "Event Details" %}</div>
                 <div class="card-body">
                     <dl>
-												<dt>
+                        <dt>
                             {% trans "Event" %}
                         </dt>
                         <dd>
-                            <a href="{% url "checkin:event-overview" organizer=request.event.organizer.slug event=request.event.slug %}">{{ request.event.name }}</a>
+                            <a href="{% url "checkin:event-overview" organizer=request.event.organizer.slug event=request.event.slug %}">
+                                {{ request.event.name }}
+                            </a>
                         </dd>
                         <dt>
                             {% trans "Event Date" %}
@@ -52,5 +57,5 @@
     </div>
 
     <h2>{% trans "Participants" %}</h2>
-    {% include "checkin/location/_participants_list.html" %}
+    {% include "checkin/location/_participants_list.html" with participants=participants %}
 {% endblock content %}

@@ -9,6 +9,9 @@ from presign.base.models import Event
 from presign.checkin.models import Location
 from presign.control.constants import STATE_SETTINGS
 
+from presign.checkin.models import Location, Participant as CheckinParticipant
+from presign.base.models import Participant as BaseParticipant
+
 
 class LocationDetailView(DetailView):
     model = Location
@@ -20,6 +23,9 @@ class LocationDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["state_settings"] = STATE_SETTINGS
+
+        context['participants'] = BaseParticipant.objects.all()
+
         return context
 
 
