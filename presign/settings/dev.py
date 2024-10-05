@@ -28,9 +28,14 @@ class Dev(Base):
     EMAIL_FILE_PATH = BASE_DIR / "sent_email/"
 
     USE_OFFLINE_COMPRESSION_IN_DEV = values.BooleanValue(False)
-    if USE_OFFLINE_COMPRESSION_IN_DEV:
-        COMPRESS_ENABLED = False
-        COMPRESS_OFFLINE = True
+
+    @property
+    def COMPRESS_ENABLED(self):
+        return self.USE_OFFLINE_COMPRESSION_IN_DEV
+
+    @property
+    def COMPRESS_OFFLINE(self):
+        return self.USE_OFFLINE_COMPRESSION_IN_DEV
 
     if DEBUG:
         # Add debug toolbar
