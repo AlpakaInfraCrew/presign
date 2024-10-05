@@ -16,7 +16,6 @@ class ControlMiddleware:
         return redirect_to_login(request.get_full_path())
 
     def __call__(self, request):
-
         url = resolve(request.path_info)
         request.resolved_path = url
 

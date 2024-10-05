@@ -12,7 +12,6 @@ class SignupMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
-
         url = resolve(request.path_info)
         request.resolved_path = url
 
