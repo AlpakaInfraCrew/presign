@@ -6,7 +6,6 @@ import presign.base.fields
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("base", "0002_event_email_textsstore"),
     ]

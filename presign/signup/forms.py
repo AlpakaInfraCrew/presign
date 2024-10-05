@@ -29,7 +29,6 @@ class QuestionBlockForm(forms.Form):
         question_block: QuestionBlock,
         **kwargs,
     ):
-
         self.question_block = question_block
         self.form_title = question_block.name
 
