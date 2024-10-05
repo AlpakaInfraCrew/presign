@@ -16,6 +16,10 @@ from presign.base.models import (
 )
 
 
+def test_right_settings_module(settings):
+    assert settings.CONFIGURATION == "presign.settings.Test"
+
+
 def test_login_works(
     logged_in_context: BrowserContext,
 ):
