@@ -147,7 +147,7 @@ class QuestionAnswer(models.Model):
         elif self.question.kind == QuestionKind.BOOL:
             return bool(self.answer)
         elif self.question.kind == QuestionKind.CHOICE:
-            return self.options.get()
+            return self.options.first()
         elif self.question.kind == QuestionKind.MULTIPLE_CHOICE:
             return self.options.all()
         elif self.question.kind == QuestionKind.FILE:
