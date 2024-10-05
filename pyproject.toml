@@ -7,24 +7,24 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.10"
-django = ">=4.1.5"
-django-allauth = "^0.52.0"
-pyyaml = "^6.0"
-django-bootstrap5 = "^22.2"
-django-compressor = "^4.3.1"
+django = "^5.1.1"
+django-allauth = "^65.0.2"
+pyyaml = "^6.0.2"
+django-bootstrap5 = "^24.3"
+django-compressor = "^4.5.1"
 django-libsass = "^0.9"
-django-scopes = "^1.2.0.post1"
-django-phonenumber-field = { extras = ["phonenumbers"], version = "^7.0.2" }
-django-debug-toolbar = "^3.8.1"
-django-clone = "^5.3.0"
-django-simple-history = "^3.2.0"
-django-livereload-server = "^0.4"
+django-scopes = "^2.0.0"
+django-phonenumber-field = { extras = ["phonenumbers"], version = "^8.0.0" }
+django-debug-toolbar = "^4.4.6"
+django-clone = "^5.3.3"
+django-simple-history = "^3.7.0"
+django-livereload-server = "^0.5.1"
 django-i18nfield = "^1.9.4"
-django-configurations = { extras = ["database", "email"], version = "^2.4" }
-django-hierarkey = "^1.1.0"
-markdown = "^3.4.1"
-nh3 = "^0.2.8"
-gunicorn = "^20.1.0"
+django-configurations = { extras = ["database"], version = "^2.5.1" }
+django-hierarkey = "^1.2.0"
+markdown = "^3.7"
+nh3 = "^0.2.18"
+gunicorn = "^23.0.0"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -54,3 +54,10 @@ sections = "FUTURE,STDLIB,DJANGO,THIRDPARTY,FIRSTPARTY,LOCALFOLDER"
 [tool.djlint]
 preserve_blank_lines = true
 ignore = "T003,H006,H030,H031"
+
+
+[tool.pytest.ini_options]
+python_files = "tests.py test_*.py *_tests.py"
+FAIL_INVALID_TEMPLATE_VARS = "True"
+DJANGO_SETTINGS_MODULE = "presign.settings"
+addopts = "--cov=presign --cov-report html --dc=Test"

@@ -8,6 +8,7 @@ from django.views.static import serve
 from presign.base.views import serve_signed
 
 from . import views
+from debug_toolbar.toolbar import debug_toolbar_urls
 
 
 def get_status_patterns(prefix, view=serve, **kwargs):
@@ -52,9 +53,7 @@ if settings.SELF_SERVE_STATIC:
     )
 
 if settings.DEBUG:
-    urlpatterns += [
-        path("__debug__/", include("debug_toolbar.urls")),
-    ]
+    urlpatterns += debug_toolbar_urls()
 
 handler404 = "presign.base.views.handler404"
 handler500 = "presign.base.views.handler500"
