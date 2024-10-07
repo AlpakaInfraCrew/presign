@@ -56,6 +56,7 @@ STATE_CHANGE_STRINGS = {
     },
     ParticipantStateActions.WITHDRAW: {
         "btn_text": _("Withdraw Application"),
+        "success_msg": _("Application was withdrawn"),
     },
 }
 
