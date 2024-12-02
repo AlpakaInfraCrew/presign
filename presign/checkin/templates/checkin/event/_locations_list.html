@@ -1,0 +1,20 @@
+{% load i18n %}
+
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">{% trans "Name" %}</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for location in locations %}
+        <tr>
+            <td>{{ location.name }}</td>
+            <td><a
+                href="{% url "checkin:location-detail" organizer=request.event.organizer.slug event=request.event.slug location=location.id %}">{% trans "Show location details" %}</a>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

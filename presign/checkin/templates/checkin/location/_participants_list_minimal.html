@@ -1,0 +1,31 @@
+{% load i18n %}
+
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">{% trans "Name" %}</th>
+        <th>State</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for participant in participants %}
+        <tr>
+            <td>{{ participant.email }}</td>
+            <td>
+                <div class="badge rounded-pill text-bg-danger">
+                    Unknown
+                </div>
+            </td>
+            <td>
+                <div class="float-end align-middle">
+                    <button type="button" class="btn btn-outline-secondary dropdown-toggle btn-sm"
+                            id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Actions
+                    </button>
+                </div>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

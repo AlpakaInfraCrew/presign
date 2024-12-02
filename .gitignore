@@ -12,3 +12,4 @@ sent_email
 test-results
 data_volume/
 docker_env
+/.idea
